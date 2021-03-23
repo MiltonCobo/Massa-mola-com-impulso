@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSXGraph função</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraphcore.js"
+    integrity="sha512-PXyZZw3mqo2U6EhIn5qw1W+W87P7EsO8ey3yC3xuGAr9bQ7GF+XkBrhI6PAiJc1OXTfjFJXP/MK+Z1YT/iE8SQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraph.min.css"
+    integrity="sha512-590+zTPqUjnvC0cslllceBnkvm6le2dw3qyN/zn4d2b3EUxfdWO6OvB+h2Jcm0JZiHhOL56L4Am/o+Xpo/OHeQ=="
+    crossorigin="anonymous" />
+
+  <style>
+    html,
+    body {
+      height: 90%;
+      width: 90%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-top: 5%;
+      /*calc(60vmin- 3.5em); */
+    }
+
+    #jxgbox {
+      flex: 1;
+      width: 80%;
+      height: 60%;
+      /* calc(60vmin-3.5em);*/
+    }
+
+    .jxgbox {
+      background-color: 'blue';
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" style="background-color: lightgray; color: blue ">
+    THIS IS A WRAPPER
+    <div id="jxgbox" class="jxgbox">Função</div>
+  </div>
+
+  <script>
+    // User supplied function to be drawn.
+    var f = function (x) {
+      return Math.sin(x);
+    };
+
+    var brd = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-5, 2, 5, -2],
+      axis: true,
+      keepaspectratio: false,
+      showNavigation: false, showCopyright: false,
+    });
+
+    var start = -4,
+      end = 4,
+      x = start,
+      step = 0.1,
+      turtle = brd.create('turtle', [x, f(x)], { lastArrow: true, strokeWidth: 3, strokeColor: 'red' });
+
+
+    var moveForward = function () {
+      x += step;
+      if (x > end) {
+        return;
+      }
+      turtle.moveTo([x, f(x)]);
+      setTimeout(moveForward, 50); // delay by 200 ms
+    };
+
+    turtle.hideTurtle(); // Hide the turtle arrow
+    moveForward();
+  </script>
+</body>
+
+</html>

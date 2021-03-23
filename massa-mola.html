@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSXGraph examples</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraphcore.js"
+    integrity="sha512-PXyZZw3mqo2U6EhIn5qw1W+W87P7EsO8ey3yC3xuGAr9bQ7GF+XkBrhI6PAiJc1OXTfjFJXP/MK+Z1YT/iE8SQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraph.min.css"
+    integrity="sha512-590+zTPqUjnvC0cslllceBnkvm6le2dw3qyN/zn4d2b3EUxfdWO6OvB+h2Jcm0JZiHhOL56L4Am/o+Xpo/OHeQ=="
+    crossorigin="anonymous" />
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-top: 5%;
+      /*calc(60vmin- 3.5em); */
+    }
+
+    #jxgbox {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      /* calc(60vmin-3.5em);*/
+    }
+
+    .jxgbox {
+      background-color: 'blue';
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" style="background-color: lightgray; color: blue ">
+    O PÊNDULO
+    <div id="jxgbox" class="jxgbox"></div>
+  </div>
+
+  <script>
+    var board = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-5, 10, 30, -10],
+      keepaspectratio: true,
+      axis: false,
+      grid: false,
+      showNavigation: false,
+      showCopyright: false,
+    }),
+      line = board.create(
+        'line',
+        [
+          [0, 8],
+          [0, -10],
+        ],
+        { visible: false, straightFirst: false, straightLast: false }
+      ),
+      point = board.create('glider', [0, -5, line], { name: 'Peso' }),
+      point1 = board.create('point', [0, -5], {
+        name: `<strong>  U(t)  </strong>`,
+        trace: true,
+        size: 0,
+        isDraggable: false,
+      }),
+      point2 = board.create('point', [0, -5], {
+        name: `(U, U')`,
+        withLabel: false,
+        trace: true,
+        size: 0.1,
+        isDraggable: false,
+        color: 'green',
+      }),
+      isInDragMode = true,
+      springHangup = board.create('point', [0, 9], {
+        color: 'black',
+        name: 'Mola',
+        fixed: true,
+      }),
+      i,
+      numberOfSpringRings = 10,
+      springRings = [],
+      turtle = board.create('turtle', [0, -5], {
+        lastArrow: false,
+        strokeWidth: 1,
+        strokeColor: 'green',
+      });
+
+    for (i = 0; i < numberOfSpringRings; i++) {
+      springRings[i] = board.create(
+        'point',
+        [
+          0.5 - (i % 2),
+          (function (i) {
+            return function () {
+              return (
+                springHangup.Y() -
+                (i + 1) *
+                Math.abs(
+                  (springHangup.Y() - point.Y()) / (numberOfSpringRings + 1)
+                )
+              );
+            };
+          })(i),
+        ],
+        { withLabel: false, color: 'black', size: 1 }
+      );
+      if (i > 0)
+        board.create('segment', [springRings[i - 1], springRings[i]], {
+          color: 'black',
+          strokeWidth: 1,
+        });
+    }
+    board.create('segment', [springHangup, springRings[0]], {
+      color: 'black',
+      strokeWidth: 1,
+    });
+    board.create('segment', [springRings[numberOfSpringRings - 1], point], {
+      color: 'black',
+      strokeWidth: 1,
+    });
+
+    var axisCenter = [23, 0];
+    var c = 0.1,
+      k = 0.5, // constants of the system
+      m = 1;
+
+    var yInitial = -5;
+
+    xAxis = board.create(
+      'axis',
+      [
+        [0, axisCenter[1]],
+        [1, axisCenter[1]],
+      ],
+      {
+        name: `<strong>U'</strong>`,
+        withLabel: true,
+        color: 'blue',
+        label: { position: 'rt', offset: [-34, 5] },
+      }
+    );
+    yAxis = board.create(
+      'axis',
+      [
+        [axisCenter[0], 0],
+        [axisCenter[0], 1],
+      ],
+      {
+        name: `<strong> U</strong>`,
+        withLabel: true,
+        color: 'blue',
+        label: { position: 'rt', offset: [10, 0] },
+      }
+    );
+
+    getData = function (startY) {
+      var f = function (t, x) {
+        // var c = 0.1,
+        //   k = 0.5,
+        //   m = 1;
+        return [x[1], (-c / m) * x[1] - (k / m) * x[0]];
+      },
+        area = [0, 200],
+        numberOfEvaluations = (area[1] - area[0]) * 100,
+        data = JXG.Math.Numerics.rungeKutta(
+          'heun',
+          [yInitial, 0],
+          area,
+          numberOfEvaluations,
+          f
+        ),
+        duration = 40 * 1e3;
+
+      return (function (t) {
+        // returns a function depending on t for animation....
+        if (t >= duration) return NaN;
+
+        let springY =
+          data[Math.floor((t / duration) * numberOfEvaluations)][0];
+        let springY1 =
+          data[Math.floor((t / duration) * numberOfEvaluations)][1];
+
+        if (isInDragMode && board.mode === board.BOARD_MODE_DRAG) {
+          data = [];
+          springY = point.Y();
+          springY1 = 0;
+          turtle.clean();
+          turtle.hideTurtle();
+          //turtle.setPos([0, point.Y()])
+        } else {
+          turtle.moveTo([t / 1000, springY]);
+        }
+
+        let position = [springY, springY1];
+
+        return position;
+      });
+    };
+
+    function startAnimation(startY) {
+      func1 = getData(startY);
+      animeSpring = function (t) {
+        return [0, func1(t)[0]];
+      }; // kill first coordinate
+      point.moveAlong(animeSpring);
+
+      plotFunction = function (t) {
+        return [t / 1000, func1(t)[0]];
+      }; // add first coordinate
+      point1.moveAlong(plotFunction, { effect: '<>' });
+
+      plotFlow = function (t) { // add center and u(t), u'(t)
+        return [axisCenter[0] + func1(t)[0], axisCenter[1] + func1(t)[1]];
+      };
+      point2.moveAlong(plotFlow, { effect: '<>', size: 1 });
+    }
+
+    function hook() {
+      if (isInDragMode) {
+        if (board.mode === board.BOARD_MODE_DRAG) {
+          board.stopAllAnimation();
+          // point1.moveTo(0, point.Y());
+          // point2.moveTo(0, point.Y());
+          //board.removeObject([point2]);
+          turtle.hideTurtle();
+          turtle.clean();
+          turtle.setPos(0, point.Y());
+
+          isInDragMode = false;
+        }
+      } else {
+        if (board.mode !== board.BOARD_MODE_DRAG) {
+          turtle.clean();
+          point1.moveTo(0, point.Y());
+          point2.moveTo(0, point.Y());
+          turtle.setAttribute({ firstArrow: true, strokeColor: 'green' });
+          turtle.showTurtle();
+
+          startAnimation(point.Y());
+
+          isInDragMode = true;
+        }
+      }
+    }
+
+    // var moveForward = function () {
+
+    //   if (board.mode === board.BOARD_MODE_DRAG) {
+    //     clearTimeout(timeout);
+    //   } else {
+    //     turtle.moveTo([point1.X(), point1.Y()]);
+    //     timeout = setTimeout(moveForward, 50);
+    //   }
+
+    // };
+
+    board.addHook(hook);
+    startAnimation(yInitial);
+    turtle.hideTurtle();
+      // moveForward();
+  </script>
+</body>
+
+</html>

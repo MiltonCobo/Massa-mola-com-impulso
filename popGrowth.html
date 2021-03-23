@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSXGraph examples</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraphcore.js"
+    integrity="sha512-PXyZZw3mqo2U6EhIn5qw1W+W87P7EsO8ey3yC3xuGAr9bQ7GF+XkBrhI6PAiJc1OXTfjFJXP/MK+Z1YT/iE8SQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraph.min.css"
+    integrity="sha512-590+zTPqUjnvC0cslllceBnkvm6le2dw3qyN/zn4d2b3EUxfdWO6OvB+h2Jcm0JZiHhOL56L4Am/o+Xpo/OHeQ=="
+    crossorigin="anonymous" />
+
+
+  <style>
+    html,
+    body {
+      height: 80%;
+      width: 100%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-top: 5%;
+      /*calc(60vmin- 3.5em); */
+
+    }
+
+    #jxgbox {
+      flex: 1;
+      width: 80%;
+      height: 60%;
+      /* calc(60vmin-3.5em);*/
+    }
+
+    .jxgbox {
+      background-color: 'blue';
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" style="background-color: lightgray; color: blue ">
+    <button onClick="run()"> Clear and Run</button>
+    THIS IS A WRAPPER
+    <div id="jxgbox" class="jxgbox"> THIS IS A WRAPPER </div>
+  </div>
+
+
+  <script>
+    var brd = JXG.JSXGraph.initBoard('jxgbox', { boundingbox: [-0.25, 12.5, 14.75, -12.5], axis: true });
+    var t = brd.create('turtle', [4, 3, 70]);
+    var s = brd.create('slider', [[0, -5], [10, -5], [-5, 0.5, 5]], { name: 's' });
+    var alpha = brd.create('slider', [[0, -6], [10, -6], [-1, 0.2, 2]], { name: '&alpha;' });
+    var e = brd.create('functiongraph', [function (x) { return s.Value() * Math.exp(alpha.Value() * x); }], { strokeColor: 'red' });
+
+    t.hideTurtle();
+
+    var A = 5;
+    var tau = 0.3;
+
+    function clearturtle() {
+      t.cs();
+      t.ht();
+    }
+
+    function run() {
+      t.setPos(0, s.Value());
+      t.setPenSize(4);
+      dx = 0.1; // global
+      x = 0.0;  // global
+      loop();
+    }
+
+    function loop() {
+      var dy = alpha.Value() * t.Y() * dx;   // Exponential growth
+      t.moveTo([dx + t.X(), dy + t.Y()]);
+      x += dx;
+      if (x < 20.0) {
+        setTimeout(loop, 10);
+      }
+    }
+  </script>

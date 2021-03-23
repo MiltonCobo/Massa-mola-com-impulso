@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSXGraph examples</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraphcore.js"
+    integrity="sha512-PXyZZw3mqo2U6EhIn5qw1W+W87P7EsO8ey3yC3xuGAr9bQ7GF+XkBrhI6PAiJc1OXTfjFJXP/MK+Z1YT/iE8SQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraph.min.css"
+    integrity="sha512-590+zTPqUjnvC0cslllceBnkvm6le2dw3qyN/zn4d2b3EUxfdWO6OvB+h2Jcm0JZiHhOL56L4Am/o+Xpo/OHeQ=="
+    crossorigin="anonymous" />
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-top: 5%;
+      /*calc(60vmin- 3.5em); */
+    }
+
+    #jxgbox {
+      flex: 1;
+      width: 80%;
+      height: 100%;
+      /* calc(60vmin-3.5em);*/
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" style="background-color: lightgray; color: blue ">
+    THIS IS A WRAPPER
+    <div id="jxgbox" class="jxgbox">THIS IS A WRAPPER</div>
+  </div>
+
+
+  <script>
+
+    var board = JXG.JSXGraph.initBoard('jxgbox', { boundingbox: [-12, 15, 12, -15], keepaspectratio: true, axis: false, grid: true, showNavigation: false, showCopyright: false }),
+      p1 = board.create('point', [0.0, 0.0], { visible: true, name: 'a', size: 3 }),
+      c1 = board.create('circle', [p1, [0, 8]], { visible: false, name: 'circle', size: 3 }),
+      p2 = board.create('glider', [3, -4, c1], { visible: true, name: '', size: 3 }),
+      grr = board.create('functiongraph', [function (t) { return -10 - 2 * Math.cos(t / 2); }, -10, 10], { strokeColor: "#cccccc" }),
+      p3 = board.create('point', [
+        function () { return 2 * Math.atan2(p2.X(), -p2.Y()) },
+        function () { return -10 - 2 * Math.cos(Math.atan2(p2.X(), -p2.Y())) }],
+        { visible: true, name: 'P', size: 3 }),
+      line = board.create('line', [p1, p2], { visible: true, straightFirst: false, straightLast: false }),
+      isInDragMode = false;
+
+    var gg = board.create('slider', [[-6, 6], [-3, 6], [1, 9.8, 10]]); board.create('text', [-8, 6, 'gravity']);
+    var cc = board.create('slider', [[3, 6], [6, 6], [0.0, 0.5, 1]]); board.create('text', [1, 6, 'damping']);
+
+    function startAnimation(start_theta) {
+      var c = cc.Value(), g = gg.Value(), l = 10;
+      p2.moveAlong(function () {
+        var f = function (t, x) {
+          return [x[1], -c * x[1] - g / l * (Math.sin(x[0]))];
+        },
+          area = [0, 200],
+          numberOfEvaluations = (area[1] - area[0]) * 100,
+          data = JXG.Math.Numerics.rungeKutta('heun', [start_theta, 0], area, numberOfEvaluations, f),
+          duration = 20 * 1e3;
+
+        return function (t) {
+          if (t >= duration)
+            return NaN;
+          angle2 = -Math.PI / 2 + data[Math.floor(t / duration * numberOfEvaluations)][0];
+          return [p1.X() + l * Math.cos(angle2), p1.Y() + l * Math.sin(angle2)];
+        };
+      }());
+    }
+
+    function hook() {
+      if (!isInDragMode) {
+        if (board.mode === board.BOARD_MODE_DRAG) {
+          board.stopAllAnimation();
+          isInDragMode = true;
+        }
+      }
+      if (isInDragMode) {
+        if (board.mode !== board.BOARD_MODE_DRAG) {
+          isInDragMode = false;
+          angle = Math.atan2(p2.Y() - p1.Y(), p2.X() - p1.X()) + Math.PI * 1 / 2;
+          startAnimation(angle);
+        }
+      }
+    }
+
+    board.addHook(hook);
+    startAnimation(-1.2);
+
+  </script>

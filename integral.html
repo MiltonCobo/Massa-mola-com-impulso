@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSXGraph examples</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraphcore.js"
+    integrity="sha512-PXyZZw3mqo2U6EhIn5qw1W+W87P7EsO8ey3yC3xuGAr9bQ7GF+XkBrhI6PAiJc1OXTfjFJXP/MK+Z1YT/iE8SQ=="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraph.min.css"
+    integrity="sha512-590+zTPqUjnvC0cslllceBnkvm6le2dw3qyN/zn4d2b3EUxfdWO6OvB+h2Jcm0JZiHhOL56L4Am/o+Xpo/OHeQ=="
+    crossorigin="anonymous" />
+
+
+  <style>
+    html,
+    body {
+      height: 80%;
+      width: 100%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-top: 5%;
+      /*calc(60vmin- 3.5em); */
+
+    }
+
+    #jxgbox {
+      flex: 1;
+      width: 80%;
+      height: 60%;
+      /* calc(60vmin-3.5em);*/
+    }
+
+    .jxgbox {
+      background-color: 'blue';
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" style="background-color: lightgray; color: blue ">
+    THIS IS A WRAPPER
+    <div id="jxgbox" class="jxgbox"> THIS IS A WRAPPER </div>
+  </div>
+
+
+  <script>
+    var brd = JXG.JSXGraph.initBoard('jxgbox', { boundingbox: [-3, 10, 3, -3], axis: true });
+    var p = [];
+    p.push(brd.create('point', [-2, (Math.random() - 0.2) * 5], { name: '' }));
+    p.push(brd.create('point', [0, (Math.random() - 0.2) * 5], { name: '' }));
+    p.push(brd.create('point', [2.2, (Math.random() - 0.2) * 5], { name: '' }));
+
+    var f = JXG.Math.Numerics.lagrangePolynomial(p);
+    var plot = brd.create('functiongraph', [f, -3, 3]);
+    var s = brd.create('glider', [-2, 0, plot], { name: 'drag me' });
+    var int = brd.create('integral', [[function () { return p[0].X(); }, function () { return s.X(); }], plot], { fillOpacity: 0.2 });
+
+    var F = brd.create('point', [function () { return s.X(); }, function () { return JXG.Math.Numerics.I([p[0].X(), s.X()], f); }],
+      { trace: true, name: 'F', fillColor: 'red', strokeColor: 'red', face: '[]', size: 1 });
+  </script>
