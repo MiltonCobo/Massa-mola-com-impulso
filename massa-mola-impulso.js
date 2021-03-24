@@ -1,25 +1,39 @@
-const c = 0.07,
-  k = 0.8,
-  m = 1;
+const c = 0.0, // resistence
+  k = 0.8, // string constant
+  m = 1; // mass
 
-const duration = 10 * 1e3;
-const timeFactor = 1000;
+const incOmega = 0.2;
+
+const omega = Math.sqrt(k / m),
+  omega2 = omega - incOmega;
+
+const period = (2 * Math.PI) / incOmega; // period of slow sine wave
+const endArea = Math.floor(2 * period);
+let numberOfEvaluations = endArea * 1000;
+
+function externalForce(t) {
+  // return 0;
+  return 0.01 * Math.cos(omega2 * t);
+}
+
+const duration = endArea * 1e3;
+const timeFactor = 1e3;
 
 let inMotion = true; // to stop all animations when dragging
 
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 10, 30, -10],
+  boundingbox: [-10, 10, endArea, -20],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
-  axis: false,
+  axis: true,
   grid: false,
 });
 const line = board.create(
   "line",
   [
     [0, 8],
-    [0, -20],
+    [0, -15],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
@@ -94,10 +108,10 @@ function invertArray(arr) {
 function getData(posInitial) {
   // return a function that returns [vel(t), pos(t)]
   let f = function (t, x) {
-    return [x[1], (-c / m) * x[1] - (k / m) * x[0]];
+    return [x[1], externalForce(t) / m + (-c / m) * x[1] - (k / m) * x[0]];
   };
-  let area = [0, 200];
-  let numberOfEvaluations = (area[1] - area[0]) * 100;
+  let area = [0, endArea];
+  //numberOfEvaluations = (area[1] - area[0]) * 200;
   let data = JXG.Math.Numerics.rungeKutta(
     "heun",
     [posInitial, 0],
@@ -107,18 +121,28 @@ function getData(posInitial) {
   );
 
   return function (t) {
-    if (t >= duration) return NaN;
+    if (t >= duration) {
+      turtle.clearScreen();
+      pointString.setPosition(JXG.COORDS_BY_USER, [0, 0]); // set position on the Y-line
+      return NaN;
+    }
 
     let tIndex = Math.floor((t / duration) * numberOfEvaluations);
 
-    turtle.moveTo([t / timeFactor, data[tIndex][0]]); // use time to move turtle
-    return invertArray(data[tIndex]); // return [vel,pos] -- pos = y- coord
+    if (inMotion && board.mode === board.BOARD_MODE_DRAG) {
+      // dragging clear turtle....
+      turtle.clearScreen();
+    } else {
+      let inc = endArea / numberOfEvaluations;
+      turtle.moveTo([tIndex * inc, data[tIndex][0]]); // use time to move turtle
+    }
+
+    return invertArray(data[tIndex]); // return [vel,pos] --> pos = y- coord
   };
 }
 
 function startAnimation(posInitial) {
-  turtle.clearScreen();
-
+  pointString.setPosition(0, posInitial);
   pointString.moveAlong(getData(posInitial)); // the point is attached to the Y-line, therefore the velocity is discarded
   // graph = function (t) {
   //   let tPos = [t / timeFactor, pointString.Y()];
@@ -131,29 +155,16 @@ function startAnimation(posInitial) {
 function hook() {
   if (inMotion) {
     if (board.mode === board.BOARD_MODE_DRAG) {
-      inMotion = false;
-      // turtle.clean();
-
       board.stopAllAnimation();
-
-      // turtle.init(0, 0, "up");
-      // console.log(turtle.Y());
+      inMotion = false;
     }
   } else {
     if (board.mode !== board.BOARD_MODE_DRAG) {
-      board.suspendUpdate();
-
-      turtle.clearScreen();
-
-      //board.removeObject([turtle]);
-      console.log(board.objects);
       inMotion = true;
-      startAnimation(pointString.Y()); // when not dragging start animations
-      board.unsuspendUpdate();
+      startAnimation(pointString.Y()); // when not dragging, start animations
     }
   }
 }
 turtle.hideTurtle();
-turtle.clearScreen();
 board.on("update", hook);
 //startAnimation(-5);
