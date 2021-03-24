@@ -1,60 +1,70 @@
-var board = JXG.JSXGraph.initBoard("jxgbox", {
-    boundingbox: [-5, 10, 40, -10],
-    keepaspectratio: true,
-    axis: false,
-    grid: false,
-    showNavigation: false,
-    showCopyright: false,
-  }),
-  line = board.create(
-    "line",
-    [
-      [0, 8],
-      [0, -10],
-    ],
-    { visible: false, straightFirst: false, straightLast: false }
-  ),
-  point = board.create("glider", [0, -5, line], { name: "Peso" }),
-  pointGraph = board.create("point", [0, -5], {
-    name: `<strong>  U(t)  </strong>`,
-    trace: true,
-    size: 0,
-    isDraggable: false,
-  }),
-  pointFlow = board.create("point", [0, -5], {
-    name: `(U, U')`,
-    withLabel: false,
-    trace: true,
-    size: 0.1,
-    isDraggable: false,
-    color: "green",
-  }),
-  isInDragMode = false,
-  springHangup = board.create("point", [0, 9], {
-    color: "black",
-    name: "Mola",
-    fixed: true,
-  }),
-  numberOfSpringRings = 10,
-  springRings = [],
-  turtle = board.create("turtle", [0, -5], {
-    lastArrow: false,
-    strokeWidth: 1,
-    strokeColor: "green",
-  });
+const c = 0.07,
+  k = 0.8,
+  m = 1;
+
+const duration = 10 * 1e3;
+const timeFactor = 1000;
+
+let inMotion = true; // to stop all animations when dragging
+
+const board = JXG.JSXGraph.initBoard("jxgbox", {
+  boundingbox: [-10, 10, 30, -10],
+  keepaspectratio: true,
+  showNavigation: false,
+  showCopyright: false,
+  axis: false,
+  grid: false,
+});
+const line = board.create(
+  "line",
+  [
+    [0, 8],
+    [0, -20],
+  ],
+  { visible: false, straightFirst: false, straightLast: false }
+);
+const pointString = board.create("glider", [0, 0, line], {
+  name: "<strong>Peso</strong>",
+  size: 6,
+  label: { autoPosition: true, offset: [20, 20] },
+});
+// const pointGraph = board.create("point", [0, 0], {
+//   name: "U(t)",
+//   strokeColor: "green",
+//   size: 0,
+// });
+
+// pointGraph.isDraggable = false;
+
+const turtle = board.create("turtle", [0, -5], {
+  lastArrow: true,
+  strokeWidth: 1.2,
+  strokeColor: "green",
+  strokeOpacity: 1,
+  name: "<strong>  U(t)  </strong>",
+  withLabel: true,
+});
+
+const springHangup = board.create("point", [0, 9], {
+  color: "black",
+  name: "Spring",
+  fixed: true,
+});
+let numberOfSpringRings = 10;
+let springRings = [];
 
 for (let i = 0; i < numberOfSpringRings; i++) {
   springRings[i] = board.create(
     "point",
     [
       0.5 - (i % 2),
-      (function (i) {
+      ((i) => {
         return function () {
           return (
             springHangup.Y() -
             (i + 1) *
               Math.abs(
-                (springHangup.Y() - point.Y()) / (numberOfSpringRings + 1)
+                (springHangup.Y() - pointString.Y()) / (numberOfSpringRings + 1)
               )
           );
         };
@@ -72,138 +82,78 @@ board.create("segment", [springHangup, springRings[0]], {
   color: "black",
   strokeWidth: 1,
 });
-board.create("segment", [springRings[numberOfSpringRings - 1], point], {
+board.create("segment", [springRings[numberOfSpringRings - 1], pointString], {
   color: "black",
   strokeWidth: 1,
 });
 
-var axisCenter = [30, 0]; // new Axis center
-var c = 0,
-  k = 0.4, // constants of the system
-  m = 1,
-  omega2 = Math.sqrt(k / m) + 0.05; // frequency of external force
+function invertArray(arr) {
+  return [arr[1], arr[0]];
+}
 
-var timeFactor = 1000;
-
-var yInitial = -5;
-
-xAxis = board.create(
-  "axis",
-  [
-    [0, axisCenter[1]],
-    [1, axisCenter[1]],
-  ],
-  {
-    name: `<strong>U'</strong>`,
-    withLabel: true,
-    color: "blue",
-    label: { position: "rt", offset: [-34, 5] },
-  }
-);
-yAxis = board.create(
-  "axis",
-  [
-    [axisCenter[0], 0],
-    [axisCenter[0], 1],
-  ],
-  {
-    name: `<strong> U</strong>`,
-    withLabel: true,
-    color: "blue",
-    label: { position: "rt", offset: [10, 0] },
-  }
-);
-
-getData = function (startY) {
-  var f = function (t, x) {
-      return [
-        x[1],
-        (0.12 * Math.cos(omega2 * t)) / m + (-c / m) * x[1] - (k / m) * x[0],
-      ];
-    },
-    area = [0, 200],
-    numberOfEvaluations = (area[1] - area[0]) * 100,
-    data = JXG.Math.Numerics.rungeKutta(
-      "heun",
-      [yInitial, 0],
-      area,
-      numberOfEvaluations,
-      f
-    ),
-    duration = 20 * 1e3;
-  //timeFactor = 100 * duration / numberOfEvaluations;
+function getData(posInitial) {
+  // return a function that returns [vel(t), pos(t)]
+  let f = function (t, x) {
+    return [x[1], (-c / m) * x[1] - (k / m) * x[0]];
+  };
+  let area = [0, 200];
+  let numberOfEvaluations = (area[1] - area[0]) * 100;
+  let data = JXG.Math.Numerics.rungeKutta(
+    "heun",
+    [posInitial, 0],
+    area,
+    numberOfEvaluations,
+    f
+  );
 
   return function (t) {
-    // returns a function depending on t for animation....
     if (t >= duration) return NaN;
 
-    let springPos = data[Math.floor((t / duration) * numberOfEvaluations)][0];
-    let springVel = data[Math.floor((t / duration) * numberOfEvaluations)][1];
+    let tIndex = Math.floor((t / duration) * numberOfEvaluations);
 
-    // if (isInDragMode && board.mode === board.BOARD_MODE_DRAG) {
-    //   data = [];
-    //   springPos = point.Y();
-    //   springVel = 0;
-    //   turtle.clean();
-    //   turtle.hideTurtle();
-    //   turtle.setPos([0, point.Y()]);
-    // } else {
-    //   turtle.moveTo([t / timeFactor, springPos]);
-    // }
-
-    let position = [springPos, springVel];
-
-    return position;
+    turtle.moveTo([t / timeFactor, data[tIndex][0]]); // use time to move turtle
+    return invertArray(data[tIndex]); // return [vel,pos] -- pos = y- coord
   };
-};
+}
 
-function startAnimation(startY) {
-  uData = getData(startY);
-  point.moveAlong((t) => {
-    return [0, uData(t)[0]]; // point moves according with u coordinate
-  });
+function startAnimation(posInitial) {
+  turtle.clearScreen();
 
-  plotFunction = function (t) {
-    return [t / timeFactor, uData(t)[0]];
-  }; // add first coordinate
-  pointGraph.moveAlong(plotFunction, { effect: "<>" });
-
-  plotFlow = function (t) {
-    // add center and u(t), u'(t)
-    return [axisCenter[0] + uData(t)[0], axisCenter[1] + uData(t)[1]];
-  };
-  pointFlow.moveAlong(plotFlow, { effect: "<>", size: 1 });
+  pointString.moveAlong(getData(posInitial)); // the point is attached to the Y-line, therefore the velocity is discarded
+  // graph = function (t) {
+  //   let tPos = [t / timeFactor, pointString.Y()];
+  //   turtle.moveTo(tPos); // graph will be called in .moveAlong() and so the turtle updates position
+  //   return tPos;
+  // };
+  //pointGraph.moveAlong(graph);
 }
 
 function hook() {
-  if (isInDragMode) {
+  if (inMotion) {
     if (board.mode === board.BOARD_MODE_DRAG) {
-      board.stopAllAnimation();
-      pointGraph.moveTo(0, point.Y());
-      pointFlow.moveTo(0, point.Y());
-      board.removeObject([pointFlow]);
-      turtle.hideTurtle();
-      turtle.clean();
-      turtle.setPos(0, point.Y());
+      inMotion = false;
+      // turtle.clean();
 
-      isInDragMode = false;
+      board.stopAllAnimation();
+
+      // turtle.init(0, 0, "up");
+      // console.log(turtle.Y());
     }
   } else {
-    // if (board.mode !== board.BOARD_MODE_DRAG) {
-    turtle.clean();
-    // pointGraph.moveTo(0, point.Y());
-    // pointFlow.moveTo(0, point.Y());
-    // turtle.setAttribute({ firstArrow: true, strokeColor: "green" });
-    turtle.showTurtle();
+    if (board.mode !== board.BOARD_MODE_DRAG) {
+      board.suspendUpdate();
 
-    startAnimation(point.Y());
+      turtle.clearScreen();
 
-    isInDragMode = true;
-    // }
+      //board.removeObject([turtle]);
+      console.log(board.objects);
+      inMotion = true;
+      startAnimation(pointString.Y()); // when not dragging start animations
+      board.unsuspendUpdate();
+    }
   }
 }
-
-board.on(hook);
-//startAnimation(yInitial);
 turtle.hideTurtle();
-// moveForward();
+turtle.clearScreen();
+board.on("update", hook);
+//startAnimation(-5);
