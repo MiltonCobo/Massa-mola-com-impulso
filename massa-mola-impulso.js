@@ -1,28 +1,30 @@
 const c = 0.0, // resistence
-  k = 0.8, // string constant
+  k = 2, // string constant
   m = 1; // mass
 
-const incOmega = 0.2;
+const incOmega = 0.08;
 
 const omega = Math.sqrt(k / m),
   omega2 = omega - incOmega;
 
 const period = (2 * Math.PI) / incOmega; // period of slow sine wave
-const endArea = Math.floor(2 * period);
-let numberOfEvaluations = endArea * 1000;
+const endInterval = 2 * Math.floor(period);
+const interval = [0, endInterval];
+console.log(interval);
+let numberOfEvaluations = 2 * Math.floor(period) * 20e3;
 
 function externalForce(t) {
   // return 0;
-  return 0.01 * Math.cos(omega2 * t);
+  return 0.6 * Math.cos(omega2 * t);
 }
 
-const duration = endArea * 1e3;
+const duration = 20e3;
 const timeFactor = 1e3;
 
 let inMotion = true; // to stop all animations when dragging
 
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 10, endArea, -20],
+  boundingbox: [-10, 20, endInterval, -20],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
@@ -33,7 +35,7 @@ const line = board.create(
   "line",
   [
     [0, 8],
-    [0, -15],
+    [0, -10],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
@@ -110,12 +112,12 @@ function getData(posInitial) {
   let f = function (t, x) {
     return [x[1], externalForce(t) / m + (-c / m) * x[1] - (k / m) * x[0]];
   };
-  let area = [0, endArea];
+  //let area = [0, endArea];
   //numberOfEvaluations = (area[1] - area[0]) * 200;
   let data = JXG.Math.Numerics.rungeKutta(
     "heun",
     [posInitial, 0],
-    area,
+    interval, //area,
     numberOfEvaluations,
     f
   );
@@ -133,7 +135,7 @@ function getData(posInitial) {
       // dragging clear turtle....
       turtle.clearScreen();
     } else {
-      let inc = endArea / numberOfEvaluations;
+      let inc = (interval[1] - interval[0]) / numberOfEvaluations;
       turtle.moveTo([tIndex * inc, data[tIndex][0]]); // use time to move turtle
     }
 
