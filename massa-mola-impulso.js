@@ -1,4 +1,4 @@
-const c = 0.01, // resistence
+const friction = 0.0,
   k = 4, // string constant
   m = 1; // mass
 
@@ -14,7 +14,7 @@ const interval = [0, endInterval];
 let numberOfEvaluations = endInterval * 8e3;
 
 function externalForce(t) {
-  return Math.cos(omega2 * t);
+  return 0.5 * Math.cos(omega2 * t);
 }
 
 const duration = 24e3;
@@ -60,7 +60,7 @@ const springHangup = board.create("point", [0, 20], {
 });
 const springHangup2 = board.create("point", [0, -20], {
   color: "black",
-  name: "<strong>Mola2, Força Externa</strong>",
+  name: "<strong>Mola 2, Força Externa</strong>",
   fixed: true,
 });
 
@@ -151,7 +151,10 @@ function invertArray(arr) {
 function getData(posInitial) {
   // return a function that returns [vel(t), pos(t)]
   let f = function (t, x) {
-    return [x[1], externalForce(t) / m + (-c / m) * x[1] - (k / m) * x[0]];
+    return [
+      x[1],
+      externalForce(t) / m + (-friction / m) * x[1] - (k / m) * x[0],
+    ];
   };
 
   let data = JXG.Math.Numerics.rungeKutta(
