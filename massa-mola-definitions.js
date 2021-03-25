@@ -14,7 +14,7 @@ let omega = Math.sqrt(k / m);
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 25, endInterval, -20],
+  boundingbox: [-10, 25, endInterval, -40],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
