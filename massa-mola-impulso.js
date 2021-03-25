@@ -1,8 +1,8 @@
-const c = 0, // resistence
+const c = 0.01, // resistence
   k = 4, // string constant
   m = 1; // mass
 
-const incOmega = 0.16;
+const incOmega = 0.1;
 
 const omega = Math.sqrt(k / m),
   omega2 = omega - incOmega;
@@ -11,19 +11,19 @@ const period = (2 * Math.PI) / incOmega; // period of slow sine wave
 const endInterval = 2 * Math.floor(period);
 const interval = [0, endInterval];
 
-let numberOfEvaluations = endInterval * 5e3;
+let numberOfEvaluations = endInterval * 8e3;
 
 function externalForce(t) {
-  return 0.6 * Math.cos(omega2 * t);
+  return Math.cos(omega2 * t);
 }
 
-const duration = 10e3;
+const duration = 24e3;
 const timeFactor = 1e3;
 
 let inMotion = true; // to stop all animations when dragging
 
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 20, endInterval, -20],
+  boundingbox: [-10, 25, endInterval, -20],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
@@ -44,7 +44,7 @@ const pointString = board.create("glider", [0, 0, line], {
   label: { autoPosition: true, offset: [20, 20] },
 });
 
-const turtle = board.create("turtle", [0, -5], {
+const turtle = board.create("turtle", [0, 0], {
   lastArrow: true,
   strokeWidth: 1.2,
   strokeColor: "Red",
@@ -53,18 +53,18 @@ const turtle = board.create("turtle", [0, -5], {
   withLabel: true,
 });
 
-const springHangup = board.create("point", [0, 9], {
+const springHangup = board.create("point", [0, 20], {
   color: "black",
-  name: "Spring",
+  name: "<strong>Mola</strong>",
   fixed: true,
 });
 const springHangup2 = board.create("point", [0, -20], {
   color: "black",
-  name: "<strong>Spring2, Força Externa</strong>",
+  name: "<strong>Mola2, Força Externa</strong>",
   fixed: true,
 });
 
-let numberOfSpringRings = 10;
+let numberOfSpringRings = 14;
 let springRings = [],
   springRings2 = [];
 
@@ -209,4 +209,4 @@ function hook() {
 }
 turtle.hideTurtle();
 board.on("update", hook);
-//startAnimation(-5);
+startAnimation(0);
