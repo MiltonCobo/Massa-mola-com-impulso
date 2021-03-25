@@ -1,8 +1,8 @@
-const c = 0.0, // resistence
-  k = 2, // string constant
+const c = 0, // resistence
+  k = 4, // string constant
   m = 1; // mass
 
-const incOmega = 0.08;
+const incOmega = 0.16;
 
 const omega = Math.sqrt(k / m),
   omega2 = omega - incOmega;
@@ -10,15 +10,14 @@ const omega = Math.sqrt(k / m),
 const period = (2 * Math.PI) / incOmega; // period of slow sine wave
 const endInterval = 2 * Math.floor(period);
 const interval = [0, endInterval];
-console.log(interval);
-let numberOfEvaluations = 2 * Math.floor(period) * 20e3;
+
+let numberOfEvaluations = endInterval * 5e3;
 
 function externalForce(t) {
-  // return 0;
   return 0.6 * Math.cos(omega2 * t);
 }
 
-const duration = 20e3;
+const duration = 10e3;
 const timeFactor = 1e3;
 
 let inMotion = true; // to stop all animations when dragging
@@ -44,18 +43,11 @@ const pointString = board.create("glider", [0, 0, line], {
   size: 6,
   label: { autoPosition: true, offset: [20, 20] },
 });
-// const pointGraph = board.create("point", [0, 0], {
-//   name: "U(t)",
-//   strokeColor: "green",
-//   size: 0,
-// });
-
-// pointGraph.isDraggable = false;
 
 const turtle = board.create("turtle", [0, -5], {
   lastArrow: true,
   strokeWidth: 1.2,
-  strokeColor: "green",
+  strokeColor: "Red",
   strokeOpacity: 1,
   name: "<strong>  U(t)  </strong>",
   withLabel: true,
@@ -66,8 +58,15 @@ const springHangup = board.create("point", [0, 9], {
   name: "Spring",
   fixed: true,
 });
+const springHangup2 = board.create("point", [0, -20], {
+  color: "black",
+  name: "<strong>Spring2, Força Externa</strong>",
+  fixed: true,
+});
+
 let numberOfSpringRings = 10;
-let springRings = [];
+let springRings = [],
+  springRings2 = [];
 
 for (let i = 0; i < numberOfSpringRings; i++) {
   springRings[i] = board.create(
@@ -88,12 +87,44 @@ for (let i = 0; i < numberOfSpringRings; i++) {
     ],
     { withLabel: false, color: "black", size: 1 }
   );
-  if (i > 0)
+  springRings2[i] = board.create(
+    "point",
+    [
+      0.5 - (i % 2),
+      ((i) => {
+        return function () {
+          return (
+            springHangup2.Y() +
+            (i + 1) *
+              Math.abs(
+                (springHangup2.Y() - pointString.Y()) /
+                  (numberOfSpringRings + 1)
+              )
+          );
+        };
+      })(i),
+    ],
+    {
+      withLabel: false,
+      color: "blue",
+      size: 2,
+      fillOpacity: 0.1,
+      strokeOpacity: 0.3,
+    }
+  );
+  if (i > 0) {
     board.create("segment", [springRings[i - 1], springRings[i]], {
       color: "black",
       strokeWidth: 1,
     });
+    board.create("segment", [springRings2[i - 1], springRings2[i]], {
+      color: "blue",
+      strokeWidth: 2,
+      strokeOpacity: 0.3,
+    });
+  }
 }
+
 board.create("segment", [springHangup, springRings[0]], {
   color: "black",
   strokeWidth: 1,
@@ -101,6 +132,16 @@ board.create("segment", [springHangup, springRings[0]], {
 board.create("segment", [springRings[numberOfSpringRings - 1], pointString], {
   color: "black",
   strokeWidth: 1,
+});
+board.create("segment", [springHangup2, springRings2[0]], {
+  color: "black",
+  strokeWidth: 2,
+  strokeOpacity: 0.3,
+});
+board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
+  color: "black",
+  strokeWidth: 1,
+  strokeOpacity: 0.3,
 });
 
 function invertArray(arr) {
@@ -112,12 +153,11 @@ function getData(posInitial) {
   let f = function (t, x) {
     return [x[1], externalForce(t) / m + (-c / m) * x[1] - (k / m) * x[0]];
   };
-  //let area = [0, endArea];
-  //numberOfEvaluations = (area[1] - area[0]) * 200;
+
   let data = JXG.Math.Numerics.rungeKutta(
     "heun",
     [posInitial, 0],
-    interval, //area,
+    interval,
     numberOfEvaluations,
     f
   );
@@ -135,7 +175,7 @@ function getData(posInitial) {
       // dragging clear turtle....
       turtle.clearScreen();
     } else {
-      let inc = (interval[1] - interval[0]) / numberOfEvaluations;
+      let inc = (interval[1] - interval[0]) / numberOfEvaluations; // increment in the t-axis
       turtle.moveTo([tIndex * inc, data[tIndex][0]]); // use time to move turtle
     }
 
@@ -144,7 +184,7 @@ function getData(posInitial) {
 }
 
 function startAnimation(posInitial) {
-  pointString.setPosition(0, posInitial);
+  turtle.setPos(0, posInitial);
   pointString.moveAlong(getData(posInitial)); // the point is attached to the Y-line, therefore the velocity is discarded
   // graph = function (t) {
   //   let tPos = [t / timeFactor, pointString.Y()];
