@@ -10,32 +10,8 @@ function invertArray(arr) {
   return [arr[1], arr[0]];
 }
 
-function runAnimation(posInitial, data) {
-  // return a function that returns [vel(t), pos(t)]
-
-  // function externalForce(t) {
-  //   return F0 * Math.cos(omega2 * t);
-  // }
-
-  // friction = slFrict.Value();
-  // F0 = slF0.Value();
-  // k = slHooke.Value();
-  // m = slMassa.Value();
-
-  // let f = function (t, x) {
-  //   return [
-  //     x[1],
-  //     externalForce(t) / m + (-friction / m) * x[1] - (k / m) * x[0],
-  //   ];
-  // };
-
-  // let data = JXG.Math.Numerics.rungeKutta(
-  //   "heun",
-  //   [posInitial, 0],
-  //   interval,
-  //   numberOfEvaluations,
-  //   f
-  // );
+function run(posInitial, data) {
+  // return a function that runs animation with pointString.moveAlong(run(...))
 
   return function (t) {
     if (t >= duration) {
@@ -59,7 +35,7 @@ function runAnimation(posInitial, data) {
 }
 
 //-------------------ANIMATION -------------------------------------------------
-function startAnimation(posInitial) {
+function setAnimation(posInitial) {
   turtle.setPos(0, posInitial);
 
   omega2 = Number(input.Value());
@@ -88,7 +64,7 @@ function startAnimation(posInitial) {
     f
   );
 
-  pointString.moveAlong(runAnimation(posInitial, data)); // the point is attached to the Y-line, therefore the velocity is discarded
+  pointString.moveAlong(run(posInitial, data)); // the point is attached to the Y-line, therefore the velocity is discarded
   // graph = function (t) {
   //   let tPos = [t / timeFactor, pointString.Y()];
   //   turtle.moveTo(tPos); // graph will be called in .moveAlong() and so the turtle updates position
@@ -106,10 +82,10 @@ function hook() {
   } else {
     if (board.mode !== board.BOARD_MODE_DRAG) {
       inMotion = true;
-      startAnimation(pointString.Y()); // when not dragging, start animations
+      setAnimation(pointString.Y()); // when not dragging, start animations
     }
   }
 }
 turtle.hideTurtle();
 board.on("update", hook);
-startAnimation(0);
+setAnimation(0);
