@@ -22,7 +22,7 @@ const board = JXG.JSXGraph.initBoard("jxgbox", {
   grid: false,
   zoom: {
     wheel: true,
-    enabled: true,
+    enabled: false,
   },
   pan: {
     needTwoFingers: false,
