@@ -88,9 +88,9 @@ const txtMassa = board.create("text", [60, -33, "Massa"], {
 
 const input = board.create(
   "input",
-  [85, -20, omega - incOmega, "\\( \\omega = \\)"],
+  [85, -20, omega - incOmega, "\\( \\omega =\\, \\)"],
   {
-    cssStyle: "width: 100px",
+    cssStyle: "width: 60px",
     useMathJax: true,
   }
 );
@@ -104,18 +104,24 @@ const txtOmega2 = board.create(
 );
 
 board.create("text", [
-  90,
-  -28,
+  95,
+  -20,
   '<button onclick="omega2 = Number(input.Value())">Submeter</button>',
 ]);
+
+//----------------------------TITULO --------------------------
+board.create("text", [20, 20, "O Sistema Massa-Mola com Impulso"], {
+  color: "blue",
+  fontsize: 20,
+});
 
 //--------------------------END OF INPUT OMEGA 2 --------------------------------------
 
 board.create(
   "text",
   [
-    30,
-    15,
+    70,
+    20,
     function () {
       return "$$ \\color{red}{m} \\, u'' + \\color{red}{\\gamma}\\, u' + \\color{red}{k}\\, u = \\color{red}{F_0}\\, \\cos( \\color{red}{\\omega} t) $$";
     },
@@ -132,22 +138,9 @@ board.create(
     70,
     16,
     function () {
-      return "$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = $$";
-    },
-  ],
-  {
-    fontSize: 18,
-    color: "green",
-    useMathJax: true,
-  }
-);
-board.create(
-  "text",
-  [
-    83,
-    13,
-    function () {
-      return JXG.toFixed(Math.sqrt(slHooke.Value() / slMassa.Value()), 2);
+      return `$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = ${Math.sqrt(
+        slHooke.Value() / slMassa.Value()
+      ).toFixed(2)} $$`;
     },
   ],
   {
@@ -275,17 +268,16 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 
 //-------------END DEFINING OBJECTS ----------------------------------
 
+//----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
 
 window.addEventListener("resize", handleResize);
 
 function handleResize() {
-  wrapper.style.width = "";
-  wrapper.style.height = "";
+  wrapper.style.width = null;
+  wrapper.style.height = null;
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
-
-  // console.log(theWidth, theHeight)
 
   board.resizeContainer(theWidth, theHeight, false);
   board.update();
