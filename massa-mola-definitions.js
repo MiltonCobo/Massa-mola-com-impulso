@@ -14,14 +14,14 @@ let omega = Math.sqrt(k / m);
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 25, endInterval, -40],
+  boundingbox: [-10, 25, endInterval, -60],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
   axis: false,
   grid: false,
   zoom: {
-    wheel: true,
+    wheel: false,
     enabled: false,
   },
   pan: {
@@ -160,7 +160,7 @@ board.create("text", [
 ]);
 
 //----------------------------TITULO --------------------------
-board.create("text", [0, -60, "O Sistema Massa-Mola com Impulso"], {
+board.create("text", [0, -46, "O Sistema Massa-Mola com Impulso"], {
   color: "blue",
   fontsize: 20,
 });
@@ -324,8 +324,8 @@ let wrapper = document.getElementById("wrapper");
 window.addEventListener("resize", handleResize);
 
 function handleResize() {
-  wrapper.style.width = null;
-  wrapper.style.height = null;
+  wrapper.style.width = "";
+  wrapper.style.height = "";
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
