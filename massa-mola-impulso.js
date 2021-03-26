@@ -47,7 +47,7 @@ function setAnimation(posInitial) {
   friction = slFrict.Value();
   F0 = slF0.Value();
   k = slHooke.Value();
-  m = slMassa.Value();
+  // m = slMassa.Value();
 
   let f = function (t, x) {
     return [

@@ -1,6 +1,6 @@
 const incOmega = 0.1;
 const period = (2 * Math.PI) / incOmega; // period of slow sine wave
-const endInterval = 2 * Math.floor(period);
+const endInterval = 2 * Math.floor(period); // more or less two periods
 const interval = [0, endInterval];
 
 let friction = 0.0,
@@ -18,9 +18,46 @@ const board = JXG.JSXGraph.initBoard("jxgbox", {
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
-  axis: true,
+  axis: false,
   grid: false,
 });
+
+xaxis = board.create(
+  "axis",
+  [
+    [0, 0],
+    [1, 0],
+  ],
+  {
+    name: "<strong>TEMPO</strong>",
+    withLabel: true,
+    ticks: { visible: false },
+    label: {
+      position: "rt", // possible values are 'lft', 'rt', 'top', 'bot'
+      offset: [-100, -30], // (in pixels)
+    },
+  }
+);
+// xaxis = board.create(
+//   "axis",
+//   [
+//     [0, 0],
+//     [0, 1],
+//   ],
+//   {
+//     name: "<strong>u(t)</strong>",
+//     withLabel: true,
+//     ticks: { visible: false },
+//     label: {
+//       position: "left", // possible values are 'lft', 'rt', 'top', 'bot'
+//       offset: [10, 40], // (in pixels)
+//     },
+//   }
+// );
+
+// JXG.Options.axis.ticks.majorHeight = 60;
+// JXG.Options.axis.ticks.insertTicks = false;
+// JXG.Options.axis.ticks.ticksDistance = 50;
 
 const slFrict = board.create(
   "slider",
@@ -54,41 +91,41 @@ const txtF0 = board.create("text", [30, -33, "Coeficiente da força externa"], {
 const slHooke = board.create(
   "slider",
   [
-    [60, -20],
-    [70, -20],
+    [75, -30],
+    [85, -30],
     [0, 4, 6],
   ],
   { name: "k", strokeColor: "Green", fillColor: "Green" }
 );
-const txtHooke = board.create("text", [60, -23, "Coeficiente da mola"], {
+const txtHooke = board.create("text", [75, -33, "Coeficiente da mola"], {
   fixed: true,
   // fontsize: 16,
 });
 
-const slMassa = board.create(
-  "slider",
-  [
-    [60, -30],
-    [70, -30],
-    [0, 1, 3],
-  ],
-  {
-    name: "m",
-    strokeColor: "Green",
-    fillColor: "Green",
-    withTicks: true,
-  }
-);
+// const slMassa = board.create(
+//   "slider",
+//   [
+//     [60, -30],
+//     [70, -30],
+//     [0, 1, 3],
+//   ],
+//   {
+//     name: "m",
+//     strokeColor: "Green",
+//     fillColor: "Green",
+//     withTicks: true,
+//   }
+// );
 
-const txtMassa = board.create("text", [60, -33, "Massa"], {
-  fixed: true,
-});
+// const txtMassa = board.create("text", [60, -33, "Massa"], {
+//   fixed: true,
+// });
 
 //--------------------------------INPUT OF OMEGA2---------------------------------
 
 const input = board.create(
   "input",
-  [85, -20, omega - incOmega, "\\( \\omega =\\, \\)"],
+  [75, -20, omega - incOmega, "\\( \\omega =\\, \\)"],
   {
     cssStyle: "width: 60px",
     useMathJax: true,
@@ -97,7 +134,7 @@ const input = board.create(
 
 const txtOmega2 = board.create(
   "text",
-  [85, -23, "Frequência da força externa"],
+  [75, -23, "Frequência da força externa"],
   {
     fixed: true,
   }
@@ -110,7 +147,7 @@ board.create("text", [
 ]);
 
 //----------------------------TITULO --------------------------
-board.create("text", [20, 20, "O Sistema Massa-Mola com Impulso"], {
+board.create("text", [0, -60, "O Sistema Massa-Mola com Impulso"], {
   color: "blue",
   fontsize: 20,
 });
@@ -139,7 +176,7 @@ board.create(
     16,
     function () {
       return `$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = ${Math.sqrt(
-        slHooke.Value() / slMassa.Value()
+        slHooke.Value() / m
       ).toFixed(2)} $$`;
     },
   ],
