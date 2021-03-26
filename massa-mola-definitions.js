@@ -6,7 +6,7 @@ const interval = [0, endInterval];
 let friction = 0.0,
   k = 4, // string constant
   m = 1; // mass
-let F0 = 0.5;
+let F0 = 1.2;
 
 let omega2 = Math.sqrt(k / m) - incOmega;
 
@@ -41,7 +41,7 @@ const slF0 = board.create(
   [
     [30, -30],
     [40, -30],
-    [0, 0.8, 1],
+    [0, 1.2, 2],
   ],
   { name: "F0", strokeColor: "Green", fillColor: "Green" }
 );
