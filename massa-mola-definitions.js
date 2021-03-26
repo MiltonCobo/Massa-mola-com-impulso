@@ -129,7 +129,7 @@ board.create(
 board.create(
   "text",
   [
-    75,
+    70,
     16,
     function () {
       return "$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = $$";
@@ -144,8 +144,8 @@ board.create(
 board.create(
   "text",
   [
-    92,
-    12,
+    83,
+    13,
     function () {
       return JXG.toFixed(Math.sqrt(slHooke.Value() / slMassa.Value()), 2);
     },
@@ -274,3 +274,19 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 });
 
 //-------------END DEFINING OBJECTS ----------------------------------
+
+let wrapper = document.getElementById("wrapper");
+
+window.addEventListener("resize", handleResize);
+
+function handleResize() {
+  wrapper.style.width = "";
+  wrapper.style.height = "";
+  let theWidth = wrapper.getBoundingClientRect().width;
+  let theHeight = wrapper.getBoundingClientRect().height;
+
+  // console.log(theWidth, theHeight)
+
+  board.resizeContainer(theWidth, theHeight, false);
+  board.update();
+}
