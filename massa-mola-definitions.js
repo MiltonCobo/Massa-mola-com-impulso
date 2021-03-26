@@ -20,6 +20,14 @@ const board = JXG.JSXGraph.initBoard("jxgbox", {
   showCopyright: false,
   axis: false,
   grid: false,
+  zoom: {
+    wheel: true,
+    enabled: true,
+  },
+  pan: {
+    needTwoFingers: false,
+    enabled: false,
+  },
 });
 
 xaxis = board.create(
@@ -148,7 +156,7 @@ const txtOmega2 = board.create(
 board.create("text", [
   95,
   -20,
-  '<button onclick="omega2 = Number(input.Value())">Submeter</button>',
+  '<button onclick="omega2 = setAnimation(0.2)">Submeter</button>',
 ]);
 
 //----------------------------TITULO --------------------------
