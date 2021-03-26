@@ -80,7 +80,12 @@ const slF0 = board.create(
     [40, -30],
     [0, 1.2, 2],
   ],
-  { name: "F0", strokeColor: "Green", fillColor: "Green" }
+  {
+    name: " F_0 ",
+    strokeColor: "Green",
+    fillColor: "Green",
+    useMathJax: true,
+  }
 );
 
 const txtF0 = board.create("text", [30, -33, "Coeficiente da força externa"], {
