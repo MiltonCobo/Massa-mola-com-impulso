@@ -57,22 +57,21 @@
       display: flex;
       flex-direction: column;
       /* align-items: stretch;  */
-      /* width: auto; */
+      /* width: 90%; */
       /* height: 100%; */
-      width: 100%;
-      height: 100%;
-      /* calc(100vmin- 3.5em); */
+      /* width: 100%; */
+      height: calc(100vmin- 3.5em);
+
     }
 
     #jxgbox {
       flex: 1;
-      flex-grow: 1;
+      /* flex-grow: 1; */
       /* width: 98%;
       height: 98%; */
-      height: 100%;
+      height: auto;
       /* width: 100%; */
-      width: 100%;
-      /* calc(100vmin-3.5em); */
+      width: calc(100vmin-3.5em);
     }
 
     /* @media (max-width: 1080px) {
@@ -82,18 +81,18 @@
       }
     } */
 
-    /* 
+
     .jxgbox {
       height: 0;
       padding-bottom: 100%;
-    } */
+    }
   </style>
 </head>
 
 <body>
-  <div id="jxgbox" class="jxgbox"></div>
-  <div id="wrapper">
 
+  <div id="wrapper">
+    <div id="jxgbox" class="jxgbox"></div>
   </div>
   <script src="massa-mola-definitions.js"></script>
   <script src="massa-mola-impulso.js"></script>

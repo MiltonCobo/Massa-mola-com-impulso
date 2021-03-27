@@ -14,12 +14,13 @@ let omega = Math.sqrt(k / m);
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 25, endInterval, -60],
+  boundingbox: [-10, 25, endInterval, -80],
+  maxboundingbox: [-10, 25, endInterval, -80],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
   axis: false,
-  grid: false,
+  grid: true,
   zoom: {
     wheel: false,
     enabled: false,
@@ -67,25 +68,31 @@ xaxis = board.create(
 // JXG.Options.axis.ticks.insertTicks = false;
 // JXG.Options.axis.ticks.ticksDistance = 50;
 
+let yposition = -40;
+
 const slFrict = board.create(
   "slider",
   [
-    [30, -20],
-    [40, -20],
+    [30, yposition],
+    [40, yposition],
     [0, 0.0, 0.3],
   ],
   { name: "&gamma;", strokeColor: "Green", fillColor: "Green" }
 );
-const txtFrict = board.create("text", [30, -23, "Coeficiente de atrito"], {
-  fixed: true,
-  // fontsize: 16,
-});
+const txtFrict = board.create(
+  "text",
+  [30, yposition - 3, "Coeficiente de atrito"],
+  {
+    fixed: true,
+    // fontsize: 16,
+  }
+);
 
 const slF0 = board.create(
   "slider",
   [
-    [30, -30],
-    [40, -30],
+    [30, yposition - 10],
+    [40, yposition - 10],
     [0, 1.2, 2],
   ],
   {
@@ -96,24 +103,32 @@ const slF0 = board.create(
   }
 );
 
-const txtF0 = board.create("text", [30, -33, "Coeficiente da força externa"], {
-  fixed: true,
-  // fontsize: 16,
-});
+const txtF0 = board.create(
+  "text",
+  [30, yposition - 13, "Coeficiente da força externa"],
+  {
+    fixed: true,
+    // fontsize: 16,
+  }
+);
 
 const slHooke = board.create(
   "slider",
   [
-    [75, -30],
-    [85, -30],
+    [75, yposition],
+    [85, yposition],
     [0, 4, 6],
   ],
   { name: "k", strokeColor: "Green", fillColor: "Green" }
 );
-const txtHooke = board.create("text", [75, -33, "Coeficiente da mola"], {
-  fixed: true,
-  // fontsize: 16,
-});
+const txtHooke = board.create(
+  "text",
+  [75, yposition - 3, "Coeficiente da mola"],
+  {
+    fixed: true,
+    // fontsize: 16,
+  }
+);
 
 // const slMassa = board.create(
 //   "slider",
@@ -160,45 +175,45 @@ board.create("text", [
 ]);
 
 //----------------------------TITULO --------------------------
-board.create("text", [0, -46, "O Sistema Massa-Mola com Impulso"], {
-  color: "blue",
-  fontsize: 20,
-});
+// board.create("text", [0, -46, "O Sistema Massa-Mola com Impulso"], {
+//   color: "blue",
+//   fontsize: 20,
+// });
 
 //--------------------------END OF INPUT OMEGA 2 --------------------------------------
 
-board.create(
-  "text",
-  [
-    70,
-    20,
-    function () {
-      return "$$ \\color{red}{m} \\, u'' + \\color{red}{\\gamma}\\, u' + \\color{red}{k}\\, u = \\color{red}{F_0}\\, \\cos( \\color{red}{\\omega} t) $$";
-    },
-  ],
-  {
-    fontSize: 18,
-    color: "green",
-    useMathJax: true,
-  }
-);
-board.create(
-  "text",
-  [
-    70,
-    16,
-    function () {
-      return `$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = ${Math.sqrt(
-        slHooke.Value() / m
-      ).toFixed(2)} $$`;
-    },
-  ],
-  {
-    fontSize: 18,
-    color: "green",
-    useMathJax: true,
-  }
-);
+// board.create(
+//   "text",
+//   [
+//     70,
+//     20,
+//     function () {
+//       return "$$ \\color{red}{m} \\, u'' + \\color{red}{\\gamma}\\, u' + \\color{red}{k}\\, u = \\color{red}{F_0}\\, \\cos( \\color{red}{\\omega} t) $$";
+//     },
+//   ],
+//   {
+//     fontSize: 18,
+//     color: "green",
+//     useMathJax: true,
+//   }
+// );
+// board.create(
+//   "text",
+//   [
+//     70,
+//     16,
+//     function () {
+//       return `$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = ${Math.sqrt(
+//         slHooke.Value() / m
+//       ).toFixed(2)} $$`;
+//     },
+//   ],
+//   {
+//     fontSize: 18,
+//     color: "green",
+//     useMathJax: true,
+//   }
+// );
 
 //----------------------------SLIDERS and TEXTS------------------------------------------------------
 
@@ -326,17 +341,17 @@ let wrapper = document.getElementById("wrapper");
 //   handleResize();
 // });
 
-window.addEventListener("resize", handleResize);
+window.addEventListener("resize", handleResize, false);
 
 function handleResize() {
   console.log("resize!");
-  wrapper.style.width = "100%";
-  wrapper.style.height = "100%";
+  wrapper.style.width = "";
+  wrapper.style.height = "";
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
   console.log("width = ", theWidth, " Height = ", theHeight);
 
-  board.resizeContainer(theWidth, theHeight, true, true);
+  board.resizeContainer(theWidth, theHeight);
   board.update();
 }
