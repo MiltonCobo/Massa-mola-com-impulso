@@ -321,14 +321,22 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 //----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
 
+// window.addEventListener("orientationchange", function (event) {
+//   console.log("orientation changed!");
+//   handleResize();
+// });
+
 window.addEventListener("resize", handleResize);
 
 function handleResize() {
-  wrapper.style.width = "";
-  wrapper.style.height = "";
+  console.log("resize!");
+  wrapper.style.width = "100%";
+  wrapper.style.height = "100%";
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
-  board.resizeContainer(theWidth, theHeight, false);
+  console.log("width = ", theWidth, " Height = ", theHeight);
+
+  board.resizeContainer(theWidth, theHeight, true, true);
   board.update();
 }
