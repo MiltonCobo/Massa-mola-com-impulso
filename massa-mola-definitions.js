@@ -11,16 +11,30 @@ let F0 = 1.2;
 let omega2 = Math.sqrt(k / m) - incOmega;
 
 let omega = Math.sqrt(k / m);
+console.log("valor of omega2 = ", omega2);
+
+const input2 = document.getElementById("inputOmega2");
+// input2.value = omega2.toString();
+
+input2.onchange = function () {
+  omega2 = Number(input2.value);
+  console.log("changing value omega2", omega2);
+  inMotion = true;
+  board.stopAllAnimation();
+  inMotion = false; // important set false before setAnimation()
+  turtle.clearScreen();
+  setAnimation(0);
+};
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 25, endInterval, -80],
-  maxboundingbox: [-10, 25, endInterval, -80],
+  boundingbox: [-10, 25, endInterval, -50],
+  maxboundingbox: [-10, 25, endInterval, -50],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
   axis: false,
-  grid: true,
+  grid: false,
   zoom: {
     wheel: false,
     enabled: false,
@@ -68,7 +82,7 @@ xaxis = board.create(
 // JXG.Options.axis.ticks.insertTicks = false;
 // JXG.Options.axis.ticks.ticksDistance = 50;
 
-let yposition = -40;
+let yposition = -20;
 
 const slFrict = board.create(
   "slider",
@@ -151,28 +165,28 @@ const txtHooke = board.create(
 
 //--------------------------------INPUT OF OMEGA2---------------------------------
 
-const input = board.create(
-  "input",
-  [75, -20, omega - incOmega, "\\( \\omega =\\, \\)"],
-  {
-    cssStyle: "width: 60px",
-    useMathJax: true,
-  }
-);
+// const input = board.create(
+//   "input",
+//   [75, -20, omega - incOmega, "\\( \\omega =\\, \\)"],
+//   {
+//     cssStyle: "width: 60px",
+//     useMathJax: true,
+//   }
+// );
 
-const txtOmega2 = board.create(
-  "text",
-  [75, -23, "Frequência da força externa"],
-  {
-    fixed: true,
-  }
-);
+// const txtOmega2 = board.create(
+//   "text",
+//   [75, -23, "Frequência da força externa"],
+//   {
+//     fixed: true,
+//   }
+// );
 
-board.create("text", [
-  95,
-  -20,
-  '<button onclick="omega2 = setAnimation(0.2)">Submeter</button>',
-]);
+// board.create("text", [
+//   95,
+//   -20,
+//   '<button onclick="omega2 = setAnimation(0.2)">Submeter</button>',
+// ]);
 
 //----------------------------TITULO --------------------------
 // board.create("text", [0, -46, "O Sistema Massa-Mola com Impulso"], {
@@ -345,6 +359,9 @@ window.addEventListener("resize", handleResize, false);
 
 function handleResize() {
   console.log("resize!");
+  inMotion = true;
+  board.stopAllAnimation();
+
   wrapper.style.width = "";
   wrapper.style.height = "";
   let theWidth = wrapper.getBoundingClientRect().width;
@@ -354,4 +371,8 @@ function handleResize() {
 
   board.resizeContainer(theWidth, theHeight);
   board.update();
+
+  inMotion = false;
+  turtle.clearScreen();
+  setAnimation(0);
 }

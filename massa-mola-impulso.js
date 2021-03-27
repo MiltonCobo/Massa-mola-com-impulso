@@ -36,7 +36,10 @@ function run(posInitial, data) {
 
 //-------------------ANIMATION -------------------------------------------------
 function setAnimation(posInitial) {
-  omega2 = Number(input.Value());
+  // omega2 = Number(omega2);
+  console.log("valor omega2 setANimation = ", omega2);
+  // omega2 = Number(omega2);
+
   if (isNaN(omega2)) {
     alert("DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais");
     return;
@@ -48,9 +51,9 @@ function setAnimation(posInitial) {
     return F0 * Math.cos(omega2 * t);
   }
 
-  friction = slFrict.Value();
-  F0 = slF0.Value();
-  k = slHooke.Value();
+  // friction = slFrict.Value();
+  // F0 = slF0.Value();
+  // k = slHooke.Value();
   // m = slMassa.Value();
 
   let f = function (t, x) {
