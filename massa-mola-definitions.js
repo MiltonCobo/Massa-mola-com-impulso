@@ -310,12 +310,37 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 
 //----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
-
+let orientationToggle = false;
 // window.addEventListener("orientationchange", handleResize);
-window.onorientationchange = handleResize;
+window.onorientationchange = handleOrientationChange;
 
 window.addEventListener("resize", handleResize, false);
 
+function handleOrientationChange() {
+  inMotion = true;
+  board.stopAllAnimation();
+
+  wrapper.style.width = "";
+  wrapper.style.height = "";
+  let theWidth = wrapper.getBoundingClientRect().width;
+  let theHeight = wrapper.getBoundingClientRect().height;
+
+  console.log("width = ", theWidth, " Height = ", theHeight);
+
+  if (theWidth > theHeight) {
+    console.log("portrait mode");
+  }
+
+  theHeight = 800 < theHeight ? 800 : theHeight;
+  console.log("the new Height is", theHeight);
+
+  board.resizeContainer(theWidth * 0.92, theHeight);
+  board.update();
+
+  inMotion = false;
+  turtle.clearScreen();
+  setAnimation(0);
+}
 function handleResize() {
   inMotion = true;
   board.stopAllAnimation();
@@ -326,6 +351,10 @@ function handleResize() {
   let theHeight = wrapper.getBoundingClientRect().height;
 
   console.log("width = ", theWidth, " Height = ", theHeight);
+
+  if (theWidth > theHeight) {
+    console.log("portrait mode");
+  }
 
   theHeight = 800 < theHeight ? 800 : theHeight;
   console.log("the new Height is", theHeight);
