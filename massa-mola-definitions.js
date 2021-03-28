@@ -329,7 +329,7 @@ function handleResize() {
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
-  // console.log("width = ", theWidth, " Height = ", theHeight);
+  console.log("width = ", theWidth, " Height = ", theHeight);
 
   board.resizeContainer(theWidth * 0.96, theHeight);
   board.update();
