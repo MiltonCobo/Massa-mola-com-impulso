@@ -343,7 +343,7 @@ function handleOrientationChange() {
 }
 function handleResize() {
   inMotion = true;
-  board.stopAllAnimation();
+  // board.stopAllAnimation();
 
   wrapper.style.width = "";
   wrapper.style.height = "";
