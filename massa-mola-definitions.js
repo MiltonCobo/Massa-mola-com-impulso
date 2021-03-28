@@ -331,7 +331,9 @@ function handleResize() {
 
   console.log("width = ", theWidth, " Height = ", theHeight);
 
-  board.resizeContainer(theWidth * 0.96, 800);
+  theHeight = 800 < theHeight ? 800 : theHeight;
+
+  board.resizeContainer(theWidth * 0.92, theHeight);
   board.update();
 
   inMotion = false;
