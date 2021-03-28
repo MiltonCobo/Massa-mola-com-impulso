@@ -363,6 +363,6 @@ function handleResize() {
   board.update();
 
   inMotion = false;
-  turtle.clearScreen();
-  setAnimation(0);
+  // turtle.clearScreen();
+  // setAnimation(0);
 }
