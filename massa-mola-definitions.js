@@ -311,7 +311,8 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 //----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
 
-window.addEventListener("orientationchange", handleResize);
+// window.addEventListener("orientationchange", handleResize);
+window.onorientationchange = handleResize;
 
 window.addEventListener("resize", handleResize, false);
 
