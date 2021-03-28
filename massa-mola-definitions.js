@@ -84,7 +84,7 @@ xaxis = board.create(
 let ySliders = -20;
 let xSliders = 20;
 
-const sliders = [
+const slidersInfo = [
   {
     name: "&gamma;",
     xpos: xSliders,
@@ -94,23 +94,25 @@ const sliders = [
   },
   {
     name: "F_0",
-    xpos: xSliders,
-    ypos: ySliders - 15,
+    xpos: xSliders + 40,
+    ypos: ySliders,
     values: [0, 1.2, 2],
     label: "Coeficiente da força externa",
   },
-  {
-    name: " k ",
-    xpos: xSliders + 40,
-    ypos: ySliders,
-    values: [0, 4, 6],
-    label: "Coeficiente da mola",
-  },
+  // {
+  //   name: " k ",
+  //   xpos: xSliders + 40,
+  //   ypos: ySliders,
+  //   values: [0, 4, 6],
+  //   label: "Coeficiente da mola",
+  // },
   // {name:, xpos, ypos, values: }
 ];
 
-sliders.forEach((sl) => {
-  board.create(
+let sliders = []; // an object that contains the sliders of gamma and F0
+
+slidersInfo.forEach((sl, index) => {
+  sliders[index] = board.create(
     "slider",
     [[sl.xpos, sl.ypos], [sl.xpos + 15, sl.ypos], sl.values],
     { name: sl.name, strokeColor: "Green", fillColor: "Green" }
@@ -220,6 +222,7 @@ const springHangup = board.create("point", [0, 20], {
 const springHangup2 = board.create("point", [0, -20], {
   color: "black",
   name: "<strong>Mola 2, Força Externa</strong>",
+  label: { position: "bot", offset: [-15, -20] },
   fixed: true,
 });
 

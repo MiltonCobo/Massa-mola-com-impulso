@@ -50,8 +50,8 @@ function setAnimation(posInitial) {
     return F0 * Math.cos(omega2 * t);
   }
 
-  // friction = slFrict.Value();
-  // F0 = slF0.Value();
+  friction = sliders[0].Value(); // sliders is an array that contains the sliders objects created......
+  F0 = sliders[1].Value();
   // k = slHooke.Value();
   // m = slMassa.Value();
 
