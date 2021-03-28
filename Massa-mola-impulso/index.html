@@ -56,34 +56,72 @@
     #wrapper {
       display: flex;
       flex-direction: column;
-      align-items: stretch;
-      /* width: auto; */
-      height: 100%;
-      width: 100%;
-      /* padding-top: 1%; */
-      /* height: calc(100vmin- 3.5em); */
+      align-items: center;
+      height: 100vmin;
+      width: 96vw;
     }
 
     #jxgbox {
       flex: 1;
-      /* width: 98%; */
-      /* height: 98%; */
-      height: 100%;
+      /* flex-grow: 1; */
       width: 100%;
-      /* width: calc(100vmin-3.5em); */
+      height: 100%
     }
 
-    /* .jxgbox {
+
+
+    .jxgbox {
+      /* apparently this is necessary  !!  */
       height: 0;
-      padding-top: 100%;
-    }  */
+      padding-bottom: 100%;
+    }
+
+
+    @media (max-width: 1080px) {
+      .jxbox {
+        height: 0;
+        padding-bottom: 150%;
+      }
+
+      #wrapper {
+        height: 120vmin;
+      }
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 20px;
+    }
   </style>
 </head>
 
 <body>
-  <div id="wrapper">
-    <div id="jxgbox" class="jxgbox"></div>
+  <div id="container">
+    <div id="wrapper">
+      <h1>O Sistema Massa-Mola com Impulso</h1>
+      <div id="jxgbox" class="jxgbox"></div>
+
+    </div>
+
+
+    <div style="font-size: 20px; font-family: Arial, Helvetica, sans-serif;">
+      <p> O sistema massa-mola com impulso corresponde à equação diferencial:
+        $$ \color{red}{m} \, u'' + \color{red}{\gamma}\, u' + \color{red}{k}\, u = \color{red}{F_0}\, \cos(
+        \color{red}{\omega} t),$$ onde $ m $ é a massa do objeto, $ k $ é a constante de Hooke associada com a mola e
+        $ \gamma $ é a constante de amortecimento.
+        Digitando a frequência da força externa no input.....
+        <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
+      </p>
+
+    </div>
   </div>
+
+
+
+
+
   <script src="massa-mola-definitions.js"></script>
   <script src="massa-mola-impulso.js"></script>
 
