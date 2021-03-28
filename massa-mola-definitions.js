@@ -356,7 +356,7 @@ function handleResize() {
     console.log("portrait mode");
   }
 
-  theHeight = 800 < theHeight ? 800 : theHeight;
+  theHeight = 650 < theHeight ? 650 : theHeight;
   console.log("the new Height is", theHeight);
 
   board.resizeContainer(theWidth * 0.92, theHeight);
