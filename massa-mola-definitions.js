@@ -311,12 +311,7 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 //----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
 
-// window.addEventListener("orientationchange", function (event) {
-//   console.log("orientation changed!");
-//   handleResize();
-// });
-
-// let height = window.innerHeight;
+window.addEventListener("orientationchange", handleResize);
 
 window.addEventListener("resize", handleResize, false);
 
@@ -332,6 +327,7 @@ function handleResize() {
   console.log("width = ", theWidth, " Height = ", theHeight);
 
   theHeight = 800 < theHeight ? 800 : theHeight;
+  console.log("the new height = ", theHeight);
 
   board.resizeContainer(theWidth * 0.92, theHeight);
   board.update();
