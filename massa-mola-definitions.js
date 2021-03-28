@@ -11,7 +11,6 @@ let F0 = 1.2;
 let omega2 = Math.sqrt(k / m) - incOmega;
 
 let omega = Math.sqrt(k / m);
-console.log("valor of omega2 = ", omega2);
 
 const input2 = document.getElementById("inputOmega2");
 // input2.value = omega2.toString();
@@ -82,86 +81,45 @@ xaxis = board.create(
 // JXG.Options.axis.ticks.insertTicks = false;
 // JXG.Options.axis.ticks.ticksDistance = 50;
 
-let yposition = -20;
+let ySliders = -20;
+let xSliders = 20;
 
-const slFrict = board.create(
-  "slider",
-  [
-    [30, yposition],
-    [40, yposition],
-    [0, 0.0, 0.3],
-  ],
-  { name: "&gamma;", strokeColor: "Green", fillColor: "Green" }
-);
-const txtFrict = board.create(
-  "text",
-  [30, yposition - 3, "Coeficiente de atrito"],
+const sliders = [
   {
-    fixed: true,
-    // fontsize: 16,
-  }
-);
+    name: "&gamma;",
+    xpos: xSliders,
+    ypos: ySliders,
+    values: [0, 0.0, 0.3],
+    label: "Coeficiente de atrito",
+  },
+  {
+    name: "F_0",
+    xpos: xSliders,
+    ypos: ySliders - 15,
+    values: [0, 1.2, 2],
+    label: "Coeficiente da força externa",
+  },
+  {
+    name: " k ",
+    xpos: xSliders + 40,
+    ypos: ySliders,
+    values: [0, 4, 6],
+    label: "Coeficiente da mola",
+  },
+  // {name:, xpos, ypos, values: }
+];
 
-const slF0 = board.create(
-  "slider",
-  [
-    [30, yposition - 10],
-    [40, yposition - 10],
-    [0, 1.2, 2],
-  ],
-  {
-    name: " F_0 ",
+sliders.forEach((sl) => {
+  board.create(
+    "slider",
+    [[sl.xpos, sl.ypos], [sl.xpos + 15, sl.ypos], sl.values],
+    { name: sl.name, strokeColor: "Green", fillColor: "Green" }
+  );
+  board.create("text", [sl.xpos, sl.ypos - 4, sl.label], {
     strokeColor: "Green",
     fillColor: "Green",
-    useMathJax: true,
-  }
-);
-
-const txtF0 = board.create(
-  "text",
-  [30, yposition - 13, "Coeficiente da força externa"],
-  {
-    fixed: true,
-    // fontsize: 16,
-  }
-);
-
-const slHooke = board.create(
-  "slider",
-  [
-    [75, yposition],
-    [85, yposition],
-    [0, 4, 6],
-  ],
-  { name: "k", strokeColor: "Green", fillColor: "Green" }
-);
-const txtHooke = board.create(
-  "text",
-  [75, yposition - 3, "Coeficiente da mola"],
-  {
-    fixed: true,
-    // fontsize: 16,
-  }
-);
-
-// const slMassa = board.create(
-//   "slider",
-//   [
-//     [60, -30],
-//     [70, -30],
-//     [0, 1, 3],
-//   ],
-//   {
-//     name: "m",
-//     strokeColor: "Green",
-//     fillColor: "Green",
-//     withTicks: true,
-//   }
-// );
-
-// const txtMassa = board.create("text", [60, -33, "Massa"], {
-//   fixed: true,
-// });
+  });
+});
 
 //--------------------------------INPUT OF OMEGA2---------------------------------
 
@@ -355,10 +313,11 @@ let wrapper = document.getElementById("wrapper");
 //   handleResize();
 // });
 
+// let height = window.innerHeight;
+
 window.addEventListener("resize", handleResize, false);
 
 function handleResize() {
-  console.log("resize!");
   inMotion = true;
   board.stopAllAnimation();
 
@@ -367,9 +326,9 @@ function handleResize() {
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
-  console.log("width = ", theWidth, " Height = ", theHeight);
+  // console.log("width = ", theWidth, " Height = ", theHeight);
 
-  board.resizeContainer(theWidth, theHeight);
+  board.resizeContainer(theWidth * 0.96, theHeight);
   board.update();
 
   inMotion = false;

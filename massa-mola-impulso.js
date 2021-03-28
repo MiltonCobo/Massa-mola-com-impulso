@@ -37,7 +37,6 @@ function run(posInitial, data) {
 //-------------------ANIMATION -------------------------------------------------
 function setAnimation(posInitial) {
   // omega2 = Number(omega2);
-  console.log("valor omega2 setANimation = ", omega2);
   // omega2 = Number(omega2);
 
   if (isNaN(omega2)) {
