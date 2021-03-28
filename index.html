@@ -57,27 +57,26 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vmin;
-      width: 96vw;
+      height: 800px;
+      width: 90vw;
     }
 
     #jxgbox {
       flex: 1;
       /* flex-grow: 1; */
-      width: 100%;
-      height: 100%
+      width: 96%;
+      height: 100%;
     }
 
-
+    /* apparently this is necessary  !!  */
 
     .jxgbox {
-      /* apparently this is necessary  !!  */
       height: 0;
-      padding-bottom: 100%;
+      padding-bottom: 50%;
     }
 
 
-    @media (max-width: 600px) {
+    @media (max-width: 1080px) {
       .jxbox {
         height: 0;
         padding-bottom: 150%;
@@ -85,6 +84,7 @@
 
       #wrapper {
         height: 120vmin;
+        width: 96vw;
       }
     }
 
@@ -92,6 +92,10 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
+
+    }
+
+    p {
       padding: 20px;
     }
   </style>
