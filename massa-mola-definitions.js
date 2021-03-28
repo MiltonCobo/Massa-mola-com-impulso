@@ -328,7 +328,7 @@ function handleResize() {
   console.log("width = ", theWidth, " Height = ", theHeight);
 
   theHeight = 800 < theHeight ? 800 : theHeight;
-  console.log("the new height = ", theHeight);
+  alert("the new Height is", theHeight);
 
   board.resizeContainer(theWidth * 0.92, theHeight);
   board.update();
