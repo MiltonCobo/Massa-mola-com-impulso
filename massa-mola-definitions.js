@@ -342,7 +342,7 @@ function handleOrientationChange() {
     console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
     console.log("the new Height is", height);
 
-    board.resizeContainer(width, height);
+    board.resizeContainer(width, 480);
     board.update();
 
     inMotion = false;
@@ -370,7 +370,7 @@ function handleResize() {
     console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
     console.log("the new Height is", height);
 
-    board.resizeContainer(width, height);
+    board.resizeContainer(width, 480);
     board.update();
 
     inMotion = false;
