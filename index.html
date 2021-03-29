@@ -59,7 +59,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 440px;
+      justify-content: space-between;
+      height: 480px;
       /* fixed the height of the wrapper everywhere.....*/
       width: min(90vw, 800px);
     }
@@ -68,7 +69,7 @@
       flex: 1;
       /* flex-grow: 1; */
       width: 100%;
-      height: 440px;
+      height: 100%;
       /* fixed the height of the wrapper everywhere.....*/
     }
 
@@ -107,17 +108,18 @@
 
 <body>
   <div id="container">
+    <h2>O Sistema Massa-Mola com Impulso</h2>
+    <!-- <p> $$ \color{red}{m} \, u'' + \color{red}{\gamma}\, u' + \color{red}{k}\, u = \color{red}{F_0}\, \cos(
+      \color{red}{\omega} t)$$</p> -->
     <div id="wrapper">
-      <h1>O Sistema Massa-Mola com Impulso</h1>
       <div id="jxgbox" class="jxgbox"></div>
-    </div>
-
-
-    <div style="font-family: Arial, Helvetica, sans-serif; padding: 3%;">
       <p>Digite o valor de $\omega$, a frequência da força externa:
         <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
       </p>
-      </br>
+    </div>
+
+
+    <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 3%;">
       <p> O sistema massa-mola com impulso corresponde à equação diferencial:
         $$ \color{red}{m} \, u'' + \color{red}{\gamma}\, u' + \color{red}{k}\, u = \color{red}{F_0}\, \cos(
         \color{red}{\omega} t),$$ onde:
@@ -125,25 +127,22 @@
         <li> \( \color{red}{m} \) é a massa do objeto;</li></br>
         <li> \( \color{red}{k} \) é a constante de Hooke associada à mola;</li></br>
         <li> \( \color{red}{\gamma} \) é a constante de amortecimento;</li></br>
-        <li> \( \color{red}{\omega} \) é a frequência da força externa. </li></br>
+        <li> \( \color{red}{\omega} \) é a frequência da força externa e $\color{red}{F_0}$ e um coeficiente constante.
+        </li><br>
+        <li> A frequência natural (ou interna) do sistema é dada por :
+          $ \color{red}{\omega_0} = \sqrt{\color{red}{k/m} }$
+          e neste exemplo será fixada $ \omega_0 = 2. $</li>
       </ul>
 
-      A frequência natural do sistema é fixada neste exemplo:
-      $$ \color{red}{\omega_0} = \sqrt{k \over m} = 2. $$
+      <p>Vamos a supor que não há amortecimento, i.e., \( \gamma = 0. \)
 
-      <ol>
-        <li>Vamos a supor primeiro que não há amortecimento, i.e., \( \gamma = 0. \)</li>
-      </ol>
-      <p>
         Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
         (digamos $\omega = 1.9$), então aparece o fenômeno conhecido como <strong>batimentos.</strong>
-      </p>
-      <p>
-        Notamos que quando $\omega\longrightarrow \infty$ então a amplitude do movimento tende para zero.
-      </p>
 
-      <p>Você pode verificar estes fatos digitando os valores de $\omega$ no input acima.</p>
-
+        Finalmente notamos que quando $\omega$ tende para infinito então a amplitude do movimento tende para zero.
+        Você
+        pode
+        verificar estes fatos digitando os valores de $\omega$ no input acima.</p>
 
     </div>
   </div>
