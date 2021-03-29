@@ -84,7 +84,7 @@ xaxis = board.create(
 let ySliders = -20;
 let xSliders = 20;
 
-const sliders = [
+const slidersInfo = [
   {
     name: "&gamma;",
     xpos: xSliders,
@@ -94,23 +94,25 @@ const sliders = [
   },
   {
     name: "F_0",
-    xpos: xSliders,
-    ypos: ySliders - 15,
+    xpos: xSliders + 40,
+    ypos: ySliders,
     values: [0, 1.2, 2],
     label: "Coeficiente da força externa",
   },
-  {
-    name: " k ",
-    xpos: xSliders + 40,
-    ypos: ySliders,
-    values: [0, 4, 6],
-    label: "Coeficiente da mola",
-  },
+  // {
+  //   name: " k ",
+  //   xpos: xSliders + 40,
+  //   ypos: ySliders,
+  //   values: [0, 4, 6],
+  //   label: "Coeficiente da mola",
+  // },
   // {name:, xpos, ypos, values: }
 ];
 
-sliders.forEach((sl) => {
-  board.create(
+let sliders = []; // an object that contains the sliders of gamma and F0
+
+slidersInfo.forEach((sl, index) => {
+  sliders[index] = board.create(
     "slider",
     [[sl.xpos, sl.ypos], [sl.xpos + 15, sl.ypos], sl.values],
     { name: sl.name, strokeColor: "Green", fillColor: "Green" }
@@ -220,6 +222,7 @@ const springHangup = board.create("point", [0, 20], {
 const springHangup2 = board.create("point", [0, -20], {
   color: "black",
   name: "<strong>Mola 2, Força Externa</strong>",
+  label: { position: "bot", offset: [-15, -20] },
   fixed: true,
 });
 
@@ -308,30 +311,70 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 //----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
 
-// window.addEventListener("orientationchange", function (event) {
-//   console.log("orientation changed!");
-//   handleResize();
-// });
-
-// let height = window.innerHeight;
+// window.addEventListener("orientationchange", handleResize);
+window.onorientationchange = handleOrientationChange;
 
 window.addEventListener("resize", handleResize, false);
 
-function handleResize() {
-  inMotion = true;
-  board.stopAllAnimation();
+let oldWidth = wrapper.getBoundingClientRect().width; // save initial values of width,height
+let oldHeight = wrapper.getBoundingClientRect().height;
 
+function handleOrientationChange() {
   wrapper.style.width = "";
   wrapper.style.height = "";
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
-  // console.log("width = ", theWidth, " Height = ", theHeight);
+  if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
+    // only call when big change
 
-  board.resizeContainer(theWidth * 0.96, theHeight);
-  board.update();
+    inMotion = true;
+    board.stopAllAnimation();
 
-  inMotion = false;
-  turtle.clearScreen();
-  setAnimation(0);
+    oldWidth = theWidth;
+    oldHeight = theWidth; // reset values of width, height
+
+    // let height = Math.min(0.9 * theWidth, theHeight, 400);
+    let width = 0.9 * theWidth;
+
+    // theHeight = Math.min(theWidth, theWidth, 550); // theHeight  = min()
+    // console.log("width = ", theWidth, " Height = ", theHeight);
+    // console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    // console.log("the new Height is", height);
+
+    board.resizeContainer(width, 440);
+    board.update();
+
+    inMotion = false;
+    turtle.clearScreen();
+    setAnimation(0);
+  }
+}
+function handleResize() {
+  wrapper.style.width = "";
+  wrapper.style.height = "";
+  let theWidth = wrapper.getBoundingClientRect().width;
+  let theHeight = wrapper.getBoundingClientRect().height;
+
+  if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
+    inMotion = true;
+    board.stopAllAnimation();
+
+    oldWidth = theWidth;
+    oldHeight = theWidth;
+
+    // let height = Math.min(theWidth, theWidth, 400);
+    let width = 0.92 * theWidth;
+
+    // console.log("width = ", theWidth, " Height = ", theHeight);
+    // console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    // console.log("the new Height is", height);
+
+    board.resizeContainer(width, 440);
+    board.update();
+
+    inMotion = false;
+    turtle.clearScreen();
+    setAnimation(0);
+  }
 }

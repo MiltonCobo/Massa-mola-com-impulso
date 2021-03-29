@@ -57,27 +57,28 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vmin;
-      width: 96vw;
+      height: 440px;
+      /* fixed the height of the wrapper everywhere.....*/
+      width: 90vw;
     }
 
     #jxgbox {
       flex: 1;
       /* flex-grow: 1; */
       width: 100%;
-      height: 100%
+      height: 440px;
+      /* fixed the height of the wrapper everywhere.....*/
     }
 
+    /* apparently  is not necessary  !!  */
 
-
-    .jxgbox {
-      /* apparently this is necessary  !!  */
+    /* .jxgbox {
       height: 0;
-      padding-bottom: 100%;
-    }
+      padding-bottom: 50%;
+    } */
 
 
-    @media (max-width: 1080px) {
+    /* @media (max-width: 1080px) {
       .jxbox {
         height: 0;
         padding-bottom: 150%;
@@ -85,13 +86,18 @@
 
       #wrapper {
         height: 120vmin;
+        width: 96vw;
       }
-    }
+    } */
 
     #container {
       display: flex;
       flex-direction: column;
-      align-items: stretch;
+      align-items: center;
+      align-content: start;
+    }
+
+    p {
       padding: 20px;
     }
   </style>
@@ -102,15 +108,16 @@
     <div id="wrapper">
       <h1>O Sistema Massa-Mola com Impulso</h1>
       <div id="jxgbox" class="jxgbox"></div>
-
     </div>
 
 
-    <div style="font-size: 20px; font-family: Arial, Helvetica, sans-serif;">
+    <div style="font-family: Arial, Helvetica, sans-serif; padding: 3%;">
       <p> O sistema massa-mola com impulso corresponde à equação diferencial:
         $$ \color{red}{m} \, u'' + \color{red}{\gamma}\, u' + \color{red}{k}\, u = \color{red}{F_0}\, \cos(
-        \color{red}{\omega} t),$$ onde $ m $ é a massa do objeto, $ k $ é a constante de Hooke associada com a mola e
-        $ \gamma $ é a constante de amortecimento.
+        \color{red}{\omega} t),$$ onde \( \color{red}{m} \) é a massa do objeto, \( \color{red}{k} \) é a constante de
+        Hooke associada com a mola
+        e
+        \( \color{red}{\gamma} \) é a constante de amortecimento.
         Digitando a frequência da força externa no input.....
         <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
       </p>
