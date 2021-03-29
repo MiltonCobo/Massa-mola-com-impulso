@@ -1,6 +1,6 @@
 let numberOfEvaluations = endInterval * 5e3;
 
-const duration = 24e3;
+const duration = 20e3;
 // const timeFactor = 1e3;
 
 let inMotion = true; // to stop all animations when dragging
@@ -36,14 +36,6 @@ function run(posInitial, data) {
 
 //-------------------ANIMATION -------------------------------------------------
 function setAnimation(posInitial) {
-  // omega2 = Number(omega2);
-  // omega2 = Number(omega2);
-
-  // if (isNaN(omega2)) {
-  //   alert("DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais");
-  //   return;
-  // }
-
   turtle.setPos(0, posInitial);
 
   function externalForce(t) {
