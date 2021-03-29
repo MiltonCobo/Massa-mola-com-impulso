@@ -17,7 +17,18 @@ const input2 = document.getElementById("inputOmega2");
 
 input2.onchange = function () {
   omega2 = Number(input2.value);
-  console.log("changing value omega2", omega2);
+  if (isNaN(omega2)) {
+    // inMotion = true;
+    // board.suspendUpdate();
+    alert("DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais");
+    // turtle.clearScreen();
+    // board.unsuspendUpdate();
+    // inMotion = false;
+    // return;
+    omega2 = 1.9;
+    input2.value = "1.9";
+  }
+
   inMotion = true;
   board.stopAllAnimation();
   inMotion = false; // important set false before setAnimation()
@@ -27,8 +38,8 @@ input2.onchange = function () {
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 25, endInterval, -50],
-  maxboundingbox: [-10, 25, endInterval, -50],
+  boundingbox: [-10, 30, endInterval, -50],
+  maxboundingbox: [-10, 30, endInterval, -50],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
@@ -152,8 +163,8 @@ xaxis = board.create(
 const line = board.create(
   "line",
   [
-    [0, 8],
-    [0, -10],
+    [0, 10],
+    [0, -12],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
@@ -172,19 +183,19 @@ const turtle = board.create("turtle", [0, 0], {
   withLabel: true,
 });
 
-const springHangup = board.create("point", [0, 20], {
+const springHangup = board.create("point", [0, 25], {
   color: "black",
   name: "<strong>Mola</strong>",
   fixed: true,
 });
-const springHangup2 = board.create("point", [0, -20], {
+const springHangup2 = board.create("point", [0, -30], {
   color: "black",
   name: "<strong>Mola 2, Força Externa</strong>",
   // label: { position: "bot", offset: [-15, -20] },
   fixed: true,
 });
 
-let numberOfSpringRings = 14;
+let numberOfSpringRings = 16;
 let springRings = [],
   springRings2 = [];
 
@@ -261,7 +272,7 @@ board.create("segment", [springHangup2, springRings2[0]], {
 board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
   color: "black",
   strokeWidth: 1,
-  strokeOpacity: 0.3,
+  strokeOpacity: 0.1,
 });
 
 //-------------END DEFINING OBJECTS ----------------------------------
@@ -282,7 +293,7 @@ const slidersInfo = [
     name: "F_0",
     xpos: xSliders + 40,
     ypos: ySliders,
-    values: [0, 1.2, 2],
+    values: [0, 4, 4],
     label: "Coeficiente da força externa",
   },
   // {
@@ -300,7 +311,7 @@ let sliders = []; // an object that contains the sliders of gamma and F0
 slidersInfo.forEach((sl, index) => {
   sliders[index] = board.create(
     "slider",
-    [[sl.xpos, sl.ypos], [sl.xpos + 15, sl.ypos], sl.values],
+    [[sl.xpos, sl.ypos], [sl.xpos + 20, sl.ypos], sl.values],
     { name: sl.name, strokeColor: "Green", fillColor: "Green" }
   );
   board.create("text", [sl.xpos, sl.ypos - 4, sl.label], {
@@ -332,15 +343,15 @@ function handleResize() {
     oldHeight = theWidth; // KEEP OLD VALUES
 
     // if (theWidth < 800) {
-    //   sliders[0].moveTo([0, ySliders]);
+    //   sliders[0].setPositionDirectly(JXG.COORDS_BY_USER, [20, -20]);
     //   console.log("changing");
     // }
-    // let height = Math.min(theWidth, theWidth, 400);
+    let height = Math.min(0.92 * theWidth, theHeight, 400);
     let width = Math.min(0.92 * theWidth, 800);
 
-    board.resizeContainer(width, 440);
+    board.resizeContainer(width, height);
     // board.clearTraces();
-    board.update();
+    board.fullUpdate();
   }
 }
 
