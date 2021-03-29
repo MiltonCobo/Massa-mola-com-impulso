@@ -334,13 +334,13 @@ function handleOrientationChange() {
     oldWidth = theWidth;
     oldHeight = theWidth; // reset values of width, height
 
-    let height = Math.min(0.9 * theWidth, theHeight, 400);
+    // let height = Math.min(0.9 * theWidth, theHeight, 400);
     let width = 0.9 * theWidth;
 
-    theHeight = Math.min(theWidth, theWidth, 550); // theHeight  = min()
-    console.log("width = ", theWidth, " Height = ", theHeight);
-    console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
-    console.log("the new Height is", height);
+    // theHeight = Math.min(theWidth, theWidth, 550); // theHeight  = min()
+    // console.log("width = ", theWidth, " Height = ", theHeight);
+    // console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    // console.log("the new Height is", height);
 
     board.resizeContainer(width, 440);
     board.update();
@@ -363,12 +363,12 @@ function handleResize() {
     oldWidth = theWidth;
     oldHeight = theWidth;
 
-    let height = Math.min(theWidth, theWidth, 400);
+    // let height = Math.min(theWidth, theWidth, 400);
     let width = 0.92 * theWidth;
 
-    console.log("width = ", theWidth, " Height = ", theHeight);
-    console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
-    console.log("the new Height is", height);
+    // console.log("width = ", theWidth, " Height = ", theHeight);
+    // console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    // console.log("the new Height is", height);
 
     board.resizeContainer(width, 440);
     board.update();
