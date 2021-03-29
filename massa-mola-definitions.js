@@ -81,8 +81,8 @@ xaxis = board.create(
 // JXG.Options.axis.ticks.insertTicks = false;
 // JXG.Options.axis.ticks.ticksDistance = 50;
 
-let ySliders = -20;
-let xSliders = 20;
+let ySliders = -30;
+let xSliders = 5;
 
 const slidersInfo = [
   {
@@ -222,7 +222,7 @@ const springHangup = board.create("point", [0, 20], {
 const springHangup2 = board.create("point", [0, -20], {
   color: "black",
   name: "<strong>Mola 2, Força Externa</strong>",
-  label: { position: "bot", offset: [-15, -20] },
+  // label: { position: "bot", offset: [-15, -20] },
   fixed: true,
 });
 
@@ -364,11 +364,11 @@ function handleResize() {
     oldHeight = theWidth;
 
     // let height = Math.min(theWidth, theWidth, 400);
-    let width = 0.92 * theWidth;
+    let width = Math.min(0.92 * theWidth, 800);
 
-    // console.log("width = ", theWidth, " Height = ", theHeight);
-    // console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
-    // console.log("the new Height is", height);
+    console.log("width = ", theWidth, " Height = ", theHeight);
+    console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    console.log("the new Height is", height);
 
     board.resizeContainer(width, 440);
     board.update();
