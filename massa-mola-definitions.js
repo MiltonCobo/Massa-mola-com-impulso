@@ -310,59 +310,64 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 
 //----------------REACTIVITY----------------------------------------------------
 let wrapper = document.getElementById("wrapper");
-let orientationToggle = false;
+
 // window.addEventListener("orientationchange", handleResize);
 window.onorientationchange = handleOrientationChange;
 
 window.addEventListener("resize", handleResize, false);
 
-function handleOrientationChange() {
-  inMotion = true;
-  board.stopAllAnimation();
+let oldWidth = wrapper.getBoundingClientRect().width; // save initial values of width,height
+let oldHeight = wrapper.getBoundingClientRect().height;
 
+function handleOrientationChange() {
   wrapper.style.width = "";
   wrapper.style.height = "";
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
-  console.log("width = ", theWidth, " Height = ", theHeight);
+  if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
+    // only call when big change
 
-  if (theWidth > theHeight) {
-    console.log("portrait mode");
+    inMotion = true;
+    board.stopAllAnimation();
+    oldWidth = theWidth;
+    oldHeight = theWidth; // reset values of width, height
+
+    theHeight = Math.min(theWidth, theWidth, 550); // theHeight  = min()
+    console.log("width = ", theWidth, " Height = ", theHeight);
+    console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    console.log("the new Height is", theHeight);
+
+    board.resizeContainer(theWidth * 0.92, theHeight);
+    board.update();
+
+    inMotion = false;
+    turtle.clearScreen();
+    setAnimation(0);
   }
-
-  theHeight = 800 < theHeight ? 800 : theHeight;
-  console.log("the new Height is", theHeight);
-
-  board.resizeContainer(theWidth * 0.92, theHeight);
-  board.update();
-
-  inMotion = false;
-  turtle.clearScreen();
-  setAnimation(0);
 }
 function handleResize() {
-  inMotion = true;
-  // board.stopAllAnimation();
-
   wrapper.style.width = "";
   wrapper.style.height = "";
   let theWidth = wrapper.getBoundingClientRect().width;
   let theHeight = wrapper.getBoundingClientRect().height;
 
-  console.log("width = ", theWidth, " Height = ", theHeight);
+  if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
+    inMotion = true;
+    board.stopAllAnimation();
 
-  if (theWidth > theHeight) {
-    console.log("portrait mode");
+    oldWidth = theWidth;
+    oldHeight = theWidth;
+    theHeight = Math.min(theWidth, theWidth, 550);
+    console.log("width = ", theWidth, " Height = ", theHeight);
+    console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    console.log("the new Height is", theHeight);
+
+    board.resizeContainer(theWidth * 0.92, theHeight);
+    board.update();
+
+    inMotion = false;
+    turtle.clearScreen();
+    setAnimation(0);
   }
-
-  theHeight = 650 < theHeight ? 650 : theHeight;
-  console.log("the new Height is", theHeight);
-
-  board.resizeContainer(theWidth * 0.92, theHeight);
-  board.update();
-
-  inMotion = false;
-  // turtle.clearScreen();
-  // setAnimation(0);
 }
