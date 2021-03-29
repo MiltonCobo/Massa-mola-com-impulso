@@ -328,8 +328,10 @@ function handleOrientationChange() {
   if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
     // only call when big change
 
-    inMotion = true;
-    board.stopAllAnimation();
+    // inMotion = true;
+    // board.stopAllAnimation();
+
+    // board.suspendUpdate();
 
     oldWidth = theWidth;
     oldHeight = theWidth; // reset values of width, height
@@ -343,11 +345,13 @@ function handleOrientationChange() {
     // console.log("the new Height is", height);
 
     board.resizeContainer(width, 440);
+    // board.clearTraces();
     board.update();
 
-    inMotion = false;
-    turtle.clearScreen();
-    setAnimation(0);
+    // inMotion = false;
+    // turtle.clearScreen();
+    // setAnimation(pointString.Y());
+    // board.unsuspendUpdate();
   }
 }
 function handleResize() {
@@ -357,8 +361,9 @@ function handleResize() {
   let theHeight = wrapper.getBoundingClientRect().height;
 
   if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
-    inMotion = true;
-    board.stopAllAnimation();
+    // inMotion = true;
+    // board.stopAllAnimation();
+    // board.suspendUpdate();
 
     oldWidth = theWidth;
     oldHeight = theWidth;
@@ -366,15 +371,18 @@ function handleResize() {
     // let height = Math.min(theWidth, theWidth, 400);
     let width = Math.min(0.92 * theWidth, 800);
 
-    console.log("width = ", theWidth, " Height = ", theHeight);
-    console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
-    console.log("the new Height is", height);
+    // console.log("width = ", theWidth, " Height = ", theHeight);
+    // console.log("oldWidth = ", oldWidth, " oldHeight =", oldHeight);
+    // console.log("the new Height is", height);
 
     board.resizeContainer(width, 440);
+    // board.clearTraces();
     board.update();
 
-    inMotion = false;
-    turtle.clearScreen();
-    setAnimation(0);
+    // inMotion = false;
+    // turtle.clearScreen();
+
+    // setAnimation(pointString.Y());
+    // board.suspendUpdate();
   }
 }
