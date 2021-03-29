@@ -346,7 +346,7 @@ function handleResize() {
     //   sliders[0].setPositionDirectly(JXG.COORDS_BY_USER, [20, -20]);
     //   console.log("changing");
     // }
-    let height = Math.min(0.92 * theWidth, theHeight, 400);
+    let height = Math.min(0.92 * theWidth, theHeight, 480);
     let width = Math.min(0.92 * theWidth, 800);
 
     board.resizeContainer(width, height);
