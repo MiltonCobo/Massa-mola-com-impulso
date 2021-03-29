@@ -114,6 +114,10 @@
 
 
     <div style="font-family: Arial, Helvetica, sans-serif; padding: 3%;">
+      <p>Digite o valor de $\omega$, a frequência da força externa:
+        <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
+      </p>
+      </br>
       <p> O sistema massa-mola com impulso corresponde à equação diferencial:
         $$ \color{red}{m} \, u'' + \color{red}{\gamma}\, u' + \color{red}{k}\, u = \color{red}{F_0}\, \cos(
         \color{red}{\omega} t),$$ onde:
@@ -130,14 +134,16 @@
       <ol>
         <li>Vamos a supor primeiro que não há amortecimento, i.e., \( \gamma = 0. \)</li>
       </ol>
-      Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
-      (digamos $\omega = 1.9$), então aparece o fenômeno conhecido como <strong>batimentos.</strong>
-
-      Notamos que quando $\omega\longrightarrow \infty$ então a amplitude do movimento tende para zero.
-
-      Você pode verificar estes fatos digitando os valores de $\omega$ no input:
-      <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
+      <p>
+        Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
+        (digamos $\omega = 1.9$), então aparece o fenômeno conhecido como <strong>batimentos.</strong>
       </p>
+      <p>
+        Notamos que quando $\omega\longrightarrow \infty$ então a amplitude do movimento tende para zero.
+      </p>
+
+      <p>Você pode verificar estes fatos digitando os valores de $\omega$ no input acima.</p>
+
 
     </div>
   </div>
