@@ -23,7 +23,7 @@ function run(posInitial, data) {
     let tIndex = Math.floor((t / duration) * numberOfEvaluations);
 
     if (inMotion && board.mode === board.BOARD_MODE_DRAG) {
-      // dragging clear turtle....
+      // if dragging then clear turtle....
       turtle.clearScreen();
     } else {
       let inc = (interval[1] - interval[0]) / numberOfEvaluations; // increment in the t-axis
@@ -39,10 +39,10 @@ function setAnimation(posInitial) {
   // omega2 = Number(omega2);
   // omega2 = Number(omega2);
 
-  if (isNaN(omega2)) {
-    alert("DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais");
-    return;
-  }
+  // if (isNaN(omega2)) {
+  //   alert("DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais");
+  //   return;
+  // }
 
   turtle.setPos(0, posInitial);
 
