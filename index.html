@@ -120,30 +120,32 @@
     </p>
 
     <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 3%;">
-      <p> O sistema massa-mola com impulso corresponde à equação diferencial:
+      <p> A posição $u(t)$ (na vertical) de uma massa presa a duas molas corresponde à equação diferencial:
         $$ \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\, u =
         \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
-        $$ m \, u'' = \sum \text{forças} = F_m + F_a + F_e $$ onde:
+        $$ m \, u'' = \sum \text{forças} = \text{Peso} + F_m + F_a + F_e $$ onde:
       <ol>
         <li> \( \color{royalblue}{m} \) é a massa do objeto;</li></br>
-        <li> \( F_m = -\color{royalblue}{k} \, u \) é a força da mola (lei de Hooke);</li></br>
-        <li> \( F_a = -\color{royalblue}{\gamma} \, u' \) é a força de amortecimento;</li></br>
+        <li> \( F_m = -\color{royalblue}{k} \, (\ell + u) \) é a força da mola (lei de Hooke) e o sistema fica em
+          equilibrio quando o esticamento da mola é $ \ell $, i.e., temos $ \text{Peso} = k\ell $ ;</li></br>
+        <li> \( F_a = -\color{royalblue}{\gamma} \, u' \) é a força de amortecimento. Uma aproximação mais realista
+          seria $ F_a = -\color{royalblue}{\gamma} \, (u')^2 $ mas neste caso a equação não ficaria linear e não seria
+          possível resolve-la manualmente ;</li></br>
         <li> $ F_e(t) = \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t) $ é uma força externa, \(
           \color{royalblue}{\omega} \) é a frequência da força externa e $\color{royalblue}{F_0}$ e um
           coeficiente
-          constante.</li><br>
-        <li>A frequência natural (ou interna) do sistema é dada por :
+          constante ;</li><br>
+        <li>A frequência natural do sistema,
           $ \color{royalblue}{\omega_0} = \sqrt{\color{royalblue}{k/m} }$
-          e neste exemplo será fixada $ \omega_0 = 2. $</li>
+          e neste exemplo será fixada $ \color{royalblue}{\omega_0} = 2. $</li>
       </ol>
 
-      <p>Vamos a supor que não há amortecimento, i.e., \( \gamma = 0. \)
+      <p>Vamos a supor que não há amortecimento, i.e., \( \color{royalblue}{\gamma} = 0. \)
 
         Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
         (digamos $\omega = 1.9$), então aparece o fenômeno conhecido como <strong>batimentos.</strong>
 
-        Finalmente notamos que quando $\omega$ tende para infinito então a amplitude do movimento tende para zero.
-        Você
+        Finalmente notamos que quando $\omega$ tende para infinito então a amplitude do movimento tende para zero. Você
         pode
         verificar estes fatos digitando os valores de $\omega$ no input acima.</p>
 
