@@ -71,26 +71,6 @@ xaxis = board.create(
     },
   }
 );
-// xaxis = board.create(
-//   "axis",
-//   [
-//     [0, 0],
-//     [0, 1],
-//   ],
-//   {
-//     name: "<strong>u(t)</strong>",
-//     withLabel: true,
-//     ticks: { visible: false },
-//     label: {
-//       position: "left", // possible values are 'lft', 'rt', 'top', 'bot'
-//       offset: [10, 40], // (in pixels)
-//     },
-//   }
-// );
-
-// JXG.Options.axis.ticks.majorHeight = 60;
-// JXG.Options.axis.ticks.insertTicks = false;
-// JXG.Options.axis.ticks.ticksDistance = 50;
 
 //--------------------------------INPUT OF OMEGA2---------------------------------
 
@@ -343,8 +323,8 @@ function handleResize() {
     oldWidth = theWidth;
     oldHeight = theWidth; // KEEP OLD VALUES
 
-    let height = Math.min(0.92 * theWidth, theHeight, 400);
-    let width = Math.min(0.92 * theWidth, 800); /* maximum width is 800 */
+    let height = Math.min(theWidth, theHeight, 400);
+    let width = Math.min(theWidth, 800); /* maximum width is 800 */
 
     board.resizeContainer(width, height);
     // board.clearTraces();
