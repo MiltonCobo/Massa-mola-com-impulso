@@ -119,9 +119,9 @@
       <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
     </p>
 
-    <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 3%;">
+    <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 3% 5%;">
       <p> A posição $u(t)$ (na vertical) de uma massa presa a duas molas corresponde à equação diferencial:
-        $$ \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\, u =
+        $$ \text{(1)} \quad \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\, u =
         \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
         $$ m \, u'' = \sum \text{forças} = \text{Peso} + F_m + F_a + F_e $$ onde:
       <ol>
@@ -141,17 +141,68 @@
           e neste exemplo será fixada $ \color{royalblue}{\omega_0} = 2. $</li>
       </ol>
 
-      <p>Vamos a supor que não há amortecimento, i.e., \( \color{royalblue}{\gamma} = 0. \)
+      A solução da equação diferencial (1) tem a forma $$ u(t) = u_h(t) + u_p(t) $$ onde $u_h(t) =
+      \color{darkgreen}{c_1}
+      u_1(t) + \color{darkgreen}{c_2} u_2(t) $ é a solução geral da equação homogênea associada e $u_p(t) $ é uma
+      solução
+      particular de (1). Se temos amortecimento ($\color{royalblue}{\gamma} \neq 0$) então a parte homogênea se dissipa
+      com o passar do tempo: $\lim_{t\to\infty} u_h(t) = 0$ e a solução $u(t)$ de (1) converge para a solução
+      particular. Note que as condições iniciais só determinam os parâmetros
+      $\color{green}{c_1}$ e $\color{green}{c_2}$ e portanto as condições iniciais não influenciam o comportamento
+      assintótico da solução.
 
-        Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
-        (digamos $\color{royalblue}{\omega} = 1.9$), então aparece o fenômeno conhecido como
-        <strong>batimentos.</strong>
+      Por esta razão $u_h(t)$ é chamada de solução <strong>transiente</strong> e
+      $u_p(t)$ é chamada de solução <strong>estacionária ou forçada.</strong>
 
-        Finalmente notamos que quando $\color{royalblue}{\omega}$ tende para infinito então a amplitude do movimento
-        tende para zero. Você
-        pode
-        verificar estes fatos digitando os valores de $\color{royalblue}{\omega}$ no input acima.
-      </p>
+      <ol type="I">
+        <li>
+          Consideramos primeiro o caso com amortecimento, i.e., \( \color{royalblue}{\gamma} \neq 0. \)
+        </li>
+        <ol>
+          <li type="a">
+            Podemos verificar na animação que se o amortecimento for muito pequeno e a frequência externa
+            $\color{royalblue}{\omega}$ for muito próxima ou igual à frequência natural $\color{royalblue}{\omega_0}$,
+            então a amplitude do movimento aumenta com o passar do tempo. Isto é chamado de <strong>ressonância</strong>
+            e é muito importante me projetos de engenharia, pois pode fazer colapsar uma estrutura. </li>
+        </ol>
+
+        <li>
+          Vamos a supor agora que não há amortecimento, i.e., \( \color{royalblue}{\gamma} = 0. \)
+        </li>
+        <ol type="a">
+          <li>Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
+            (digamos $\color{royalblue}{\omega} = 1.9$), então aparece o fenômeno conhecido como
+            <strong>batimentos.</strong>
+          </li>
+          <li>
+            Notamos também que quando $\color{royalblue}{\omega}$ tende para infinito então a amplitude do movimento
+            tende para zero. Você
+            pode
+            verificar estes fatos digitando os valores de $\color{royalblue}{\omega}$ no input acima.</li>
+          <li>Se a frequência externa
+            $\color{royalblue}{\omega}$ for igual à frequência natural $\color{royalblue}{\omega_0}$ do sistema
+            então a amplitude do movimento aumenta (linearmente) com o passar do tempo. De novo temos o fenômeno de
+            <strong>ressonância.</strong> Isto acontece porque a solução particular $u_p(t)$ deve ter a forma $$ u_p(t)
+            = t\cdot \left( \color{green}{A} \cos(\color{green}{\omega_0}\, t) + \color{green}{B}
+            \sin(\color{green}{\omega_0}\, t) \right), $$ e usando o método dos coeficientes indeterminados obtemos
+            $$
+            u_p(t)
+            = t\cdot ({1\over 2\color{green}{\omega_0}}) \sin(\color{green}{\omega_0}\, t), $$ portanto a solução geral
+            da equação (1) é dada por
+            $$ u(t) = \color{green}{c_1} \cos(\color{green}{\omega_0}\, t) + \color{green}{c_2}
+            \sin(\color{green}{\omega_0}\, t) + t\cdot ({1\over 2\color{green}{\omega_0}})
+            \sin(\color{green}{\omega_0}\, t) $$
+            e o termo $t$ faz com que o módulo desta solução creça linearmente quando o tempo passa.
+
+          </li>
+        </ol>
+
+      </ol>
+
+
+
+
+
 
     </div>
   </div>
