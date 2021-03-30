@@ -1,6 +1,6 @@
 let numberOfEvaluations = endInterval * 5e3;
 
-const duration = 20e3;
+const duration = 24e3;
 // const timeFactor = 1e3;
 
 let inMotion = true; // to stop all animations when dragging

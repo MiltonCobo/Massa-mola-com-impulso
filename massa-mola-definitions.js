@@ -1,6 +1,6 @@
 const incOmega = 0.1;
 const period = (2 * Math.PI) / incOmega; // period of slow sine wave
-const endInterval = 2 * Math.floor(period); // more or less two periods
+const endInterval = 2.5 * Math.floor(period); // more or less two periods
 const interval = [0, endInterval];
 
 let friction = 0.0,
@@ -279,7 +279,7 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 
 // -----------------------------------CREATE SLIDERS -----------------------------------
 
-let ySliders = -40; // positions of sliders depending on wrapper width
+let ySliders = -45; // positions of sliders depending on wrapper width
 let xSliders = 0;
 const slidersInfo = [
   {
@@ -291,7 +291,7 @@ const slidersInfo = [
   },
   {
     name: "F_0",
-    xpos: xSliders + 40,
+    xpos: xSliders + 50,
     ypos: ySliders,
     values: [0, 3.2, 4],
     label: "Coeficiente da força externa",
@@ -343,7 +343,7 @@ function handleResize() {
     oldWidth = theWidth;
     oldHeight = theWidth; // KEEP OLD VALUES
 
-    let height = Math.min(0.92 * theWidth, theHeight, 480);
+    let height = Math.min(0.92 * theWidth, theHeight, 400);
     let width = Math.min(0.92 * theWidth, 800); /* maximum width is 800 */
 
     board.resizeContainer(width, height);
