@@ -140,11 +140,7 @@
       \color{darkgreen}{c_1}
       u_1(t) + \color{darkgreen}{c_2} u_2(t) $ é a solução geral da equação homogênea associada e $u_p(t) $ é uma
       solução
-      particular de (1). Se temos amortecimento ($\gamma \neq 0$) então a parte homogênea se dissipa
-      com o passar do tempo: $\lim_{t\to\infty} u_h(t) = 0$ e a solução $u(t)$ de (1) converge para a solução
-      particular. Note que as condições iniciais só determinam os parâmetros
-      $\color{green}{c_1}$ e $\color{green}{c_2}$ e portanto as condições iniciais não influenciam o comportamento
-      assintótico da solução.
+      particular de (1).
 
       Por esta razão $u_h(t)$ é chamada de solução <strong>transiente</strong> e
       $u_p(t)$ é chamada de solução <strong>estacionária ou forçada.</strong>
@@ -153,13 +149,32 @@
         <li>
           Consideramos primeiro o caso com amortecimento, i.e., \( \gamma \neq 0. \)
         </li>
+        <p>Neste caso é possível mostrar que a parte homogênea se dissipa
+          com o passar do tempo: $$\lim_{t\to\infty} u_h(t) = 0,$$ isto porque aparece uma exponencial
+          $\text{e}^{-c\gamma t}$ com $c>0,$ que mata a parte homogênea. Sendo assim, a solução $u(t)$ de (1)
+          converge para a solução particular. Note que as condições iniciais só determinam os parâmetros
+          $\color{green}{c_1}$ e $\color{green}{c_2}$ e portanto as condições iniciais não influenciam o comportamento
+          assintótico da solução.</p>
         <ol>
           <li type="a">
-            Podemos verificar na animação que se o amortecimento for muito pequeno e a frequência externa
+            <strong>Ressonância:</strong> Podemos verificar na animação que se o amortecimento for muito pequeno e a
+            frequência externa
             $\omega$ for muito próxima ou igual à frequência natural $\omega_0$,
-            então a amplitude do movimento aumenta com o passar do tempo. Isto é chamado de <strong>ressonância</strong>
-            e é muito importante em projetos de engenharia, pois pequenas ressonâncias podem colapsar uma estrutura.
-          </li>
+            então a amplitude do movimento aumenta com o passar do tempo. Isto é chamado de ressonância
+            e é muito importante em projetos de engenharia, pois pequenas ressonâncias podem colapsar uma estrutura. De
+            fato, se deixamos variar $\omega$ e fixamos todos os demais parâmetros do problema, pode-se mostrar que a
+            solução particular toma a forma
+            $$ u_p(t) = R_\omega \cos(\omega t - \delta_\omega), $$ onde a função $R(\omega)=R_\omega$ satisfaz que
+            $$ R(0)= F_0/ k > 0 \quad\text{e}\quad R(\infty) = 0. $$ Isto sugere que $R(\omega)$ pode apresentar um
+            ponto de máximo para um $\omega = \omega_{max}$ positivo. Resolvendo $R'(\omega) = 0$ obtemos $$
+            \omega_{max}^2
+            = \omega_0^2 \left(1-\gamma^2/2km \right). $$ Então $\omega_{max}$ é imaginário se $ \gamma^2 > 2km, $ i.e.,
+            não existe maximo.
+            </br>
+            Agora se $\gamma$ é pequeno, $0<\gamma^2 < 2km,$ então a amplitude máxima se obtem em $R(\omega_{max}) $ e é
+              aproximadamente igual, se $\gamma$ for muito pequeno, a $$R(\omega_{max}) \approx {F_0\over
+              \gamma\omega_0}.$$ Desta forma, se $\gamma$ for muito pequeno, a amplitude do movimento pode ser muito
+              grande, mesmo que a força externa seja também pequena. </li>
         </ol>
 
         <li>
