@@ -1,6 +1,6 @@
 const incOmega = 0.1;
 const period = (2 * Math.PI) / incOmega; // period of slow sine wave
-const endInterval = 2 * Math.floor(period); // more or less two periods
+const endInterval = 2.5 * Math.floor(period); // more or less two periods
 const interval = [0, endInterval];
 
 let friction = 0.0,
@@ -71,26 +71,6 @@ xaxis = board.create(
     },
   }
 );
-// xaxis = board.create(
-//   "axis",
-//   [
-//     [0, 0],
-//     [0, 1],
-//   ],
-//   {
-//     name: "<strong>u(t)</strong>",
-//     withLabel: true,
-//     ticks: { visible: false },
-//     label: {
-//       position: "left", // possible values are 'lft', 'rt', 'top', 'bot'
-//       offset: [10, 40], // (in pixels)
-//     },
-//   }
-// );
-
-// JXG.Options.axis.ticks.majorHeight = 60;
-// JXG.Options.axis.ticks.insertTicks = false;
-// JXG.Options.axis.ticks.ticksDistance = 50;
 
 //--------------------------------INPUT OF OMEGA2---------------------------------
 
@@ -279,7 +259,7 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 
 // -----------------------------------CREATE SLIDERS -----------------------------------
 
-let ySliders = -40; // positions of sliders depending on wrapper width
+let ySliders = -45; // positions of sliders depending on wrapper width
 let xSliders = 0;
 const slidersInfo = [
   {
@@ -291,7 +271,7 @@ const slidersInfo = [
   },
   {
     name: "F_0",
-    xpos: xSliders + 40,
+    xpos: xSliders + 60,
     ypos: ySliders,
     values: [0, 3.2, 4],
     label: "Coeficiente da força externa",
@@ -311,7 +291,7 @@ let sliders = []; // an object that contains the sliders of gamma and F0
 slidersInfo.forEach((sl, index) => {
   sliders[index] = board.create(
     "slider",
-    [[sl.xpos, sl.ypos], [sl.xpos + 20, sl.ypos], sl.values],
+    [[sl.xpos, sl.ypos], [sl.xpos + 30, sl.ypos], sl.values],
     { name: sl.name, strokeColor: "olive", fillColor: "olive" }
   );
   board.create("text", [sl.xpos, sl.ypos - 6, sl.label], {
@@ -343,10 +323,10 @@ function handleResize() {
     oldWidth = theWidth;
     oldHeight = theWidth; // KEEP OLD VALUES
 
-    let height = Math.min(0.92 * theWidth, theHeight, 480);
-    let width = Math.min(0.92 * theWidth, 800); /* maximum width is 800 */
+    // let height = Math.min(theWidth, theHeight, 400);
+    // let width = Math.min(theWidth, 800); /* maximum width is 800 */
 
-    board.resizeContainer(width, height);
+    board.resizeContainer(theWidth, theHeight);
     // board.clearTraces();
     board.fullUpdate();
   }
