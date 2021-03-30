@@ -60,8 +60,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: 480px;
-      /* fixed the height of the wrapper everywhere.....*/
+      height: min(480px, 90vw);
+      /* when width is small it is set as the height, otherwise height = 480px everywhere....! */
       width: min(90vw, 800px);
     }
 
@@ -113,26 +113,30 @@
       \color{red}{\omega} t)$$</p> -->
     <div id="wrapper">
       <div id="jxgbox" class="jxgbox"></div>
-      <p>Digite o valor de $\omega$, a frequência da força externa:
-        <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
-      </p>
-    </div>
 
+    </div>
+    <p>Puxe levemente a massa para coloca-la em movimento. </br> Digite o valor de $\omega$, a frequência da força
+      externa:
+      <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
+    </p>
 
     <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 3%;">
       <p> O sistema massa-mola com impulso corresponde à equação diferencial:
-        $$ \color{red}{m} \, u'' + \color{red}{\gamma}\, u' + \color{red}{k}\, u = \color{red}{F_0}\, \cos(
-        \color{red}{\omega} t),$$ onde:
-      <ul>
-        <li> \( \color{red}{m} \) é a massa do objeto;</li></br>
-        <li> \( \color{red}{k} \) é a constante de Hooke associada à mola;</li></br>
-        <li> \( \color{red}{\gamma} \) é a constante de amortecimento;</li></br>
-        <li> \( \color{red}{\omega} \) é a frequência da força externa e $\color{red}{F_0}$ e um coeficiente constante.
-        </li><br>
-        <li> A frequência natural (ou interna) do sistema é dada por :
-          $ \color{red}{\omega_0} = \sqrt{\color{red}{k/m} }$
+        $$ \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\, u =
+        \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
+        $$ m \, u'' = \sum \text{forças} = F_m + F_a + F_e $$ onde:
+      <ol>
+        <li> \( \color{royalblue}{m} \) é a massa do objeto;</li></br>
+        <li> \( F_m = -\color{royalblue}{k} \, u \) é a força da mola (lei de Hooke);</li></br>
+        <li> \( F_a = -\color{royalblue}{\gamma} \, u' \) é a força de amortecimento;</li></br>
+        <li> $ F_e(t) = \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t) $ é uma força externa, \(
+          \color{royalblue}{\omega} \) é a frequência da força externa e $\color{royalblue}{F_0}$ e um
+          coeficiente
+          constante.</li><br>
+        <li>A frequência natural (ou interna) do sistema é dada por :
+          $ \color{royalblue}{\omega_0} = \sqrt{\color{royalblue}{k/m} }$
           e neste exemplo será fixada $ \omega_0 = 2. $</li>
-      </ul>
+      </ol>
 
       <p>Vamos a supor que não há amortecimento, i.e., \( \gamma = 0. \)
 
