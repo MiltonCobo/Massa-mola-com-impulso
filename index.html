@@ -64,7 +64,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      height: min(400px, 90vw);
+      height: min(440px, 90vw);
       /* when width is small it is set as the height, otherwise height = 480px everywhere....! */
       width: min(90vw, 800px);
     }
@@ -87,6 +87,10 @@
     @media screen and (max-width: 700px) {
       #container {
         font-size: 13px;
+      }
+
+      #wrapper {
+        height: min(300px, 100vw);
       }
     }
 
@@ -129,7 +133,8 @@
           corresponde no exemplo a uma segunda mola. \(
           \omega \) é a frequência com que oscila a segunda mola e
           ${F_0}$ e um
-          coeficiente que usamos para modificar a magnitud desta força, por exemplo se $F_0 = $ então o movimento é não
+          coeficiente que usamos para modificar a magnitud desta força, por exemplo se $F_0 = 0 $ então o movimento é
+          não
           forçado ;</li><br>
         <li>A frequência natural do sistema,
           $ \color{royalblue}{\omega_0} = \color{royalblue}{\sqrt{k/m} }$
@@ -162,7 +167,8 @@
             <strong>Ressonância:</strong> Podemos verificar na animação que se o amortecimento for muito pequeno e a
             frequência externa
             $\omega$ for muito próxima ou igual à frequência natural $\omega_0$,
-            então a amplitude do movimento aumenta com o passar do tempo. Isto é chamado de ressonância
+            então a amplitude do movimento fica grande mesmo fazendo o coeficiente $F_0$ muito pequeno (mas maior que
+            $\gamma$). Isto é chamado de ressonância
             e é muito importante em projetos de engenharia, pois pequenas ressonâncias podem colapsar uma estrutura. De
             fato, se deixamos variar $\omega$ e fixamos todos os demais parâmetros do problema, pode-se mostrar que a
             solução particular toma a forma
