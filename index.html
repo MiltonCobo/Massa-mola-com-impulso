@@ -125,27 +125,27 @@
         \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
         $$ m \, u'' = \sum \text{forças} = \text{Peso} + F_m + F_a + F_e $$ onde:
       <ol>
-        <li> \( \color{royalblue}{m} \) é a massa do objeto;</li></br>
-        <li> \( F_m = -\color{royalblue}{k} \, (\ell + u) \) é a força da mola (lei de Hooke) e o sistema fica em
+        <li> \( m \) é a massa do objeto;</li></br>
+        <li> \( F_m = -k \, (\ell + u) \) é a força da mola, segundo a famosa lei de Hooke, e o sistema fica em
           equilibrio quando o esticamento da mola é $ \ell $, i.e., temos $ \text{Peso} = k\ell $ ;</li></br>
-        <li> \( F_a = -\color{royalblue}{\gamma} \, u' \) é a força de amortecimento. Uma aproximação mais realista
-          seria $ F_a = -\color{royalblue}{\gamma} \, (u')^2 $ mas neste caso a equação não ficaria linear e não seria
+        <li> \( F_a = -\gamma \, u' \) é a força de amortecimento. Uma aproximação mais realista
+          seria $ F_a = -\gamma \, (u')^2 $ mas neste caso a equação não ficaria linear e não seria
           possível resolve-la manualmente ;</li></br>
-        <li> $ F_e(t) = \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t) $ é uma força externa, que
+        <li> $ F_e(t) = F_0\, \cos(\omega t) $ é uma força externa, que
           corresponde no exemplo a uma segunda mola. \(
-          \color{royalblue}{\omega} \) é a frequência externa, i.e., a frequência da segunda mola e
-          $\color{royalblue}{F_0}$ e um
+          \omega \) é a frequência externa, i.e., a frequência da segunda mola e
+          ${F_0}$ e um
           coeficiente que usamos para modificar a magnitud desta força ;</li><br>
         <li>A frequência natural do sistema,
-          $ \color{royalblue}{\omega_0} = \sqrt{\color{royalblue}{k/m} }$
-          e neste exemplo será fixada $ \color{royalblue}{\omega_0} = 2. $</li>
+          $ \color{royalblue}{\omega_0} = \color{royalblue}{\sqrt{k/m} }$
+          será fixada neste exemplo: $ \omega_0 = 2. $</li>
       </ol>
 
       A solução da equação diferencial (1) tem a forma $$ u(t) = u_h(t) + u_p(t) $$ onde $u_h(t) =
       \color{darkgreen}{c_1}
       u_1(t) + \color{darkgreen}{c_2} u_2(t) $ é a solução geral da equação homogênea associada e $u_p(t) $ é uma
       solução
-      particular de (1). Se temos amortecimento ($\color{royalblue}{\gamma} \neq 0$) então a parte homogênea se dissipa
+      particular de (1). Se temos amortecimento ($\gamma \neq 0$) então a parte homogênea se dissipa
       com o passar do tempo: $\lim_{t\to\infty} u_h(t) = 0$ e a solução $u(t)$ de (1) converge para a solução
       particular. Note que as condições iniciais só determinam os parâmetros
       $\color{green}{c_1}$ e $\color{green}{c_2}$ e portanto as condições iniciais não influenciam o comportamento
@@ -156,42 +156,57 @@
 
       <ol type="I">
         <li>
-          Consideramos primeiro o caso com amortecimento, i.e., \( \color{royalblue}{\gamma} \neq 0. \)
+          Consideramos primeiro o caso com amortecimento, i.e., \( \gamma \neq 0. \)
         </li>
         <ol>
           <li type="a">
             Podemos verificar na animação que se o amortecimento for muito pequeno e a frequência externa
-            $\color{royalblue}{\omega}$ for muito próxima ou igual à frequência natural $\color{royalblue}{\omega_0}$,
+            $\omega$ for muito próxima ou igual à frequência natural $\omega_0$,
             então a amplitude do movimento aumenta com o passar do tempo. Isto é chamado de <strong>ressonância</strong>
             e é muito importante me projetos de engenharia, pois pode fazer colapsar uma estrutura. </li>
         </ol>
 
         <li>
-          Vamos a supor agora que não há amortecimento, i.e., \( \color{royalblue}{\gamma} = 0. \)
+          Vamos a supor agora que não há amortecimento, i.e., \( \gamma = 0. \)
         </li>
         <ol type="a">
           <li>Se a frequência da força externa for próxima, mas diferente da frequência natural do sistema
-            (digamos $\color{royalblue}{\omega} = 1.9$), então aparece o fenômeno conhecido como
-            <strong>batimentos.</strong>
+            (digamos $\omega = 1.9$), então pode acontecer o fenômeno conhecido como
+            <strong>batimentos.</strong> Isto acontece porque a solução geral da equação (1) é da forma
+            $$ u(t) = \color{green}{c_1} \cos(\omega_0\, t) + \color{green}{c_2}
+            \sin(\omega_0\, t) + {F_0\over m(\omega_0^2 -\omega^2)} \cos(\omega t) $$ e no caso especial de condições
+            iniciais $ u(0) = u'(0) = 0, $ temos
+            $$ u(t) = {F_0\over m(\omega_0^2 -\omega^2)} \left( \cos(\omega\, t) - \cos(\omega_0 t)\right) $$ que pode
+            ser escrita como
+            $$ \left[ {2F_0\over m(\omega_0^2 -\omega^2)} \sin\left({\omega_0-\omega \over 2}\, t\right)\right]
+            \sin\left({\omega_0 +
+            \omega \over 2}\, t\right) $$ onde podemos interpretar o termo
+            $$ R(t) = \left[ {2F_0\over m(\omega_0^2 -\omega^2)} \sin\left({\omega_0-\omega \over 2}\, t\right)\right]$$
+            como a
+            amplitude da solução oscilando com uma frequência pequena ${\omega_0-\omega \over 2}$ junto com uma
+            oscilação
+            $\sin({\omega_0
+            + \omega \over 2}\, t),$ com uma frequência muito maior ${\omega_0+\omega \over 2,}$ que oscila entre dentro
+            dos gráficos das funções $-R(t)$ e $+R(t).$
           </li>
           <li>
-            Notamos também que quando $\color{royalblue}{\omega}$ tende para infinito então a amplitude do movimento
+            Notamos também que quando $\omega$ tende para infinito então a amplitude do movimento
             tende para zero. Você
             pode
-            verificar estes fatos digitando os valores de $\color{royalblue}{\omega}$ no input acima.</li>
+            verificar estes fatos digitando os valores de $\omega$ no input acima.</li>
           <li>Se a frequência externa
-            $\color{royalblue}{\omega}$ for igual à frequência natural $\color{royalblue}{\omega_0}$ do sistema
+            $\omega$ for igual à frequência natural $\omega_0$ do sistema
             então a amplitude do movimento aumenta (linearmente) com o passar do tempo. De novo temos o fenômeno de
             <strong>ressonância.</strong> Isto acontece porque a solução particular $u_p(t)$ deve ter a forma $$ u_p(t)
-            = t\cdot \left( \color{green}{A} \cos(\color{green}{\omega_0}\, t) + \color{green}{B}
-            \sin(\color{green}{\omega_0}\, t) \right), $$ e usando o método dos coeficientes indeterminados obtemos
+            = t\cdot \left( \color{green}{A} \cos(\omega_0\, t) + \color{green}{B}
+            \sin(\omega_0\, t) \right), $$ e usando o método dos coeficientes indeterminados obtemos
             $$
             u_p(t)
-            = t\cdot ({1\over 2\color{green}{\omega_0}}) \sin(\color{green}{\omega_0}\, t), $$ portanto a solução geral
+            = t\cdot ({1\over 2\omega_0}) \sin(\omega_0\, t), $$ portanto a solução geral
             da equação (1) é dada por
-            $$ u(t) = \color{green}{c_1} \cos(\color{green}{\omega_0}\, t) + \color{green}{c_2}
-            \sin(\color{green}{\omega_0}\, t) + t\cdot ({1\over 2\color{green}{\omega_0}})
-            \sin(\color{green}{\omega_0}\, t) $$
+            $$ u(t) = \color{green}{c_1} \cos(\omega_0\, t) + \color{green}{c_2}
+            \sin(\omega_0\, t) + t\cdot ({1\over 2\omega_0})
+            \sin(\omega_0\, t) $$
             e o termo $t$ faz com que o módulo desta solução creça linearmente quando o tempo passa.
 
           </li>
