@@ -12,11 +12,11 @@ let omega2 = Math.sqrt(k / m) - incOmega;
 
 let omega = Math.sqrt(k / m);
 
-const input2 = document.getElementById("inputOmega2");
-// input2.value = omega2.toString();
+//------------------CHECK INPUT -----------------------------------------------------------
+const inputOmega2 = document.getElementById("inputOmega2");
 
-input2.onchange = function () {
-  omega2 = Number(input2.value);
+inputOmega2.onchange = function () {
+  omega2 = Number(inputOmega2.value);
   if (isNaN(omega2)) {
     // inMotion = true;
     // board.suspendUpdate();
@@ -26,7 +26,7 @@ input2.onchange = function () {
     // inMotion = false;
     // return;
     omega2 = 1.9;
-    input2.value = "1.9";
+    inputOmega2.value = "1.9";
   }
 
   inMotion = true;
@@ -136,7 +136,7 @@ xaxis = board.create(
 //   ],
 //   {
 //     fontSize: 18,
-//     color: "green",
+//     color: "olive",
 //     useMathJax: true,
 //   }
 // );
@@ -153,7 +153,7 @@ xaxis = board.create(
 //   ],
 //   {
 //     fontSize: 18,
-//     color: "green",
+//     color: "olive",
 //     useMathJax: true,
 //   }
 // );
@@ -177,9 +177,9 @@ const pointString = board.create("glider", [0, 0, line], {
 const turtle = board.create("turtle", [0, 0], {
   lastArrow: true,
   strokeWidth: 1.2,
-  strokeColor: "Green",
+  strokeColor: "olive",
   strokeOpacity: 1,
-  name: "<strong>  U(t)  </strong>",
+  name: "<strong>  u(t)  </strong>",
   withLabel: true,
 });
 
@@ -280,7 +280,7 @@ board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
 // -----------------------------------CREATE SLIDERS -----------------------------------
 
 let ySliders = -40; // positions of sliders depending on wrapper width
-let xSliders = 5;
+let xSliders = 0;
 const slidersInfo = [
   {
     name: "&gamma;",
@@ -293,7 +293,7 @@ const slidersInfo = [
     name: "F_0",
     xpos: xSliders + 40,
     ypos: ySliders,
-    values: [0, 4, 4],
+    values: [0, 3.2, 4],
     label: "Coeficiente da força externa",
   },
   // {
@@ -312,11 +312,12 @@ slidersInfo.forEach((sl, index) => {
   sliders[index] = board.create(
     "slider",
     [[sl.xpos, sl.ypos], [sl.xpos + 20, sl.ypos], sl.values],
-    { name: sl.name, strokeColor: "Green", fillColor: "Green" }
+    { name: sl.name, strokeColor: "olive", fillColor: "olive" }
   );
-  board.create("text", [sl.xpos, sl.ypos - 4, sl.label], {
-    strokeColor: "Green",
-    fillColor: "Green",
+  board.create("text", [sl.xpos, sl.ypos - 6, sl.label], {
+    strokeColor: "olive",
+    fillColor: "olive",
+    fixed: true,
   });
 });
 
@@ -342,12 +343,8 @@ function handleResize() {
     oldWidth = theWidth;
     oldHeight = theWidth; // KEEP OLD VALUES
 
-    // if (theWidth < 800) {
-    //   sliders[0].setPositionDirectly(JXG.COORDS_BY_USER, [20, -20]);
-    //   console.log("changing");
-    // }
-    let height = Math.min(0.92 * theWidth, theHeight, 400);
-    let width = Math.min(0.92 * theWidth, 800);
+    let height = Math.min(0.92 * theWidth, theHeight, 480);
+    let width = Math.min(0.92 * theWidth, 800); /* maximum width is 800 */
 
     board.resizeContainer(width, height);
     // board.clearTraces();
