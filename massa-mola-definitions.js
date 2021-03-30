@@ -271,7 +271,7 @@ const slidersInfo = [
   },
   {
     name: "F_0",
-    xpos: xSliders + 50,
+    xpos: xSliders + 60,
     ypos: ySliders,
     values: [0, 3.2, 4],
     label: "Coeficiente da força externa",
@@ -291,7 +291,7 @@ let sliders = []; // an object that contains the sliders of gamma and F0
 slidersInfo.forEach((sl, index) => {
   sliders[index] = board.create(
     "slider",
-    [[sl.xpos, sl.ypos], [sl.xpos + 20, sl.ypos], sl.values],
+    [[sl.xpos, sl.ypos], [sl.xpos + 30, sl.ypos], sl.values],
     { name: sl.name, strokeColor: "olive", fillColor: "olive" }
   );
   board.create("text", [sl.xpos, sl.ypos - 6, sl.label], {
@@ -323,10 +323,10 @@ function handleResize() {
     oldWidth = theWidth;
     oldHeight = theWidth; // KEEP OLD VALUES
 
-    let height = Math.min(theWidth, theHeight, 400);
-    let width = Math.min(theWidth, 800); /* maximum width is 800 */
+    // let height = Math.min(theWidth, theHeight, 400);
+    // let width = Math.min(theWidth, 800); /* maximum width is 800 */
 
-    board.resizeContainer(width, height);
+    board.resizeContainer(theWidth, theHeight);
     // board.clearTraces();
     board.fullUpdate();
   }
