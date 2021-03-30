@@ -38,8 +38,8 @@ inputOmega2.onchange = function () {
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 30, endInterval, -50],
-  maxboundingbox: [-10, 30, endInterval, -50],
+  boundingbox: [-10, 40, endInterval, -50],
+  maxboundingbox: [-10, 40, endInterval, -50],
   keepaspectratio: true,
   showNavigation: false,
   showCopyright: false,
