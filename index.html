@@ -26,6 +26,10 @@
         ],
         packages: ["base", "ams", "color"],
       },
+      CommonHTML: {
+        scale: 105,
+        linebreaks: { automatic: false }
+      },
       options: {
         ignoreHtmlClass: "tex2jax_ignore",
         processHtmlClass: "tex2jax_process",
@@ -80,27 +84,17 @@
     } */
 
 
-    /* @media (max-width: 1080px) {
-      .jxbox {
-        height: 0;
-        padding-bottom: 150%;
+    @media screen and (max-width: 600px) {
+      #container {
+        font-size: 14px;
       }
-
-      #wrapper {
-        height: 120vmin;
-        width: 96vw;
-      }
-    } */
+    }
 
     #container {
       display: flex;
       flex-direction: column;
       align-items: center;
       align-content: start;
-    }
-
-    p {
-      padding: 20px;
     }
   </style>
 </head>
@@ -119,7 +113,7 @@
       <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
     </p>
 
-    <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 3% 5%;">
+    <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 4% 5%;">
       <p> A posição $u(t)$ (na vertical) de uma massa presa a duas molas corresponde à equação diferencial:
         $$ \text{(1)} \quad \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\, u =
         \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
@@ -213,7 +207,7 @@
           da equação (1) é dada por $u(t) = u_h(t) + u_p(t)$ onde
           $$ u_h(t) = \color{green}{c_1} \cos(\omega_0\, t) + \color{green}{c_2}
           \sin(\omega_0\, t) $$ que permanece limitada quando o tempo vai a infinito
-          e o módulo de $u_p(t)$ cresce linearmente quando o tempo.
+          e o módulo de $u_p(t)$ cresce linearmente quando o tempo aumenta.
         </p>
 
 
