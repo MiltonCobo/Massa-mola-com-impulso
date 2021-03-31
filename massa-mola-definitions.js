@@ -190,7 +190,7 @@ spring1 = createSpringPoints(
 for (let i = 0; i < spring1.length - 1; i++) {
   board.create("segment", [spring1[i], spring1[i + 1]], {
     color: "black",
-    strokeWidth: 1,
+    strokeWidth: 1.5,
   });
 }
 
@@ -207,7 +207,7 @@ spring2 = createSpringPoints(
 for (let i = 0; i < spring2.length - 1; i++) {
   board.create("segment", [spring2[i], spring2[i + 1]], {
     color: "blue",
-    strokeWidth: 1,
+    strokeWidth: 2,
     strokeOpacity: 0.2, // -----make the chain
   });
 }
@@ -316,7 +316,7 @@ function createSpringPoints(p1, p2, n, color, opacity) {
           };
         })(i),
       ],
-      { withLabel: false, color: color, size: 1, opacity }
+      { withLabel: false, color: color, size: 2, opacity }
     );
   }
 
