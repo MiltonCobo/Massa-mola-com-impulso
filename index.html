@@ -182,10 +182,11 @@
             e é muito importante em projetos de engenharia, pois pequenas ressonâncias podem colapsar uma estrutura. De
             fato, se deixamos variar $\omega$ e fixamos todos os demais parâmetros do problema, pode-se mostrar que a
             solução particular toma a forma
-            $$ u_p(t) = R_\omega \cos(\omega t - \delta_\omega), $$ onde $R(\omega)=R_\omega$ é uma função de $\omega$
+            $$ u_p(t) = R(\omega) \cos(\omega t - \delta(\omega)), $$ onde a amplitude $R(\omega)$ é uma função da
+            frequência externa $\omega$
             cuja
             expressão vamos omitir neste texto. O importante é que ela satisfaz que
-            $ R_0= F_0/k > 0 $ e $ R_\infty = 0. $ Isto implica que
+            $ R(0)= F_0/k > 0 $ e $ R(\infty) = 0. $ Isto implica que
             $R(\omega)$ apresenta um
             ponto de máximo para $\omega \ge 0.$ Procura-se um ponto de máximo $\omega_{max}$ que seja estritamente
             positivo, onde deve acontecer que $R'(\omega_{max}) = 0$. Descobre-se que $\omega_{max}$ satisfaz a equação
