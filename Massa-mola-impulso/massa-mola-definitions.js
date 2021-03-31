@@ -175,85 +175,42 @@ const springHangup2 = board.create("point", [0, -30], {
   fixed: true,
 });
 
-let numberOfSpringRings = 16;
-let springRings = [],
-  springRings2 = [];
+const numberOfSpringRings = 16;
 
-for (let i = 0; i < numberOfSpringRings; i++) {
-  springRings[i] = board.create(
-    "point",
-    [
-      0.5 - (i % 2),
-      ((i) => {
-        return function () {
-          return (
-            springHangup.Y() -
-            (i + 1) *
-              Math.abs(
-                (springHangup.Y() - pointString.Y()) / (numberOfSpringRings + 1)
-              )
-          );
-        };
-      })(i),
-    ],
-    { withLabel: false, color: "black", size: 1 }
-  );
-  springRings2[i] = board.create(
-    "point",
-    [
-      0.5 - (i % 2),
-      ((i) => {
-        return function () {
-          return (
-            springHangup2.Y() +
-            (i + 1) *
-              Math.abs(
-                (springHangup2.Y() - pointString.Y()) /
-                  (numberOfSpringRings + 1)
-              )
-          );
-        };
-      })(i),
-    ],
-    {
-      withLabel: false,
-      color: "blue",
-      size: 2,
-      fillOpacity: 0.1,
-      strokeOpacity: 0.3,
-    }
-  );
-  if (i > 0) {
-    board.create("segment", [springRings[i - 1], springRings[i]], {
-      color: "black",
-      strokeWidth: 1,
-    });
-    board.create("segment", [springRings2[i - 1], springRings2[i]], {
-      color: "blue",
-      strokeWidth: 2,
-      strokeOpacity: 0.3,
-    });
-  }
+let spring1 = [];
+
+spring1 = createSpringPoints(
+  springHangup,
+  pointString,
+  numberOfSpringRings,
+  "black",
+  0.8
+); //----------------------create points of first string
+
+for (let i = 0; i < spring1.length - 1; i++) {
+  board.create("segment", [spring1[i], spring1[i + 1]], {
+    color: "black",
+    strokeWidth: 1,
+  });
 }
 
-board.create("segment", [springHangup, springRings[0]], {
-  color: "black",
-  strokeWidth: 1,
-});
-board.create("segment", [springRings[numberOfSpringRings - 1], pointString], {
-  color: "black",
-  strokeWidth: 1,
-});
-board.create("segment", [springHangup2, springRings2[0]], {
-  color: "black",
-  strokeWidth: 2,
-  strokeOpacity: 0.3,
-});
-board.create("segment", [springRings2[numberOfSpringRings - 1], pointString], {
-  color: "black",
-  strokeWidth: 1,
-  strokeOpacity: 0.1,
-});
+let spring2 = [];
+
+spring2 = createSpringPoints(
+  springHangup2,
+  pointString,
+  numberOfSpringRings,
+  "blue",
+  0.1
+); //----------------create points of second string
+
+for (let i = 0; i < spring2.length - 1; i++) {
+  board.create("segment", [spring2[i], spring2[i + 1]], {
+    color: "blue",
+    strokeWidth: 1,
+    strokeOpacity: 0.2, // -----make the chain
+  });
+}
 
 //-------------END DEFINING OBJECTS ----------------------------------
 
@@ -333,3 +290,35 @@ function handleResize() {
 }
 
 //---------------------------------END REACTIVITY ----------------------------------------------
+
+// ----------------------FUNCTION THAT CREATES STRING POINTS
+
+function createSpringPoints(p1, p2, n, color, opacity) {
+  let p = [];
+  let length = n;
+  p[0] = p1;
+  p[length - 1] = p2;
+  let direction = Math.sign(p2.Y() - p1.Y());
+
+  for (let i = 1; i < length - 1; i++) {
+    p[i] = board.create(
+      "point",
+      [
+        0.5 + direction * (i % 2),
+        ((i) => {
+          return function () {
+            return (
+              p[0].Y() +
+              direction *
+                (i + 1) *
+                Math.abs((p[0].Y() - p[length - 1].Y()) / (length + 1))
+            );
+          };
+        })(i),
+      ],
+      { withLabel: false, color: color, size: 1, opacity }
+    );
+  }
+
+  return p;
+}
