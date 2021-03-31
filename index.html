@@ -125,8 +125,11 @@
         $$ m \, u'' = \sum \text{forças} = \text{Peso} + F_m + F_a + F_e $$ onde:
       <ol>
         <li> \( m \) é a massa do objeto;</li></br>
-        <li> \( F_m = -k \, (\ell + u) \) é a força da mola, segundo a famosa lei de Hooke, e o sistema fica em
-          equilibrio quando o esticamento da mola é $ \ell $, i.e., temos $ \text{Peso} = k\ell $ ;</li></br>
+        <li> \( F_m = -k \, (\ell + u) \) é a força exercida pela primeira mola, segundo a famosa lei de Hooke. Nesta
+          modelagem o
+          sistema fica em
+          equilíbrio quando o estiramento da mola é $ \ell $, i.e., temos $ \text{Peso} = k\ell, $ desta forma o Peso e
+          o termo $-k\ell$ desaparecem da equação ;</li></br>
         <li> \( F_a = -\gamma \, u' \) é a força de amortecimento. Uma aproximação mais realista
           seria $ F_a = -\gamma \, (u')^2 $ mas neste caso a equação não ficaria linear e não seria
           possível resolve-la manualmente ;</li></br>
@@ -134,7 +137,7 @@
           corresponde no exemplo a uma segunda mola que oscila com uma frequência \(
           \omega \) e
           ${F_0}$ e um
-          coeficiente que usamos para modificar a magnitud desta força, por exemplo se $F_0 = 0 $ então o movimento é
+          coeficiente que usamos para modificar a magnitude desta força, por exemplo se $F_0 = 0 $ então o movimento é
           não
           forçado ;</li><br>
         <li>A frequência natural do sistema,
@@ -185,7 +188,8 @@
             $ R_0= F_0/k > 0 $ e $ R_\infty = 0. $ Isto implica que
             $R(\omega)$ apresenta um
             ponto de máximo para $\omega \ge 0.$ Procura-se um ponto de máximo $\omega_{max}$ que seja estritamente
-            positivo, onde sabemos que $R'(\omega_{max}) = 0$. Descobre-se que $\omega_{max}$ satisfaz a equação $$
+            positivo, onde deve acontecer que $R'(\omega_{max}) = 0$. Descobre-se que $\omega_{max}$ satisfaz a equação
+            $$
             \omega_{max}^2
             = \omega_0^2 \left(1-\gamma^2/2km \right). $$ Então $\omega_{max}$ é imaginário se $ \gamma^2 > 2km, $ i.e.,
             o máximo acontece em $\omega_{max} = 0$ e $R(\omega)$ é uma função decrescente.
@@ -216,9 +220,9 @@
         </li>
 
         <section>
-          <p>Neste caso a solução da equação homogênea associada é sempre
+          <p>Neste caso a solução geral da equação homogênea associada $m\, u'' + k\, u = 0$ é sempre
             $$ u_h(t) = \color{green}{c_1} \cos(\omega_0\, t) + \color{green}{c_2}
-            \sin(\omega_0\, t). $$ Aqui consideramos dois casos:
+            \sin(\omega_0\, t),\, \omega_0 = \sqrt{k/m}. $$ Aqui consideramos dois casos:
           </p>
           <ol type="i">
             <li>
