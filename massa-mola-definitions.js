@@ -273,7 +273,7 @@ const slidersInfo = [
     name: "F_0",
     xpos: xSliders + 60,
     ypos: ySliders,
-    values: [0, 3.2, 4],
+    values: [0, 2.5, 4],
     label: "Coeficiente da força externa",
   },
   // {
