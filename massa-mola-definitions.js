@@ -143,8 +143,8 @@ xaxis = board.create(
 const line = board.create(
   "line",
   [
-    [0, 10],
-    [0, -12],
+    [0, 15],
+    [0, -20],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
@@ -190,7 +190,7 @@ spring1 = createSpringPoints(
 for (let i = 0; i < spring1.length - 1; i++) {
   board.create("segment", [spring1[i], spring1[i + 1]], {
     color: "black",
-    strokeWidth: 1.5,
+    strokeWidth: 1,
   });
 }
 
@@ -207,7 +207,7 @@ spring2 = createSpringPoints(
 for (let i = 0; i < spring2.length - 1; i++) {
   board.create("segment", [spring2[i], spring2[i + 1]], {
     color: "blue",
-    strokeWidth: 2,
+    strokeWidth: 1,
     strokeOpacity: 0.2, // -----make the chain
   });
 }
@@ -316,7 +316,7 @@ function createSpringPoints(p1, p2, n, color, opacity) {
           };
         })(i),
       ],
-      { withLabel: false, color: color, size: 2, opacity }
+      { withLabel: false, color: color, size: 1, opacity }
     );
   }
 
