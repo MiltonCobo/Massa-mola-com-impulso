@@ -143,8 +143,8 @@ xaxis = board.create(
 const line = board.create(
   "line",
   [
-    [0, 10],
-    [0, -12],
+    [0, 15],
+    [0, -20],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
