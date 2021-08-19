@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSXGraph examples Resize</title>
+  <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+  <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
+
+
+  <style>
+    div.jxgbox {
+      aspect-ratio: 1/1;
+      max-width: 40vw;
+      max-height: 40vw;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* height: 100%;
+      width: 100%;
+      padding-top: 5%; */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="jxgbox" class="jxgbox"></div>
+  </div>
+
+
+  <script type="text/javascript">
+    // const board = JXG.JSXGraph.initBoard('jxgbox', {
+    //   boundingbox: [-5, 5, 10, -5],
+    //   axis: true
+    // });
+
+    // function f(x) {
+    //   return Math.sin(x);
+    // }
+
+    // board.create('functiongraph', f);
+
+    // p = board.create('point', [0, 0], {
+    //   name: ''
+    // });
+
+    // var path = [];
+    // var N = 100;
+    // var x = -2;
+
+    // for (i = 0; i < N; i++) {
+    //   path[i] = [x, f(x)];
+    //   x += 10 / N;
+    // }
+
+    // console.log(path)
+    // p.moveAlong(path, 6000, { interpolate: false });
+
+    brd = JXG.JSXGraph.initBoard('jxgbox', { boundingbox: [-15, 20, 15, -10], keepaspectratio: true, axis: true });
+
+    p1 = brd.create('point', [-10, 0], { name: 'M' });
+
+    a1 = brd.create('point', [-10, 5]);
+    a2 = brd.create('point', [-5, 15]);
+    c1 = brd.create('point', [-10, 10]);
+    c2 = brd.create('point', [-4, 8]);
+    curve = brd.create('curve', JXG.Math.Numerics.bezier([a1, c1, c2, a2]));
+    line1 = brd.create('line', [[0, 5], [5, 15]], { straightFirst: false, straightLast: false });
+    line1 = brd.create('line', [[5, 15], [10, 5]], { straightFirst: false, straightLast: false });
+    line1 = brd.create('line', [[10, 5], [0, 12]], { straightFirst: false, straightLast: false });
+    line1 = brd.create('line', [[0, 12], [10, 12]], { straightFirst: false, straightLast: false });
+    line1 = brd.create('line', [[10, 12], [0, 5]], { straightFirst: false, straightLast: false });
+
+    // How to move p1 on curve and on star path
+    // we are given 3 ways to do this animation
+    // 1. p1.moveAlong()
+    // 2. p1.moveTo()
+    // 3. p1.visit()
+
+    var i,
+      path1 = [],
+      path2 = [[0, 5], [5, 15], [10, 5], [0, 12], [10, 12], [0, 5]];
+
+    // Fill the bezier path. Caution: it contains many points
+    for (i = 0; i < curve.points.length; i++) {
+      path1.push(curve.points[i].usrCoords.slice(1));
+    }
+
+    console.log("path1:=", path1.length)
+    // This is an alternative for the path1-part in nextStep
+    p1.moveAlong(path1, 2000, { interpolate: false });
+
+
+
+    nextStep = function () {
+      var pos;
+
+      // First walk through path1
+      if (path1.length > 0) {
+        pos = path1.shift();
+        p1.moveTo(pos, 1000, { effect: '--', callback: nextStep });
+        console.log("going path1")
+        // If path1 is empty, walk through path2
+      }
+      else if (path2.length > 0) {
+        pos = path2.shift();
+        p1.moveTo(pos, 1000, { effect: '<>', callback: nextStep });
+
+        console.log("going path2")
+      }
+    };
+
+    //nextStep();
+
+  </script>
+
+
+
+
+</body>
+
+
+
+
+</html>

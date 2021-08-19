@@ -7,48 +7,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JSXGraph função</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraphcore.js"
-    integrity="sha512-PXyZZw3mqo2U6EhIn5qw1W+W87P7EsO8ey3yC3xuGAr9bQ7GF+XkBrhI6PAiJc1OXTfjFJXP/MK+Z1YT/iE8SQ=="
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.2.1/jsxgraph.min.css"
-    integrity="sha512-590+zTPqUjnvC0cslllceBnkvm6le2dw3qyN/zn4d2b3EUxfdWO6OvB+h2Jcm0JZiHhOL56L4Am/o+Xpo/OHeQ=="
-    crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+  <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
 
   <style>
     html,
     body {
-      height: 90%;
-      width: 90%;
+      height: 100%;
+      width: 100%;
       margin: 0;
+      font-size: 80px;
     }
 
     #wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100%;
-      width: 100%;
+      height: 80%;
+      width: 80%;
       padding-top: 5%;
-      /*calc(60vmin- 3.5em); */
     }
 
     #jxgbox {
-      flex: 1;
-      width: 80%;
-      height: 60%;
-      /* calc(60vmin-3.5em);*/
-    }
-
-    .jxgbox {
+      aspect-ratio: 1/1;
+      min-width: 600px;
+      min-height: 600px;
+      margin: 0 auto;
+      overflow: hidden;
       background-color: 'blue';
     }
   </style>
 </head>
 
 <body>
+  <div>
+    <h1>This is another div</h1>
+  </div>
   <div id="wrapper" style="background-color: lightgray; color: blue ">
-    THIS IS A WRAPPER
-    <div id="jxgbox" class="jxgbox">Função</div>
+    <h1>This is a wrapper</h1>
+    <div id="jxgbox" class="jxgbox"></div>
   </div>
 
   <script>
@@ -62,13 +59,14 @@
       axis: true,
       keepaspectratio: false,
       showNavigation: false, showCopyright: false,
+      strokeWidth: 20
     });
 
     var start = -4,
       end = 4,
       x = start,
       step = 0.1,
-      turtle = brd.create('turtle', [x, f(x)], { lastArrow: true, strokeWidth: 3, strokeColor: 'red' });
+      turtle = brd.create('turtle', [x, f(x)], { lastArrow: true, strokeWidth: 10, strokeColor: 'red' });
 
 
     var moveForward = function () {

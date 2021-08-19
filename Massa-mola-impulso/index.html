@@ -8,12 +8,26 @@
   <title>O modelo Massa-Mola</title>
 
 
+  <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+  <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
+
+
   <script>
+    // DEFINING SOME COLORS ------------------------------------------------------
+
+    var backgroundColor = "mintcream"  //"aliceblue" //  "honeydew"  // "azure"  // #EAFAF1";
+    var myBlue = "lightskyblue"  //"#5DADE2"   #ADD8E6
+    var myYellow = "khaki"   //"lightyellow"  //#F4D03F"
+    var myRed = "tomato"   //"#E74C3C"
+    var texColor = "darkgreen"
+
     // Before loading MathJax, it has to be configured something like this:
-    window.MathJax = {
+    MathJax = {
       loader: { load: ['[tex]/color'] },
 
-
+      styles: {
+        '.mjx-chtml': { padding: '0.1em 0.1em', color: texColor }   // "#2e7d32"
+      },
       tex2jax: {
         inlineMath: [
           ["$", "$"],
@@ -36,71 +50,145 @@
       },
     };
 
+
   </script>
 
-  <!-- <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+
+  <!-- <script>
+    // MathJax 3 configuration
+    window.MathJax = {
+    tex: {
+    inlineMath: [
+    ["$", "$"],
+    ["\\(", "\\)"],
+    ],
+    processEscapes: true,
+    displayMath: [
+    ["$$", "$$"],
+    ["\\[", "\\]"],
+    ],
+    autoload: {
+    color: [],
+    colorv2: ['color']
+    },
+    packages: { '[+]': ['noerrors'] }
+    },
+    chtml: {
+    scale: 1.05
+    },
+    options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+    },
+    loader: {
+    load: ['input/asciimath', '[tex]/noerrors']
+    }
+    };
   </script> -->
 
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
 
-  <!-- <script type="text/javascript" charset="UTF-8"
-    src="https://cdn.jsdelivr.net/npm/jsxgraph@1.2.2/distrib/jsxgraphcore.js"></script> -->
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.2.2/distrib/jsxgraph.css" /> -->
-  <script type="text/javascript" charset="UTF-8" src="jsxgraphcore.js"></script>
-  <link rel="stylesheet" type="text/css" href="jsxgraph.css" />
+  <!-- <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script> -->
+
 
   <style>
-    html,
+    root {
+      font-size: 62.5%;
+      /* Apparently this is the best way to setup the font-size in all browsers! */
+    }
+
     body {
       height: 100%;
       width: 100%;
       margin: 0;
+      font-family: Georgia, "Times New Roman", Times, serif;
     }
 
-    #wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      height: min(500px, 90vw);
-      /* when width is small it is set as the height, otherwise height = 480px everywhere....! */
-      width: min(90vw, 800px);
-    }
-
-    #jxgbox {
-      flex: 1;
-      flex-grow: 1;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* apparently  is not necessary  !!  */
-
-    /* .jxgbox {
-      height: 0;
-      padding-bottom: 50%;
-    } */
-
-
-    @media screen and (max-width: 640px) {
-      #container {
-        font-size: 14px;
-      }
-
-      #wrapper {
-        height: min(220px, 100vw);
-        /* in small screens the height is only 240px */
-      }
-    }
+    /* when width is small it is set as the height, otherwise height = 480px everywhere....! */
 
     #container {
       display: flex;
       flex-direction: column;
       align-items: center;
       align-content: start;
+      padding: 0 2em;
+      font-size: 0.8rem;
+      /* 0.8rem = 16px */
     }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* the wrapper also contains the caption  */
+    }
+
+    #jxgbox {
+      /* aspect-ratio: 2/1;  not working by itself in ipad....   */
+      width: 76vw;
+      height: 40vw;
+
+      /* we need numerical values in order to fullScreen works properly */
+
+    }
+
+    /* for small screens we really need to reduce the font size to 13px */
+    @media screen and (max-width: 360px) {
+      #container {
+        font-size: 0.65rem;
+        padding: 3em;
+      }
+
+      #jxgbox {
+        width: 90vw;
+        /* small screen bigger */
+      }
+    }
+
+
+    @media screen and (min-width:640) and (max-width: 960px) {
+      #container {
+        font-size: 0.9rem;
+        /* 18px */
+      }
+    }
+
+    @media screen and (min-width: 961px) {
+      #container {
+        font-size: 1rem;
+        /* 1rem = 20px */
+      }
+    }
+
+
+    /* @media screen and (min-width:641) and (max-width: 960px) {
+
+        html,
+        body {
+          font-size: 16px;
+        }
+      }
+
+      @media screen and (min-width: 961) and (max-width: 1904px) {
+
+        html,
+        body {
+          font-size: 18px;
+        }
+      }
+
+
+      @media screen and (min-width: 1904px) and (max-width: 1264) {
+
+        html,
+        body {
+          font-size: 20px;
+        }
+      }
+  */
   </style>
 </head>
 
@@ -112,23 +200,28 @@
     <div id="wrapper">
       <div id="jxgbox" class="jxgbox"></div>
 
-    </div>
-    <p>Puxe levemente a massa para coloca-la em movimento. </br> Digite o valor de $\omega$, a frequência da força
-      externa:
-      <input type="text" id="inputOmega2" placeholder="1.9" style="width: 100px;" />
-    </p>
+      <p style="font-size: 0.8em;">Puxe levemente a massa para coloca-la em movimento. Digite o valor de $\omega$, a
+        frequência da força
+        externa:
 
-    <div style="font-family: Arial, Helvetica, sans-serif; padding: 0 4% 5%;">
+        <input type="text" id="inputOmega2" placeholder="1.9" style="width: 5em; height: 2em; color: black;
+      background-color: mintcream" />
+      </p>
+    </div>
+
+
+    <div>
       <p> A posição $u(t)$ (na vertical) de uma massa presa a duas molas corresponde à equação diferencial:
-        $$ \text{(1)} \quad \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\, u =
-        \color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
-        $$ m \, u'' = \sum \text{forças} = \text{Peso} + F_m + F_a + F_e $$ onde:
+        $$ \text{(1)} \quad \color{royalblue}{m} \, u'' + \color{royalblue}{\gamma}\, u' + \color{royalblue}{k}\,
+        u=\color{royalblue}{F_0}\, \cos(\color{royalblue}{\omega} t),$$ que se obtém ao usar a segunda lei de Newton:
+        $$ m \, u''=\sum \text{forças}=\text{Peso} + F_m + F_a + F_e $$ onde:
       <ol>
         <li> \( m \) é a massa do objeto;</li></br>
         <li> \( F_m = -k \, (\ell + u) \) é a força exercida pela primeira mola, segundo a famosa lei de Hooke. Nesta
           modelagem o
           sistema fica em
-          equilíbrio quando o estiramento da mola é $ \ell $, i.e., temos $ \text{Peso} = k\ell, $ desta forma o Peso e
+          equilíbrio quando o estiramento da mola é $ \ell $, i.e., temos $ \text{Peso} = k\ell, $ desta forma o Peso
+          e
           o termo $-k\ell$ desaparecem da equação ;</li></br>
         <li> \( F_a = -\gamma \, u' \) é a força de amortecimento. Uma aproximação mais realista
           seria $ F_a = -\gamma \, (u')^2 $ mas neste caso a equação não ficaria linear e não seria
@@ -166,20 +259,23 @@
             Por esta razão $u_h(t)$ é chamada de solução <strong>transiente</strong> e
             $u_p(t)$ é chamada de solução <strong>estacionária ou forçada.</strong>
             Note que as condições iniciais só determinam os parâmetros
-            $\color{green}{c_1}$ e $\color{green}{c_2}$ e portanto as condições iniciais não influenciam o comportamento
+            $\color{green}{c_1}$ e $\color{green}{c_2}$ e portanto as condições iniciais não influenciam o
+            comportamento
             assintótico da solução.
           </p>
 
           </br>
           <p>
-            <u><strong>Ressonância:</strong></u> Podemos verificar na animação que se o amortecimento for muito pequeno
+            <u><strong>Ressonância:</strong></u> Podemos verificar na animação que se o amortecimento for muito
+            pequeno
             e
             a
             frequência externa
             $\omega$ for muito próxima ou igual à frequência natural $\omega_0=2,$
             então a amplitude do movimento fica grande mesmo fazendo o coeficiente $F_0$ muito pequeno (mas maior que
             $\gamma$). Isto é chamado de ressonância
-            e é muito importante em projetos de engenharia, pois pequenas ressonâncias podem colapsar uma estrutura. De
+            e é muito importante em projetos de engenharia, pois pequenas ressonâncias podem colapsar uma estrutura.
+            De
             fato, se deixamos variar $\omega$ e fixamos todos os demais parâmetros do problema, pode-se mostrar que a
             solução particular toma a forma
             $$ u_p(t) = R(\omega) \cos(\omega t - \delta(\omega)), $$ onde a amplitude $R(\omega)$ é uma função da
@@ -189,13 +285,16 @@
             $ R(0)= F_0/k > 0 $ e $ R(\infty) = 0. $ Isto implica que
             $R(\omega)$ apresenta um
             ponto de máximo para $\omega \ge 0.$ Procura-se um ponto de máximo $\omega_{max}$ que seja estritamente
-            positivo, onde deve acontecer que $R'(\omega_{max}) = 0$. Descobre-se que $\omega_{max}$ satisfaz a equação
+            positivo, onde deve acontecer que $R'(\omega_{max}) = 0$. Descobre-se que $\omega_{max}$ satisfaz a
+            equação
             $$
             \omega_{max}^2
-            = \omega_0^2 \left(1-\gamma^2/2km \right). $$ Então $\omega_{max}$ é imaginário se $ \gamma^2 > 2km, $ i.e.,
+            = \omega_0^2 \left(1-\gamma^2/2km \right). $$ Então $\omega_{max}$ é imaginário se $ \gamma^2 > 2km, $
+            i.e.,
             o máximo acontece em $\omega_{max} = 0$ e $R(\omega)$ é uma função decrescente.
             </br>
-            Agora se $\gamma$ é pequeno, $0 \lt \gamma^2 \lt 2km,$ então $\omega_{max} > 0.$ Observa-se que se $\gamma$
+            Agora se $\gamma$ é pequeno, $0 \lt \gamma^2 \lt 2km,$ então $\omega_{max} > 0.$ Observa-se que se
+            $\gamma$
             for muito
             pequeno, $\omega_{max} \approx \omega_0$ e a amplitude máxima é
             aproximadamente igual a $$R(\omega_{max}) \approx {F_0\over \gamma\omega_0}.$$ Desta forma, se $\gamma$
@@ -304,8 +403,6 @@
 
     </div>
   </div>
-
-
 
 
 

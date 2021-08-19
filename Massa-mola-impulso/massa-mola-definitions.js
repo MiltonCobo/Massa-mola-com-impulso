@@ -1,16 +1,24 @@
-const incOmega = 0.1;
-const period = (2 * Math.PI) / incOmega; // period of slow sine wave
-const endInterval = 2.5 * Math.floor(period); // more or less two periods
-const interval = [0, endInterval];
+//let oldWidth = document.documentElement.clientWidth;
+//let oldHeight = document.documentElement.clientHeight; // keep old values of width and height for reactivity below
+//basicWidth will be used to setup the size of points, lines, etc
+
+//console.log("Width =", oldWidth, "basicWidth =", basicWidth);
+
+var basicWidth = calculateBasicWidth();
+const length = 36;
+const duration = 36e3;
+
+const numberOfEvaluations = 5e3;
+
+const interval = [0, 6 * length];
 
 let friction = 0.0,
-  k = 4, // string constant
-  m = 1; // mass
-let F0 = 1.2;
+  m = 0.9, // mass
+  k = 4 * m, // string constant, the natural frequency = 2
+  F0 = 1.2;
 
-let omega2 = Math.sqrt(k / m) - incOmega;
-
-let omega = Math.sqrt(k / m);
+let omega2 = Math.sqrt(k / m) - 0.1;
+omega = Math.sqrt(k / m);
 
 //------------------CHECK INPUT -----------------------------------------------------------
 const inputOmega2 = document.getElementById("inputOmega2");
@@ -38,42 +46,92 @@ inputOmega2.onchange = function () {
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
 const board = JXG.JSXGraph.initBoard("jxgbox", {
-  boundingbox: [-10, 40, endInterval, -50],
-  maxboundingbox: [-10, 40, endInterval, -50],
-  keepaspectratio: true,
+  boundingbox: [-10, 100, 6 * length, -100],
+  // maxboundingbox: [-15, 45, endInterval + 5, -55],  // comenting this line is important for reactivity in ipad
+  keepaspectratio: false, // aspect ratio relative to the jxgbox dimensions?
   showNavigation: false,
   showCopyright: false,
+  showFullscreen: true,
   axis: false,
   grid: false,
   zoom: {
-    wheel: false,
+    wheel: true,
     enabled: false,
   },
   pan: {
     needTwoFingers: false,
-    enabled: false,
+    enabled: true,
   },
+
+  // defaultAxes: {
+  //   x: {
+  //     name: "t",
+  //     ticks: {
+  //       label: {
+  //         visible: true,
+  //         anchorX: "middle",
+  //         anchorY: "top",
+  //         fontSize: 12,
+  //         offset: [0, -3],
+  //       },
+  //       drawZero: true,
+  //       visible: false,
+  //     },
+  //   },
+  //   y: {
+  //     visible: false,
+  //   },
+  // },
 });
 
-xaxis = board.create(
+board.renderer.container.style.backgroundColor = backgroundColor; // this can be obtained changing jxgbox background color
+// "#EAFAF1"; //#7BCCB5"; // none = transparent
+
+let xaxis = board.create(
   "axis",
   [
     [0, 0],
     [1, 0],
   ],
   {
-    name: "<strong>TEMPO</strong>",
+    name: "<math><mi>t</mi></math>", //  Tempo
     withLabel: true,
-    ticks: { visible: false },
+    ticks: { visible: true },
+    strokeWidth: basicWidth,
+
     label: {
       position: "rt", // possible values are 'lft', 'rt', 'top', 'bot'
-      offset: [-100, -30], // (in pixels)
+      offset: [-6 * basicWidth, -12 * basicWidth], // (in pixels)
+      fontUnit: "vw",
+      fontSize: 2,
+      // strokeColor: "RED",
     },
   }
 );
 
-//--------------------------------INPUT OF OMEGA2---------------------------------
+xaxis.removeTicks(xaxis.defaultTicks); // remove ticks
 
+// create new ticks
+
+let step = interval[1] / length;
+let ticksArray = [...Array(20 * length).keys()].map((i) => step * i);
+let ticksLabels = ticksArray.map((i) => (i / step).toString());
+
+let ticks = board.create("ticks", [xaxis, ticksArray], {
+  labels: ticksLabels,
+  strokeColor: "black",
+  majorHeight: 5,
+  drawlabels: true,
+  label: {
+    fontUnit: "vw",
+    offset: [0, -5],
+    anchorX: "middle",
+    anchorY: "top",
+    fontSize: 1,
+  },
+});
+
+//--------------------------------INPUT OF OMEGA2---------------------------------
 // const input = board.create(
 //   "input",
 //   [75, -20, omega - incOmega, "\\( \\omega =\\, \\)"],
@@ -82,7 +140,6 @@ xaxis = board.create(
 //     useMathJax: true,
 //   }
 // );
-
 // const txtOmega2 = board.create(
 //   "text",
 //   [75, -23, "Frequência da força externa"],
@@ -90,43 +147,41 @@ xaxis = board.create(
 //     fixed: true,
 //   }
 // );
-
 // board.create("text", [
 //   95,
 //   -20,
 //   '<button onclick="omega2 = setAnimation(0.2)">Submeter</button>',
 // ]);
-
 //----------------------------TITULO --------------------------
 // board.create("text", [0, -46, "O Sistema Massa-Mola com Impulso"], {
 //   color: "blue",
 //   fontsize: 20,
 // });
-
 //--------------------------END OF INPUT OMEGA 2 --------------------------------------
-
-// board.create(
-//   "text",
-//   [
-//     70,
-//     20,
-//     function () {
-//       return "$$ \\color{red}{m} \\, u'' + \\color{red}{\\gamma}\\, u' + \\color{red}{k}\\, u = \\color{red}{F_0}\\, \\cos( \\color{red}{\\omega} t) $$";
-//     },
-//   ],
-//   {
-//     fontSize: 18,
-//     color: "olive",
-//     useMathJax: true,
-//   }
-// );
+board.create(
+  // FORMULA
+  "text",
+  [
+    80,
+    90,
+    function () {
+      return "$$ \\color{black}{m} \\, u'' + \\color{black}{\\gamma}\\, u' + \\color{black}{k}\\, u = \\color{black}{F_0}\\, \\cos( \\color{black}{\\omega} t) $$";
+    },
+  ],
+  {
+    fontSize: 2,
+    fontUnit: "vw",
+    color: texColor,
+    useMathJax: true,
+  }
+);
 // board.create(
 //   "text",
 //   [
 //     70,
 //     16,
 //     function () {
-//       return `$$ \\color{red}{\\omega_0} = \\sqrt{k / m} = ${Math.sqrt(
+//       return `$$ \\color{blue}{\\omega_0} = \\sqrt{k / m} = ${Math.sqrt(
 //         slHooke.Value() / m
 //       ).toFixed(2)} $$`;
 //     },
@@ -137,42 +192,53 @@ xaxis = board.create(
 //     useMathJax: true,
 //   }
 // );
-
 //----------------------------SLIDERS and TEXTS------------------------------------------------------
 
 const line = board.create(
   "line",
   [
-    [0, 15],
-    [0, -20],
+    [0, 60],
+    [0, -60],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
 const pointString = board.create("glider", [0, 0, line], {
-  name: "<strong>Peso</strong>",
-  size: 6,
-  label: { autoPosition: true, offset: [20, 20] },
+  name: "", //<strong>P</strong>",
+  size: 3 * basicWidth,
+  needsRegularUpdate: true,
+  fillColor: myRed,
+  label: {
+    autoPosition: true,
+    offset: [basicWidth, basicWidth],
+    fontUnit: "vw",
+    fontSize: 2,
+  },
 });
 
-const turtle = board.create("turtle", [0, 0], {
-  lastArrow: true,
-  strokeWidth: 1.2,
-  strokeColor: "olive",
-  strokeOpacity: 1,
-  name: "<strong>  u(t)  </strong>",
-  withLabel: true,
-});
+const turtle = board
+  .create("turtle", [0, 0], {
+    lastArrow: false,
+    strokeWidth: Math.max(0.5 * basicWidth, 2),
+    strokeColor: "olive",
+    strokeOpacity: 1,
+    name: "<math>  <mi>u(t)</mi>  </math>",
+    withLabel: false, // no label
+    label: { fontUnit: "vw", fontSize: 1.5 },
+  })
+  .hideTurtle();
 
-const springHangup = board.create("point", [0, 25], {
+const springHangup = board.create("point", [0, 70], {
   color: "black",
-  name: "<strong>Mola</strong>",
+  name: "<math><mstyle mathcolor=black><mtext>Mola 1</mtext></mstyle></math>",
   fixed: true,
+  label: { fontUnit: "vw", fontSize: 1.4 },
 });
-const springHangup2 = board.create("point", [0, -30], {
+const springHangup2 = board.create("point", [0, -70], {
   color: "black",
-  name: "<strong>Mola 2, Força Externa</strong>",
+  name: "<math><mstyle mathcolor=black><mtext>Mola 2,Força Externa</mtext></mstyle></math>",
   // label: { position: "bot", offset: [-15, -20] },
   fixed: true,
+  label: { fontUnit: "vw", fontSize: 1.4 },
 });
 
 const numberOfSpringRings = 16;
@@ -190,7 +256,7 @@ spring1 = createSpringPoints(
 for (let i = 0; i < spring1.length - 1; i++) {
   board.create("segment", [spring1[i], spring1[i + 1]], {
     color: "black",
-    strokeWidth: 1,
+    strokeWidth: basicWidth,
   });
 }
 
@@ -207,7 +273,7 @@ spring2 = createSpringPoints(
 for (let i = 0; i < spring2.length - 1; i++) {
   board.create("segment", [spring2[i], spring2[i + 1]], {
     color: "blue",
-    strokeWidth: 1,
+    strokeWidth: basicWidth,
     strokeOpacity: 0.2, // -----make the chain
   });
 }
@@ -216,8 +282,9 @@ for (let i = 0; i < spring2.length - 1; i++) {
 
 // -----------------------------------CREATE SLIDERS -----------------------------------
 
-let ySliders = -45; // positions of sliders depending on wrapper width
-let xSliders = 0;
+let ySliders = -70; // positions of sliders depending on wrapper width
+let xSliders = 80;
+let sliderLength = 40;
 const slidersInfo = [
   {
     name: "&gamma;",
@@ -228,7 +295,7 @@ const slidersInfo = [
   },
   {
     name: "F_0",
-    xpos: xSliders + 60,
+    xpos: xSliders + sliderLength + 20,
     ypos: ySliders,
     values: [0, 2.5, 4],
     label: "Coeficiente da força externa",
@@ -248,45 +315,61 @@ let sliders = []; // an object that contains the sliders of gamma and F0
 slidersInfo.forEach((sl, index) => {
   sliders[index] = board.create(
     "slider",
-    [[sl.xpos, sl.ypos], [sl.xpos + 30, sl.ypos], sl.values],
-    { name: sl.name, strokeColor: "olive", fillColor: "olive" }
+    [[sl.xpos, sl.ypos], [sl.xpos + sliderLength, sl.ypos], sl.values],
+    {
+      name: sl.name,
+      size: 3 * basicWidth,
+      baseline: { strokeColor: myBlue, strokeWidth: 10, fontUnit: "vw" },
+      highline: { strokeColor: "olive" },
+      fillColor: myYellow,
+      label: { fontUnit: "vw", fontSize: 1.2, strokeColor: "black" },
+      // point1: { fixed: false },
+      // point2: { fixed: false },   // draggable
+      // baseline: { fixed: false, needsRegularUpdate: true },
+    }
   );
-  board.create("text", [sl.xpos, sl.ypos - 6, sl.label], {
-    strokeColor: "olive",
+  board.create("text", [sl.xpos, sl.ypos - 15, sl.label], {
+    strokeColor: "black",
     fillColor: "olive",
     fixed: true,
+    fontSize: 1.4,
+    fontUnit: "vw",
   });
 });
 
 // ---------------------------END SLIDERS -------------------------------------------
 //----------------REACTIVITY----------------------------------------------------
-let wrapper = document.getElementById("wrapper");
-
-// window.addEventListener("orientationchange", handleResize);
-// window.onorientationchange = handleOrientationChange;
-
 window.addEventListener("resize", handleResize, false);
 
-let oldWidth = wrapper.getBoundingClientRect().width; // save initial values of width,height
-let oldHeight = wrapper.getBoundingClientRect().height;
-
 function handleResize() {
-  wrapper.style.width = "";
-  wrapper.style.height = "";
-  let theWidth = wrapper.getBoundingClientRect().width;
-  let theHeight = wrapper.getBoundingClientRect().height;
+  basicWidth = calculateBasicWidth();
+  pointString.fullUpdate();
+  board.fullUpdate();
+}
 
-  if (Math.abs(theWidth - oldWidth) + Math.abs(theWidth - oldHeight) > 300) {
-    oldWidth = theWidth;
-    oldHeight = theWidth; // KEEP OLD VALUES
+function calculateBasicWidth() {
+  let theWidth = document.documentElement.clientWidth;
 
-    // let height = Math.min(theWidth, theHeight, 400);
-    // let width = Math.min(theWidth, 800); /* maximum width is 800 */
+  let basicWidth = 1;
 
-    board.resizeContainer(theWidth, theHeight);
-    // board.clearTraces();
-    board.fullUpdate();
+  if (theWidth <= 360) {
+    basicWidth = 2;
+  } else if (theWidth <= 640) {
+    basicWidth = 3;
+  } else if (theWidth <= 940) {
+    basicWidth = 4;
+  } else {
+    basicWidth = 5; //Math.floor(0.002 * Math.max(theWidth)); // 0.2% of width
   }
+
+  let pixelRatio = window.devicePixelRatio;
+
+  pixelRatio = Math.max(Math.round(pixelRatio), 1);
+  if (pixelRatio > 1) {
+    basicWidth = basicWidth / pixelRatio;
+  }
+
+  return basicWidth;
 }
 
 //---------------------------------END REACTIVITY ----------------------------------------------
@@ -304,7 +387,7 @@ function createSpringPoints(p1, p2, n, color, opacity) {
     p[i] = board.create(
       "point",
       [
-        0.5 + direction * (i % 2),
+        -direction * 2 + 4 * direction * (i % 2),
         ((i) => {
           return function () {
             return (
