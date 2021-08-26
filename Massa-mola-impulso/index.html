@@ -21,7 +21,7 @@
     var myRed = "tomato"   //"#E74C3C"
     var texColor = "darkgreen"
 
-    // Before loading MathJax, it has to be configured something like this:
+    // Before loading MathJax, it has to be configured:
     MathJax = {
       loader: { load: ['[tex]/color'] },
 
@@ -137,6 +137,7 @@
 
     /* for small screens we really need to reduce the font size to 13px */
     @media screen and (max-width: 360px) {
+
       #container {
         font-size: 0.65rem;
         padding: 3em;
@@ -144,6 +145,7 @@
 
       #jxgbox {
         width: 90vw;
+        height: 50vw;
         /* small screen bigger */
       }
     }
