@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JsxGraph Modules</title>
+
+  <link rel="stylesheet" type="text/css" href="./libraries/jsxgraph.css" />
+  <!-- <script type="text/javascript" charset="UTF-8"
+    src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script> -->
+
+  <style>
+    .wrapper {
+      width: 100%;
+      /* percentage works well */
+      height: 100%;
+      /* display: flex;
+      align-items: center;
+      justify-content: center; */
+    }
+
+    #jxgbox {
+      margin: 10% auto;
+    }
+
+    @media (min-width: 960px) {
+      #jxgbox {
+        width: min(800px, 80vw);
+        height: 600px;
+      }
+    }
+
+    @media (max-width: 960px) {
+      #jxgbox {
+        width: max(400px, 80vw);
+        /* vw works well, percentage not working*/
+        height: 400px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div id="jxgbox" class="jxgbox"> </div>
+  </div>
+  <script type="module">
+
+    //import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs';
+    import JXG from './libraries/jsxgraphcore.mjs';
+
+    JXG.Options.text.display = 'internal'; // necessary for text rotations
+
+
+    const board = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-2, 5, 10, -5], axis: true, showCopyright: false, keepAspectRatio: false, showNavigation: true, showFullScreen: true,
+      moveTarget: document,
+      fullscreen: {
+        symbol: '\u26F6', //'\u2302', //'\u22c7',
+        scale: 0.9
+      },
+      renderer: 'canvas', //'svg',  // renderer canvas works better for touch in IOS devices....
+      pan: {
+        needTwoFingers: true,
+        needShift: true,
+      },
+
+      axis: true,
+      defaultAxes: {
+        x: {
+          ticks: {
+            majorTickEndings: [1, 0],
+            ignoreInfiniteTickEndings: false
+          }
+        },
+        y: {
+          ticks: {
+            majorTickEndings: [0, 1],
+            ignoreInfiniteTickEndings: false
+          }
+        }
+      }
+
+    });
+
+
+    let curve = board.create('functiongraph', ['ln(x)', 1, 100], { name: 'y=log(x), x>0', withLabel: true, strokeWidth: 5, label: { strokeColor: 'blue', fontSize: 30, fixed: false, highlightStrokeColor: 'red' }, shadow: { enabled: true, offset: [0, 10], blur: 10 }, highlightStrokeColor: 'red' }); // shadow for this plot makes dragging slow in IOS
+    let curve1 = board.create('functiongraph', ['cos(x)'], { strokeColor: 'green', strokeWidth: 2, name: 'y=cos(x)', withLabel: true, highlightStrokeColor: 'red', strokeWidth: 6, label: { color: 'green', position: 'rt', fontSize: 25, fixed: false }, shadow: { enabled: true, blur: 6 } });
+    let text = board.create('text', [0, 1, 'Some functions'], { strokeColor: 'red', fontSize: 40, shadow: { enabled: true, color: '#000000', blend: 3 } })
+    let triangle = board.create('polygon', [[2, 2], [5, 3], [4, 0]], { fixed: false, fillColor: 'yellow', fillOpacity: 0.5, shadow: { enabled: true, offset: [0, 25], blur: 10, offset: [5, 25] }, hasInnerPoints: true, scalable: false })
+    let triangle2 = board.create('polygon', [[4, 2], [8, 3], [6, 0]], { fixed: false, fillColor: 'lightgreen', fillOpacity: 0.5, shadow: { enabled: true, offset: [0, 25], blur: 10, offset: [5, 25] }, hasInnerPoints: true, scalable: true, rotable: false })
+
+
+
+    let getCentroidCoord = function (polygon) {
+      let center, len, i
+
+      center = [0.0, 0.0]
+
+      len = polygon.vertices.length - 1
+
+      for (i = 0; i < len; i++) {
+        center[0] += polygon.vertices[i].coords.usrCoords[1]
+        center[1] += polygon.vertices[i].coords.usrCoords[2]
+      }
+      if (len > 0) {
+        center[0] /= len
+        center[1] /= len
+      } else {
+        center = [NaN, NaN]
+      }
+
+      //let centroid = point(center, { visible: false });
+      return center
+    }
+    let g = board.create('group', triangle.vertices).setRotationCenter('centroid').setRotationPoints(triangle.vertices)
+    let g2 = board.create('group', triangle2.vertices).setRotationCenter('centroid').setRotationPoints(triangle2.vertices)
+
+    // Rotate text around the lower left corner (0,1) by 30 degrees.
+
+    let inc = 0.01;
+    let tRot = board.create('transform', [inc, 0, 1], { type: 'rotate' });
+    let tRot2 = board.create('transform', [inc, getCentroidCoord(triangle)], { type: 'rotate' });
+    let tScale = board.create('transform', [0.99, 0.99], { type: 'scale' })
+
+    console.log('group', g)
+    setTimeout(() => {
+      setInterval(() => {
+
+
+        tRot.bindTo(text);
+        tRot2.bindTo(g.rotationPoints[0]);
+        tScale.bindTo(g2.rotationPoints);
+        board.update()
+      }, 50)
+    }, 2000)
+
+
+  </script>
+
+</body>
+
+</html>
