@@ -24,7 +24,7 @@ function externalForce(t) {
   return F0 * Math.cos(omega2 * t);
 }
 
-//-------------------ANIMATION and DIFFERENTIAL EQUATION-------------------------------------------------
+//-------------------ANIMATION and DIFFERENTIAL EQUATION----------------------------
 function setAnimation(posInitial) {
   turtle.setPos(0, posInitial);
 

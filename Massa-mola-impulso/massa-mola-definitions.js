@@ -17,24 +17,24 @@ let friction = 0.0,
   k = 4 * m, // string constant, the natural frequency = 2
   F0 = 1.2;
 
-let omega2 = Math.sqrt(k / m) - 0.1;
-omega = Math.sqrt(k / m);
+const omega2 = Math.sqrt(k / m) - 0.1;
+const omega = Math.sqrt(k / m);
 
 //------------------CHECK INPUT -----------------------------------------------------------
-const inputOmega2 = document.getElementById("inputOmega2");
+const inputOmega2 = document.getElementById('inputOmega2');
 
 inputOmega2.onchange = function () {
   omega2 = Number(inputOmega2.value);
   if (isNaN(omega2)) {
     // inMotion = true;
     // board.suspendUpdate();
-    alert("DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais");
+    alert('DIGITE UM NÚMERO REAL!\nPonto indica separação de decimais');
     // turtle.clearScreen();
     // board.unsuspendUpdate();
     // inMotion = false;
     // return;
     omega2 = 1.9;
-    inputOmega2.value = "1.9";
+    inputOmega2.value = '1.9';
   }
 
   inMotion = true;
@@ -45,7 +45,7 @@ inputOmega2.onchange = function () {
 };
 
 //-------------DEFINE BOARD, SLIDERS, POINTS, STRINGS, TURTLES  ----------------------------------
-const board = JXG.JSXGraph.initBoard("jxgbox", {
+const board = JXG.JSXGraph.initBoard('jxgbox', {
   boundingbox: [-10, 100, 6 * length, -100],
   // maxboundingbox: [-15, 45, endInterval + 5, -55],  // comenting this line is important for reactivity in ipad
   keepaspectratio: false, // aspect ratio relative to the jxgbox dimensions?
@@ -85,19 +85,19 @@ const board = JXG.JSXGraph.initBoard("jxgbox", {
   // },
 });
 
-brd.renderer.container.style.backgroundColor = backgroundColor; // this can be obtained changing jxgbox background color  // "#EAFAF1"; //#7BCCB5"; // none = transparent
+board.renderer.container.style.backgroundColor = backgroundColor; // this can be obtained changing jxgbox background color  // "#EAFAF1"; //#7BCCB5"; // none = transparent
 
 let xaxis = board.create(
-  "axis",
+  'axis',
   [
     [0, 0],
     [1, 0],
   ],
   {
-    name: "<math><mi>t (seg)</mi></math>", //  Tempo
+    name: '<math><mi>t (seg)</mi></math>', //  Tempo
     withLabel: false,
     ticks: { visible: true },
-    basicUnit: "user",
+    basicUnit: 'user',
     strokeWidth: 1, //basicWidth,
 
     // label: {
@@ -121,34 +121,34 @@ let step = Math.floor((interval[1] - interval[0]) / length);
 let ticksArray = [...Array(20 * length).keys()].map((i) => step * i);
 let ticksLabels = ticksArray.map((i) => (i / step).toString());
 
-let ticks = board.create("ticks", [xaxis, ticksArray], {
+let ticks = board.create('ticks', [xaxis, ticksArray], {
   //ticksArray
   labels: ticksLabels,
-  basicUnit: "user",
-  strokeColor: "black",
+  basicUnit: 'user',
+  strokeColor: 'black',
   majorHeight: 5,
   drawlabels: true,
   label: {
-    fontUnit: "vw",
+    fontUnit: 'vw',
     offset: [0, -5],
-    anchorX: "middle",
-    anchorY: "top",
+    anchorX: 'middle',
+    anchorY: 'top',
     fontSize: 1,
   },
 });
 
 const labelAxis = board.create(
-  "text",
+  'text',
   [
     190,
     15,
     function () {
-      return "$$t \\, (seg)$$";
+      return '$$t \\, (seg)$$';
     },
   ],
   {
     fontSize: 1.5,
-    fontUnit: "vw",
+    fontUnit: 'vw',
     color: texColor,
     useMathJax: true,
   }
@@ -183,7 +183,7 @@ const labelAxis = board.create(
 //--------------------------END OF INPUT OMEGA 2 --------------------------------------
 board.create(
   // FORMULA
-  "text",
+  'text',
   [
     80,
     90,
@@ -193,7 +193,7 @@ board.create(
   ],
   {
     fontSize: 2,
-    fontUnit: "vw",
+    fontUnit: 'vw',
     color: texColor,
     useMathJax: true,
   }
@@ -218,52 +218,52 @@ board.create(
 //----------------------------SLIDERS and TEXTS------------------------------------------------------
 
 const line = board.create(
-  "line",
+  'line',
   [
     [0, 60],
     [0, -60],
   ],
   { visible: false, straightFirst: false, straightLast: false }
 );
-const pointString = board.create("glider", [0, 0, line], {
-  name: "", // "<strong>P</strong>",
-  sizeUnit: "user",
+const pointString = board.create('glider', [0, 0, line], {
+  name: '', // "<strong>P</strong>",
+  sizeUnit: 'user',
   size: 5, //4 * basicWidth,
   needsRegularUpdate: true,
   fillColor: myRed,
   label: {
     autoPosition: true,
     offset: [-3, 3],
-    fontUnit: "vw",
+    fontUnit: 'vw',
     fontSize: 2,
   },
 });
 
 const turtle = board
-  .create("turtle", [0, 0], {
+  .create('turtle', [0, 0], {
     lastArrow: false,
-    sizeUnit: "user",
+    sizeUnit: 'user',
     strokeWidth: 2, // Math.max(0.5 * basicWidth, 2),
-    strokeColor: "olive",
+    strokeColor: 'olive',
     strokeOpacity: 1,
-    name: "<math>  <mi>u(t)</mi>  </math>",
+    name: '<math>  <mi>u(t)</mi>  </math>',
     withLabel: false, // no label
-    label: { fontUnit: "vw", fontSize: 1.5 },
+    label: { fontUnit: 'vw', fontSize: 1.5 },
   })
   .hideTurtle();
 
-const springHangup = board.create("point", [0, 70], {
-  color: "black",
-  name: "<math><mstyle mathcolor=black><mtext>Mola 1</mtext></mstyle></math>",
+const springHangup = board.create('point', [0, 70], {
+  color: 'black',
+  name: '<math><mstyle mathcolor=black><mtext>Mola 1</mtext></mstyle></math>',
   fixed: true,
-  label: { fontUnit: "vw", fontSize: 1.4 },
+  label: { fontUnit: 'vw', fontSize: 1.4 },
 });
-const springHangup2 = board.create("point", [0, -70], {
-  color: "black",
-  name: "<math><mstyle mathcolor=black><mtext>Mola 2,Força Externa</mtext></mstyle></math>",
+const springHangup2 = board.create('point', [0, -70], {
+  color: 'black',
+  name: '<math><mstyle mathcolor=black><mtext>Mola 2,Força Externa</mtext></mstyle></math>',
   // label: { position: "bot", offset: [-15, -20] },
   fixed: true,
-  label: { fontUnit: "vw", fontSize: 1.4 },
+  label: { fontUnit: 'vw', fontSize: 1.4 },
 });
 
 const numberOfSpringRings = 16;
@@ -274,14 +274,14 @@ spring1 = createSpringPoints(
   springHangup,
   pointString,
   numberOfSpringRings,
-  "black",
+  'black',
   0.8
 ); //----------------------create points of first string
 
 for (let i = 0; i < spring1.length - 1; i++) {
-  board.create("segment", [spring1[i], spring1[i + 1]], {
-    color: "black",
-    sizeUnit: "user",
+  board.create('segment', [spring1[i], spring1[i + 1]], {
+    color: 'black',
+    sizeUnit: 'user',
     strokeWidth: 2, // basicWidth,
   });
 }
@@ -292,14 +292,14 @@ spring2 = createSpringPoints(
   springHangup2,
   pointString,
   numberOfSpringRings,
-  "blue",
+  'blue',
   0.1
 ); //----------------create points of second string
 
 for (let i = 0; i < spring2.length - 1; i++) {
-  board.create("segment", [spring2[i], spring2[i + 1]], {
-    color: "blue",
-    basicUnit: "user",
+  board.create('segment', [spring2[i], spring2[i + 1]], {
+    color: 'blue',
+    basicUnit: 'user',
     strokeWidth: 2, //basicWidth,
     strokeOpacity: 0.2, // -----make the chain
   });
@@ -314,18 +314,18 @@ let xSliders = 80;
 let sliderLength = 40;
 const slidersInfo = [
   {
-    name: "&gamma;",
+    name: '&gamma;',
     xpos: xSliders,
     ypos: ySliders,
     values: [0, 0.0, 0.3],
-    label: "Coeficiente de atrito",
+    label: 'Coeficiente de atrito',
   },
   {
-    name: "F_0",
+    name: 'F_0',
     xpos: xSliders + sliderLength + 20,
     ypos: ySliders,
     values: [0, 2.5, 4],
-    label: "Coeficiente da força externa",
+    label: 'Coeficiente da força externa',
   },
   // {
   //   name: " k ",
@@ -341,27 +341,27 @@ let sliders = []; // an object that contains the sliders of gamma and F0
 
 slidersInfo.forEach((sl, index) => {
   sliders[index] = board.create(
-    "slider",
+    'slider',
     [[sl.xpos, sl.ypos], [sl.xpos + sliderLength, sl.ypos], sl.values],
     {
       name: sl.name,
-      sizeUnit: "user",
+      sizeUnit: 'user',
       size: 5, //3 * basicWidth,
-      baseline: { strokeColor: myBlue, strokeWidth: 10, fontUnit: "vw" },
-      highline: { strokeColor: "olive" },
+      baseline: { strokeColor: myBlue, strokeWidth: 10, fontUnit: 'vw' },
+      highline: { strokeColor: 'olive' },
       fillColor: myYellow,
-      label: { fontUnit: "vw", fontSize: 1.2, strokeColor: "black" },
+      label: { fontUnit: 'vw', fontSize: 1.2, strokeColor: 'black' },
       // point1: { fixed: false },
       // point2: { fixed: false },   // draggable
       // baseline: { fixed: false, needsRegularUpdate: true },
     }
   );
-  board.create("text", [sl.xpos, sl.ypos - 15, sl.label], {
-    strokeColor: "black",
-    fillColor: "olive",
+  board.create('text', [sl.xpos, sl.ypos - 15, sl.label], {
+    strokeColor: 'black',
+    fillColor: 'olive',
     fixed: true,
     fontSize: 1.4,
-    fontUnit: "vw",
+    fontUnit: 'vw',
   });
 });
 
@@ -413,7 +413,7 @@ function createSpringPoints(p1, p2, n, color, opacity) {
 
   for (let i = 1; i < length - 1; i++) {
     p[i] = board.create(
-      "point",
+      'point',
       [
         -direction * 2 + 4 * direction * (i % 2),
         ((i) => {
