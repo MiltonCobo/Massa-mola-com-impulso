@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSXGraph examples</title>
+
+
+  <link rel="stylesheet" type="text/css" href="https://jsxgraph.org/distrib/jsxgraph.css" />
+  <script type="text/javascript" src="https://jsxgraph.org/distrib/jsxgraphcore.js"></script>
+
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    #wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      padding-top: 5%;
+    }
+
+    #jxgbox {
+      flex: 1;
+      width: 80%;
+      height: 60%;
+    }
+
+    /* .jxgbox {
+      background-color: 'blue';
+    } */
+  </style>
+</head>
+
+<body>
+  <div id="wrapper" style="background-color: lightgray; color: red; ">
+    O Teorema do Valor Médio
+    <div id="jxgbox"> </div>
+  </div>
+
+
+  <script>
+    const board = JXG.JSXGraph.initBoard('jxgbox', { boundingbox: [-5, 10, 7, -6], axis: true });
+
+    let p = [];
+
+    p[0] = board.create('point', [0, -2], { size: 2, name: 'C(a)' });
+    p[1] = board.create('point', [-1.5, 5], { size: 2, name: '' });
+    p[2] = board.create('point', [1, 4], { size: 2, name: '' });
+    p[3] = board.create('point', [3, 3], { size: 2, name: 'C(b)' });
+
+    // Curve
+    let fg = JXG.Math.Numerics.Neville(p);
+    let graph = board.create('curve', fg, { strokeWidth: 3, strokeOpacity: 1 });
+
+    // Secant 
+    line = board.create('line', [p[0], p[3]], { strokeColor: '#ff0000', dash: 1 });
+
+    let df = JXG.Math.Numerics.D(fg[0]);
+    let dg = JXG.Math.Numerics.D(fg[1]);
+
+    // Usually, the extended mean value theorem is formulated as
+    // df(t) / dg(t) == (p[3].X() - p[0].X()) / (p[3].Y() - p[0].Y())
+    // We can avoid division by zero with the following formulation:
+    let quot = function (t) {
+      return df(t) * (p[3].Y() - p[0].Y()) - dg(t) * (p[3].X() - p[0].X());
+    };
+
+    let r = board.create('glider', [
+      function () { return fg[0](JXG.Math.Numerics.root(quot, (fg[3]() + fg[2]) * 0.5)); },
+      function () { return fg[1](JXG.Math.Numerics.root(quot, (fg[3]() + fg[2]) * 0.5)); },
+      graph], { name: 'C(&xi;)', size: 4, fixed: true, color: 'blue' });
+
+    board.create('tangent', [r], { strokeColor: '#ff0000' });
+  </script>

@@ -91,7 +91,7 @@
     let curve1 = board.create('functiongraph', ['cos(x)'], { strokeColor: 'green', strokeWidth: 2, name: 'y=cos(x)', withLabel: true, highlightStrokeColor: 'red', strokeWidth: 6, label: { color: 'green', position: 'rt', fontSize: 25, fixed: false }, shadow: { enabled: true, blur: 6 } });
     let text = board.create('text', [0, 1, 'Some functions'], { strokeColor: 'red', fontSize: 40, shadow: { enabled: true, color: '#000000', blend: 3 } })
     let triangle = board.create('polygon', [[2, 2], [5, 3], [4, 0]], { fixed: false, fillColor: 'yellow', fillOpacity: 0.5, shadow: { enabled: true, offset: [0, 25], blur: 10, offset: [5, 25] }, hasInnerPoints: true, scalable: false })
-    let triangle2 = board.create('polygon', [[4, 2], [8, 3], [6, 0]], { fixed: false, fillColor: 'lightgreen', fillOpacity: 0.5, shadow: { enabled: true, offset: [0, 25], blur: 10, offset: [5, 25] }, hasInnerPoints: true, scalable: true, rotable: false })
+    let triangle2 = board.create('polygon', [[-1, 2], [2, 3], [5, 0]], { fixed: false, fillColor: 'lightgreen', fillOpacity: 0.5, shadow: { enabled: true, offset: [0, 25], blur: 10, offset: [5, 25] }, hasInnerPoints: true, scalable: true, rotable: false })
 
 
 
@@ -124,13 +124,11 @@
     let inc = 0.01;
     let tRot = board.create('transform', [inc, 0, 1], { type: 'rotate' });
     let tRot2 = board.create('transform', [inc, getCentroidCoord(triangle)], { type: 'rotate' });
-    let tScale = board.create('transform', [0.99, 0.99], { type: 'scale' })
+    let tScale = board.create('transform', [-0.1, 0, 0], { type: 'rotate' })
 
     console.log('group', g)
     setTimeout(() => {
       setInterval(() => {
-
-
         tRot.bindTo(text);
         tRot2.bindTo(g.rotationPoints[0]);
         tScale.bindTo(g2.rotationPoints);
